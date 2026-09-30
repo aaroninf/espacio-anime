@@ -1,0 +1,3 @@
+# Todos los archivos de texto se guardan con saltos de línea LF en cualquier ordenador.
+# Git detecta solo los binarios (imágenes, etc.) y no los toca.
+* text=auto eol=lf
