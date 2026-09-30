@@ -3,6 +3,7 @@ import { initModalFranquicia } from './modules/modal-franquicia.js';
 import { initCatalogoPage } from './modules/catalogo.js';
 import { initAfinidadPage } from './modules/afinidad.js';
 import { initEspacioPage } from './modules/mi-espacio.js';
+import { initHomeNovedades } from './modules/home.js';
 
 async function initApp() {
   await initLayout();
@@ -10,6 +11,7 @@ async function initApp() {
   await initCatalogoPage();
   await initAfinidadPage();
   await initEspacioPage();
+  await initHomeNovedades();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
