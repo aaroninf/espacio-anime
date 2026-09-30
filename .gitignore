@@ -1,0 +1,9 @@
+# Configuración local de Claude Code (específica de este ordenador, no del proyecto)
+.claude/
+
+# Capturas de pantalla usadas para depurar durante el desarrollo, no parte del sitio
+capturas/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db

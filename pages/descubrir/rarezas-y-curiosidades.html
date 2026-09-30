@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rarezas y Curiosidades | Espacio Anime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+    <div id="include-nav"></div>
+
+    <main class="pt-28 pb-20">
+        <section class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
+
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
+
+                    <a href="index.html#para-ir-mas-alla"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Para ir más allá
+                    </a>
+
+                    <a href="index.html"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Descubrir
+                    </a>
+
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl xl:text-6xl font-black text-white inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-6">
+                    Rarezas y Curiosidades
+                </h1>
+<p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-normal mx-auto md:mx-0">
+    Una selección de animes extraños, singulares y poco convencionales. Aquí reunimos obras con ideas, estilos o tonos fuera de lo habitual, pensadas para quien quiere salir de las fórmulas más típicas y descubrir propuestas con una personalidad muy marcada.
+</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-10">
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Para quién es</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Para quien ya conoce el anime más accesible y quiere salir del camino habitual con obras
+                        extrañas, singulares o difíciles de clasificar.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Historias poco convencionales, estilos visuales muy marcados y animes que destacan por su
+                        capacidad para descolocar, sorprender o quedarse rondando.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué no vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Aquí no mandan las fórmulas más típicas, los caminos fáciles ni las series pensadas para gustar
+                        a casi todo el mundo.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Nuestro criterio</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Hemos reunido obras con una identidad muy propia: animes raros, curiosos o especialmente
+                        singulares que dejan sensaciones distintas.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-2xl md:text-3xl font-black mb-2">Te recomendamos empezar por estas dos</h2>
+                <p class="text-gray-400">
+                    Una va por la rareza fría, cerebral e inquietante; la otra, por el caos, la velocidad y una
+                    creatividad que no se parece a casi nada.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+
+                <!-- recomendacion 1 -->
+                <div onclick="abrirModalFranquicia('serial-experiments-lain')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx339-xF2wp1NQuQ4r.png"
+                                alt="Serial Experiments Lain" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía cerebral</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            Serial Experiments Lain
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Un clásico extraño, denso y adelantado a su tiempo que convierte la tecnología, la
+                            identidad y el aislamiento en una experiencia hipnótica. Sigue siendo una referencia
+                            clarísima cuando se habla de rarezas con peso propio.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Psicológico</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Cyberpunk</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Experimental</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- recomendacion 2 -->
+                <div onclick="abrirModalFranquicia('flcl')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21748-ZOusM9wb6Pln.png"
+                                alt="FLCL" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía caótica</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            FLCL
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Breve, desatada y completamente imprevisible, mezcla adolescencia, absurdo y energía punk
+                            en una miniserie que parece ir siempre un paso por delante de ti. Una rareza muy distinta,
+                            pero igual de difícil de olvidar.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Surrealista</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Frenética</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Inclasificable</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-2xl md:text-3xl font-black mb-4">Elige según lo que te apetezca hoy</h2>
+                <div class="flex flex-wrap gap-3 text-sm text-gray-200">
+                    <button onclick="abrirModalFranquicia('serial-experiments-lain')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Cerebral → Lain
+                    </button>
+
+                    <button onclick="abrirModalFranquicia('flcl')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Adrenalínica → FLCL
+                    </button>
+
+                    <button onclick="abrirModalFranquicia('paranoia-agent')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Investigación y misterio → Paranoia Agent
+                    </button>
+
+                    <button onclick="abrirModalFranquicia('welcome-to-irabu-s-office')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Cerebral → Kuuchuu Buranko
+                    </button>
+
+                    <button onclick="abrirModalFranquicia('dorohedoro')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+Distopía / postapocalipsis → Dorohedoro
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 mt-10">
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('paranoia-agent')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx323-ZGkUcJOn4ngy.png"
+                        alt="Paranoia Agent" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Paranoia Agent
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('welcome-to-irabu-s-office')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx6774-9yybYg3VePJU.png"
+                        alt="Kuuchuu Buranko" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Kuuchuu Buranko
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('angel-s-egg')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx885-UqlerD6tJKxs.png"
+                        alt="Angel's Egg" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Angel's Egg
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('mind-game')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx875-kvQVUKDPcAKl.png"
+                        alt="Mind Game" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Mind Game
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('cat-soup')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="../../assets/img/franquicias/cat_soup.png"
+                        alt="Cat Soup" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Cat Soup
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('serial-experiments-lain')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx339-xF2wp1NQuQ4r.png"
+                        alt="Serial Experiments Lain" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Serial Exp. Lain
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('flcl')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21748-ZOusM9wb6Pln.png"
+                        alt="FLCL" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            FLCL
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('sarazanmai')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101261-lOLwQS45WJm5.jpg"
+                        alt="Sarazanmai" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Sarazanmai
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('dorohedoro')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx105228-I4xr84QS9Pvk.jpg"
+                        alt="Dorohedoro" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Dorohedoro
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('dead-leaves')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx974-tGKrYtZAg4Wz.png"
+                        alt="Dead Leaves" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Dead Leaves
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('panty-stocking-with-garterbelt')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx8795-485Q8MOYeMZx.png"
+                        alt="Panty & Stocking with Garterbelt" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Panty & Stocking
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('pop-team-epic')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx98549-XfLyPhrP5Ors.jpg"
+                        alt="Pop Team Epic" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Pop Team Epic
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>

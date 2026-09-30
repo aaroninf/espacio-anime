@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infravaloradas | Espacio Anime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+    <div id="include-nav"></div>
+    <main class="pt-28 pb-20">
+        <section class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
+
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
+
+                    <a href="index.html#para-ir-mas-alla"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Para ir más allá
+                    </a>
+
+                    <a href="index.html"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Descubrir
+                    </a>
+
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl xl:text-6xl font-black text-white inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-6">
+                    Infravaloradas
+                </h1>
+
+                <p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-normal mx-auto md:mx-0">
+                    Una selección de animes con mucha más calidad, personalidad y peso del que refleja su visibilidad.
+                    Obras que no suelen ocupar el centro de la conversación, pero que merecen una presencia mucho mayor
+                    dentro del anime.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-10">
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Para quién es</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Para quien quiere salir de los títulos más repetidos y encontrar obras excelentes que no suelen
+                        ocupar el centro de la conversación.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Series con ideas fuertes, personajes memorables y una ejecución tan sólida que cuesta entender
+                        por qué no aparecen mucho más.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué no vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Aquí no mandan los fenómenos masivos ni las obras que arrastran una presencia constante en
+                        rankings, portadas y listas generales.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Nuestro criterio</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Hemos priorizado animes cuya calidad, ambición o personalidad resultan claramente más grandes
+                        que la visibilidad que suelen tener.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-2xl md:text-3xl font-black mb-2">Te recomendamos empezar por estas dos</h2>
+                <p class="text-gray-400">
+                    Dos caminos muy distintos para entrar en esta lista: una distopía absorbente y cada vez más
+                    inquietante, y un drama deportivo con una humanidad arrolladora y un estilo imposible de olvidar.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+                <!-- recomendacion 1 -->
+                <div onclick="abrirModalFranquicia('from-the-new-world')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx13125-2EDZb8ahshQc.png"
+                                alt="From the New World" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía inquietante</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            From the New World
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Un mundo denso, extraño y cada vez más inquietante. Lo que empieza con misterio contenido
+                            acaba convirtiéndose en una historia compleja, incómoda y muy difícil de olvidar.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Ciencia
+                                ficción</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Misterio
+                                denso</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Gran
+                                trasfondo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- recomendacion 2 -->
+                <div onclick="abrirModalFranquicia('ping-pong-the-animation')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20607-fIOxVISIl0HY.jpg"
+                                alt="Ping Pong the Animation" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía humana</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            Ping Pong the Animation
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Su estilo visual echa atrás a mucha gente, pero debajo hay una obra potentísima sobre
+                            talento, frustración, amistad y madurez. De esas que, cuando conectan contigo, ya no se van.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Deportes</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Personajes
+                                reales</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Estilo
+                                único</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-2xl md:text-3xl font-black mb-4">Elige según lo que te apetezca hoy</h2>
+                <div class="flex flex-wrap gap-3 text-sm text-gray-200">
+                    <button onclick="abrirModalFranquicia('showa-genroku-rakugo-shinju')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Emotiva → Rakugo Shinjuu
+                    </button>
+                    <button onclick="abrirModalFranquicia('oddtaxi')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Investigación y misterio → Odd Taxi
+                    </button>
+                    <button onclick="abrirModalFranquicia('land-of-the-lustrous')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Fantasía → Houseki no Kuni
+                    </button>
+                    <button onclick="abrirModalFranquicia('a-place-further-than-the-universe')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Viaje y exploración → Sora Yori
+                    </button>
+                    <button onclick="abrirModalFranquicia('run-with-the-wind')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Crecimiento personal → Run with the Wind
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 mt-10">
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('showa-genroku-rakugo-shinju')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20972-95dyLz6lkCZ8.jpg"
+                        alt="Shouwa Genroku Rakugo Shinjuu" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Shouwa Genroku Rakugo Shinjuu
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('oddtaxi')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx128547-nNekWTKqmvEi.jpg"
+                        alt="Odd Taxi" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Odd Taxi
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('land-of-the-lustrous')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx98707-25nUKb4XUFgY.png"
+                        alt="Houseki no Kuni" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Land of the Lustrous
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('a-place-further-than-the-universe')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99426-ti5BL69Ip3kZ.png"
+                        alt="A Place Further Than the Universe" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            A Place Further Than the Universe
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('run-with-the-wind')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101903-ncgPJbbA5Nou.jpg"
+                        alt="Run with the Wind" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Run with the Wind
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('deca-dence')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx110353-XGYSsii7qJeK.png"
+                        alt="Deca-Dence" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Deca-Dence
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('girls-last-tour')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99420-k5Tel6yRMwA8.png"
+                        alt="Girls' Last Tour" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Girls' Last Tour
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('megalobox')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="../../assets/img/franquicias/megalobox.png"
+                        alt="Megalo Box" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Megalo Box
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('baccano')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx2251-tTQoWxVy4472.jpg"
+                        alt="Baccano!" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Baccano!
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('golden-kamuy')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx102977-gUejfwQWpnzX.png"
+                        alt="Golden Kamuy" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Golden Kamuy
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('kyousougiga')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx10893-B511LX2N4aYm.jpg"
+                        alt="Kyousougiga" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Kyousougiga
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('from-the-new-world')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx13125-2EDZb8ahshQc.png"
+                        alt="From the New World" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            From the New World
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('ping-pong-the-animation')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20607-fIOxVISIl0HY.jpg"
+                        alt="Ping Pong the Animation" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4 class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Ping Pong the Animation
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>

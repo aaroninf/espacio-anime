@@ -1,0 +1,126 @@
+<nav
+    class="fixed top-0 left-0 w-full z-[1000] bg-gray-900/90 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
+    <div class="container mx-auto px-4 py-2">
+        <div class="flex justify-between items-center">
+
+            <a href="{{BASE_PATH}}index.html" class="group cursor-pointer flex items-baseline gap-1 select-none">
+                <span class="font-black text-2xl md:text-3xl tracking-tighter uppercase text-white pr-1">Espacio</span>
+                <span
+                    class="font-black text-2xl md:text-3xl tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 pl-1 pr-2 pb-1">Anime</span>
+            </a>
+
+            <div
+                class="hidden lg:flex gap-10 text-xs font-bold uppercase tracking-[0.15em] text-slate-200 items-center">
+
+                <div class="relative group py-4 -my-4">
+                    <a href="{{BASE_PATH}}pages/descubrir/index.html"
+                        class="hover:text-white transition-all flex items-center gap-1 cursor-pointer">
+                        Descubrir
+                        <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </a>
+                    <div
+                        class="absolute left-0 top-full mt-0 w-72 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col py-1 overflow-hidden">
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#para-empezar-facil"
+                            class="px-5 py-2.5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-[11px] tracking-widest font-medium border-b border-white/5">Para
+                            empezar fácil</a>
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#lo-que-debes-conocer"
+                            class="px-5 py-2.5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-[11px] tracking-widest font-medium border-b border-white/5">Lo
+                            que debes conocer</a>
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#para-ir-mas-alla"
+                            class="px-5 py-2.5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-[11px] tracking-widest font-medium border-b border-white/5">Para
+                            ir más allá</a>
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#nuestra-seleccion"
+                            class="px-5 py-2.5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-[11px] tracking-widest font-medium">Nuestra
+                            selección</a>
+                    </div>
+                </div>
+
+                <div class="relative py-4 -my-4">
+                    <a href="{{BASE_PATH}}pages/franquicias/index.html"
+                        class="hover:text-white transition-all flex items-center cursor-pointer">
+                        Franquicias
+                    </a>
+                </div>
+
+                <div class="relative py-4 -my-4">
+                    <a href="{{BASE_PATH}}pages/afinidad/index.html"
+                        class="hover:text-white transition-all flex items-center cursor-pointer">
+                        Afinidad
+                    </a>
+                </div>
+
+                <div class="relative py-4 -my-4">
+                    <a href="{{BASE_PATH}}pages/espacio/index.html"
+                        class="hover:text-white transition-all flex items-center cursor-pointer">
+                        Mi espacio
+                    </a>
+                </div>
+
+            </div>
+
+            <button onclick="toggleMenu()"
+                class="lg:hidden text-white text-2xl focus:outline-none hover:text-blue-400 transition">☰</button>
+        </div>
+
+        <div id="mobile-menu" class="lg:hidden mt-4 border-t border-white/5 hidden">
+            <div
+                class="flex flex-col gap-4 py-6 text-center text-sm font-bold uppercase tracking-widest text-slate-200">
+
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center gap-2">
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html"
+                            class="hover:text-white transition-colors">Descubrir</a>
+                        <button onclick="toggleSubMenu('mobile-descubrir-sub', this)"
+                            class="p-1 focus:outline-none hover:text-white transition-transform">
+                            <svg class="w-4 h-4 transition-transform duration-300 transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="mobile-descubrir-sub"
+                        class="hidden flex-col gap-3 mt-4 overflow-hidden transition-all duration-300">
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#para-empezar-facil" onclick="toggleMenu()"
+                            class="text-[11px] font-medium text-[#A0AECA] hover:text-white transition-colors tracking-[0.2em]">Para
+                            empezar fácil</a>
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#lo-que-debes-conocer" onclick="toggleMenu()"
+                            class="text-[11px] font-medium text-[#A0AECA] hover:text-white transition-colors tracking-[0.2em]">Lo
+                            que debes conocer</a>
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#para-ir-mas-alla" onclick="toggleMenu()"
+                            class="text-[11px] font-medium text-[#A0AECA] hover:text-white transition-colors tracking-[0.2em]">Para
+                            ir más allá</a>
+                        <a href="{{BASE_PATH}}pages/descubrir/index.html#nuestra-seleccion" onclick="toggleMenu()"
+                            class="text-[11px] font-medium text-[#A0AECA] hover:text-white transition-colors tracking-[0.2em]">Nuestra
+                            selección</a>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center gap-2">
+                        <a href="{{BASE_PATH}}pages/franquicias/index.html"
+                            class="hover:text-white transition-colors">Franquicias</a>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center gap-2">
+                        <a href="{{BASE_PATH}}pages/afinidad/index.html"
+                            class="hover:text-white transition-colors">Afinidad</a>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center gap-2">
+                        <a href="{{BASE_PATH}}pages/espacio/index.html"
+                            class="hover:text-white transition-colors">Mi espacio</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</nav>

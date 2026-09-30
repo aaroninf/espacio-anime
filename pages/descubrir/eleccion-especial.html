@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elección especial | Espacio Anime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+    <div id="include-nav"></div>
+    <main class="pt-28 pb-20">
+        <section class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
+
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
+
+                    <a href="index.html#nuestra-seleccion"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Nuestra selección
+                    </a>
+
+                    <a href="index.html"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Descubrir
+                    </a>
+
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl xl:text-6xl font-black text-white inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-6">
+                    Elección especial
+                </h1>
+
+                <p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-normal mx-auto md:mx-0">
+                    Una selección de animes que destacan por partir de una idea distinta a la habitual. Obras con premisas poco comunes, enfoques poco vistos o maneras muy propias de desarrollar su propuesta sin necesidad de ser raras o experimentales.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-10">
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Para quién es</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Para quien quiere salir un poco de las fórmulas más habituales y encontrarse con animes que
+                        tienen algo distinto desde su planteamiento, pero siguen siendo claros y muy disfrutables.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Series con premisas llamativas, enfoques poco comunes y formas distintas de construir ciencia,
+                        clase, juego, supervivencia, cocina, estrategia o crecimiento dentro del anime.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué no vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Aquí no manda ni la rareza pura, ni el experimentalismo, ni las obras elegidas solo por ser
+                        inclasificables. La idea es destacar animes distintos, pero bien definidos y fáciles de entrar.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Nuestro criterio</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Hemos reunido obras que sobresalen por su idea central o por la forma poco habitual en la que
+                        construyen su propuesta, con conceptos que las hacen destacar dentro del anime más reconocible.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-2xl md:text-3xl font-black mb-2">Te recomendamos empezar por estas dos</h2>
+                <p class="text-gray-400">
+                    Una convierte la ciencia en aventura y la otra
+                    parte de una premisa disparatada para construir una de las clases más memorables del anime.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+
+                <!-- Recomendación 1 -->
+                <div onclick="abrirModalFranquicia('dr-stone')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx105333-GybuoSoOZfpH.jpg"
+                                alt="Dr. Stone" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía científica</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            Dr. Stone
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Un anime de aventuras que convierte la reconstrucción de la civilización en su gran motor.
+                            Tiene una premisa muy distinta, muchísima personalidad y una forma muy propia de hacer que
+                            la ciencia resulte entretenida.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Ciencia</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Aventura</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Ingenio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recomendación 2 -->
+                <div onclick="abrirModalFranquicia('assassination-classroom')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20755-dWrhs569YGUO.jpg"
+                                alt="Assassination Classroom" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía imposible</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            Assassination Classroom
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Parte de una idea completamente improbable, pero la desarrolla con una claridad y un
+                            equilibrio sorprendentes. Una mezcla muy poco habitual de clase, humor, acción y emoción
+                            que termina funcionando mejor de lo que parece.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Clase</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Acción</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Premisa única</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-2xl md:text-3xl font-black mb-4">Elige según lo que te apetezca hoy</h2>
+                <div class="flex flex-wrap gap-3 text-sm text-gray-200">
+                    <button onclick="abrirModalFranquicia('death-parade')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Supervivencia / juego mortal → Death Parade
+                    </button>
+                    <button onclick="abrirModalFranquicia('food-wars')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Crecimiento personal → Food Wars
+                    </button>
+                    <button onclick="abrirModalFranquicia('cells-at-work')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Acción y combates → Cells at Work!
+                    </button>
+                    <button onclick="abrirModalFranquicia('no-game-no-life')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Mundo virtual / videojuego → No Game No Life
+                    </button>
+                    <button onclick="abrirModalFranquicia('deca-dence')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Distopía / postapocalipsis → Deca-Dence
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 mt-10">
+
+               
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('assassination-classroom')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20755-dWrhs569YGUO.jpg"
+                        alt="Assassination Classroom" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Assassination Classroom
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('death-parade')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20931-bktYqOcxPERi.jpg"
+                        alt="Death Parade" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Death Parade
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('cells-at-work')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx100977-nH1J2dR7GGAk.jpg"
+                        alt="Cells at Work!" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Cells at Work!
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('no-game-no-life')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx21875-ybSgx75MgRMM.png?manual"
+                        alt="No Game No Life" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            No Game No Life
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('food-wars')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20923-pNT38pjW3RFH.jpg"
+                        alt="Food Wars" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Food Wars
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('deca-dence')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx110353-XGYSsii7qJeK.png"
+                        alt="Deca-Dence" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Deca-Dence
+                        </h4>
+                    </div>
+                </div>
+                 <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('dr-stone')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx105333-GybuoSoOZfpH.jpg"
+                        alt="Dr. Stone" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Dr. Stone
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('the-promised-neverland')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101759-8UR7r9MNVpz2.jpg"
+                        alt="The Promised Neverland" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            The Promised Neverland
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('kakegurui')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx100876-RfvmpW1B8bDQ.png?manual"
+                        alt="Kakegurui" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Kakegurui
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('ya-boy-kongming')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx141774-iteNFzPq2oGw.jpg"
+                        alt="Ya Boy Kongming!" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Ya Boy Kongming!
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Desconectar | Espacio Anime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+    <div id="include-nav"></div>
+    <main class="pt-28 pb-20">
+        <section class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
+
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
+
+                     <a href="index.html#nuestra-seleccion"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Nuestra Selección
+                    </a>
+
+                    <a href="index.html"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Descubrir
+                    </a>
+
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl xl:text-6xl font-black text-white inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-6">
+                    Para Desconectar
+                </h1>
+
+                <p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-normal mx-auto md:mx-0">
+                    Una selección de animes tranquilos, amables y reconfortantes, pensados para bajar el ritmo y
+                    respirar un poco. Historias cotidianas, paisajes serenos y esa sensación de calma que apetece
+                    encontrar cuando solo quieres desconectar.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-10">
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Para quién es</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Para quien necesita un respiro, bajar las revoluciones y dejarse llevar por historias acogedoras
+                        que transmiten paz.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Rutinas tranquilas, naturaleza, aficiones relajantes, pequeños momentos cotidianos y personajes
+                        que convierten lo simple en algo  agradable.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué no vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Aquí no entran dramas intensos, giros bruscos ni historias que busquen tensionarte todo el
+                        rato. La idea es acompañarte, no agotarte más.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Nuestro criterio</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Hemos reunido obras que destacan por su calma, su belleza cotidiana y su capacidad para relajar
+                        la mente sin dejar de tener personalidad propia.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-2xl md:text-3xl font-black mb-2">Te recomendamos empezar por estas dos</h2>
+                <p class="text-gray-400">
+                    Una te lleva de acampada bajo las estrellas; la otra te transporta a una vida rural pausada,
+                    sencilla y especialmente acogedora.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+
+                <!-- recomendacion 1 -->
+                <div onclick="abrirModalFranquicia('laid-back-camp')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx98444-Vzysp1EsrzgD.jpg"
+                                alt="Laid-Back Camp" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía al aire libre</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            Laid-Back Camp
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Un anime de acampadas, comidas calientes y paisajes preciosos que entiende muy bien el
+                            placer de bajar el ritmo. De esos que consiguen relajarte casi desde el primer episodio.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Iyashikei</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Naturaleza</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Confort</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- recomendacion 2 -->
+                <div onclick="abrirModalFranquicia('non-non-biyori')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx17549-ROdV36u4nWkU.png"
+                                alt="Non Non Biyori" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía rural</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            Non Non Biyori
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Una serie pausada y encantadora sobre la vida en el campo, donde casi todo pasa despacio y
+                            sin grandes sobresaltos. Su calma, su humor suave y su nostalgia la hacen perfecta para
+                            desconectar.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Slice of Life</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Paz</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Nostalgia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-2xl md:text-3xl font-black mb-4">Elige según lo que te apetezca hoy</h2>
+                <div class="flex flex-wrap gap-3 text-sm text-gray-200">
+                    <button onclick="abrirModalFranquicia('mushi-shi')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Contemplativa → Mushishi
+                    </button>
+                    <button onclick="abrirModalFranquicia('barakamon')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Relajante → Barakamon
+                    </button>
+                    <button onclick="abrirModalFranquicia('flying-witch')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Sobrenatural urbano → Flying Witch
+                    </button>
+                    <button onclick="abrirModalFranquicia('natsume-s-book-of-friends')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Sobrenatural urbano → Natsume
+                    </button>
+                    <button onclick="abrirModalFranquicia('super-cub')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Relajante → Super Cub
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 mt-10">
+
+             
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('mushi-shi')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx457-l6cTtNgI9Bi6.png"
+                        alt="Mushishi" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Mushishi
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('barakamon')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20722-2KAeq72E95dr.png"
+                        alt="Barakamon" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Barakamon
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('natsume-s-book-of-friends')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx4081-xi08naD69tjr.jpg?manual"
+                        alt="Natsume Yuujinchou" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Natsume Yuujinchou
+                        </h4>
+                    </div>
+                </div>
+                   <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('laid-back-camp')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx98444-Vzysp1EsrzgD.jpg"
+                        alt="Laid-Back Camp" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Laid-Back Camp
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('flying-witch')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21284-vQcCLIWt1o5O.png"
+                        alt="Flying Witch" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Flying Witch
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('k-on')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx5680-r3AI3Cwfv0Aq.png"
+                        alt="K-ON!" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            K-ON!
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('super-cub')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113418-OjWcmCXAHWkq.jpg"
+                        alt="Super Cub" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Super Cub
+                        </h4>
+                    </div>
+                </div>
+                
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('non-non-biyori')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx17549-ROdV36u4nWkU.png"
+                        alt="Non Non Biyori" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Non Non Biyori
+                        </h4>
+                    </div>
+                </div>
+
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('aria-the-animation')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx477-CdKPHW7rGbUP.png"
+                        alt="Aria The Animation" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Aria The Animation
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>

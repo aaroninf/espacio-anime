@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyas Cinematográficas | Espacio Anime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+    <div id="include-nav"></div>
+
+    <main class="pt-28 pb-20">
+        <section class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
+
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
+
+                    <a href="index.html#nuestra-seleccion"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Nuestra selección
+                    </a>
+
+                    <a href="index.html"
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-transparent border border-white/20 text-xs md:text-sm font-medium text-white uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all duration-300 backdrop-blur-sm w-fit shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Descubrir
+                    </a>
+
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl xl:text-6xl font-black text-white inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-6">
+                    Joyas Cinematográficas
+                </h1>
+
+                <p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-normal mx-auto md:mx-0">
+                    Películas que destacan por su ambición, su mirada y la huella que dejan. Aquí el anime aparece
+                    desde su lado más cinematográfico: obras con identidad visual fuerte, peso propio y capacidad para
+                    quedarse contigo mucho después del final.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-10">
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Para quién es</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Para quien quiere ver grandes películas de anime y descubrir obras con más ambición, más
+                        personalidad y una
+                        mirada más cuidada, donde la forma y el fondo tienen un peso especial.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Películas con dirección, atmósfera y personalidad, capaces de sobresalir por su construcción
+                        visual, su ambición
+                        artística, la fuerza de su propuesta y la huella que dejan.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Qué no vas a encontrar</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Aquí no hemos priorizado solo la accesibilidad ni el impacto inmediato, sino películas que a
+                        veces exigen más, pero también ofrecen una experiencia más profunda.
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
+                    <h2 class="text-sm uppercase tracking-[0.2em] text-slate-300 mb-3">Nuestro criterio</h2>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Hemos reunido obras que destacan por su fuerza cinematográfica, su ambición formal y su
+                        capacidad para representar lo más valioso y singular del anime en película.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-2xl md:text-3xl font-black mb-2">Te recomendamos empezar por estas dos</h2>
+                <p class="text-gray-400">
+                    Dos películas muy distintas, pero igual de deslumbrantes: una convierte la tensión psicológica en
+                    puro vértigo; la otra lleva la delicadeza visual y emocional a un nivel casi irrepetible.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+
+                <!-- recomendación 1 -->
+                <div onclick="abrirModalFranquicia('perfect-blue')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx437-69NMlXKFeuse.jpg"
+                                alt="Perfect Blue" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía inquietante</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            Perfect Blue
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Un thriller inquietante, preciso y absorbente que desdibuja la frontera entre identidad,
+                            fama y percepción. Una
+                            película afilada, tensa y brillantemente construida de principio a fin.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Psicológica</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Thriller</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Autor</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- recomendación 2 -->
+                <div onclick="abrirModalFranquicia('the-tale-of-the-princess-kaguya')"
+                    class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-xl cursor-pointer hover:border-white/30 hover:bg-white/10 transition-all duration-300 group flex flex-col sm:flex-row items-center gap-6">
+
+                    <div class="w-32 sm:w-36 md:w-40 flex-shrink-0">
+                        <div
+                            class="cyber-card rounded-xl overflow-hidden bg-[#111827] border border-white/10 group-hover:border-white/30 transition-all duration-300 relative aspect-[2/3]">
+                            <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500 ease-out"
+                                src="../../assets/img/franquicias/princess_kaguya.png"
+                                alt="The Tale of the Princess Kaguya" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 text-center sm:text-left">
+                        <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">La vía delicada</p>
+                        <h3
+                            class="text-2xl md:text-3xl font-black text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
+                            The Tale of the Princess Kaguya
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-5">
+                            Una obra de una belleza extraordinaria, delicada en el trazo y devastadora en lo emocional.
+                            Pocas películas de anime alcanzan este nivel de sensibilidad, elegancia y verdad.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs md:text-sm">
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Poética</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Ghibli</span>
+                            <span
+                                class="px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">Delicada</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-2xl md:text-3xl font-black mb-4">Elige según lo que te apetezca hoy</h2>
+                <div class="flex flex-wrap gap-3 text-sm text-gray-200">
+                    <button onclick="abrirModalFranquicia('redline')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Adrenalínica → Redline
+                    </button>
+                    <button onclick="abrirModalFranquicia('akira')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Ciencia ficción futurista → Akira
+                    </button>
+                    <button onclick="abrirModalFranquicia('ghost-in-the-shell')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Cerebral → Ghost in the Shell
+                    </button>
+                    <button onclick="abrirModalFranquicia('grave-of-the-fireflies')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Emotiva → Grave of the Fireflies
+                    </button>
+                    <button onclick="abrirModalFranquicia('princess-mononoke')"
+                        class="px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer text-left">
+                        Aventurera → Princess Mononoke
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-4 md:gap-6 mt-10">
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('akira')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx47-4CR68arv452h.jpg?manual"
+                        alt="Akira" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Akira
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('ghost-in-the-shell')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx43-Y6EjeEMM14dj.png?manual"
+                        alt="Ghost in the Shell" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Ghost in the Shell
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('grave-of-the-fireflies')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx578-vU6XcOlb1XFU.jpg"
+                        alt="Grave of the Fireflies" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Grave of the Fireflies
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('princess-mononoke')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx164-ySuGzCWVw2cL.jpg"
+                        alt="Princess Mononoke" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Princess Mononoke
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('paprika')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b1943-jMCEYL1Ixmgc.png?manual"
+                        alt="Paprika" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Paprika
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('redline')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx6675-NF4tFzAxSjkj.png"
+                        alt="Redline" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Redline
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('the-tale-of-the-princess-kaguya')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="../../assets/img/franquicias/princess_kaguya.png" alt="The Tale of the Princess Kaguya" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            The Tale of the Princess Kaguya
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('in-this-corner-of-the-world')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx15227-1tG3lhprG0A9.jpg"
+                        alt="In This Corner of the World" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            In This Corner of the World
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('nausica-of-the-valley-of-the-wind')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx572-ZE3kHBA6U0X1.jpg"
+                        alt="Nausicaä of the Valley of the Wind" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Nausicaä of the Valley of the Wind
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('spirited-away')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx199-sWefXJvXkDOb.jpg"
+                        alt="Spirited Away" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Spirited Away
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('perfect-blue')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx437-69NMlXKFeuse.jpg"
+                        alt="Perfect Blue" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Perfect Blue
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="cyber-card group flex flex-col cursor-pointer rounded-xl overflow-hidden bg-[#111827] border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-2xl relative aspect-[2/3]"
+                    onclick="abrirModalFranquicia('millennium-actress')">
+                    <img class="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 ease-in-out"
+                        src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1033-d5p1pbd5qa4L.png"
+                        alt="Millennium Actress" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-300">
+                    </div>
+                    <div class="absolute inset-0 p-4 md:p-5 flex items-end">
+                        <h4
+                            class="text-white font-black uppercase text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                            Millennium Actress
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>
