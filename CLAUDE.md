@@ -10,12 +10,12 @@ El producto se centra actualmente en cuatro pilares:
 
 - Descubrir
 - Franquicias
-- Mi lista
 - Afinidad
+- Mi espacio
 
-El proyecto ya existe y está desarrollado principalmente con HTML, CSS y JavaScript.
+Los cuatro pilares están construidos y funcionando, y la web está publicada en GitHub Pages. La fase actual es el lanzamiento (pulido, dominio, SEO): la hoja de ruta está en la sección 5 del documento principal.
 
-NO se debe rehacer desde cero. Se debe conservar la identidad visual existente y aprovechar todo lo que ya está bien construido, mientras se limpia la arquitectura, se eliminan funcionalidades antiguas y se desarrolla Mi lista como nueva pieza central.
+El proyecto está desarrollado con HTML, CSS y JavaScript. NO se debe rehacer desde cero: se debe conservar la identidad visual existente y aprovechar todo lo que ya está bien construido.
 
 El objetivo es convertir Espacio Anime en una experiencia coherente que permita:
 
@@ -62,26 +62,24 @@ Si existe alguna discrepancia entre una suposición y el código real del proyec
 
    - Descubrir
    - Franquicias
-   - Mi lista
    - Afinidad
+   - Mi espacio
 
-5. Colección, España y Actualidad pertenecen a una etapa anterior y deben eliminarse del proyecto actual.
+5. No introducir frameworks o dependencias nuevas sin una razón técnica clara.
 
-6. No introducir frameworks o dependencias nuevas sin una razón técnica clara.
+6. Mantener HTML + CSS + JavaScript siempre que sea suficiente.
 
-7. Mantener HTML + CSS + JavaScript siempre que sea suficiente.
+7. No crear backend ficticio ni sistemas de autenticación simulados.
 
-8. No crear backend ficticio ni sistemas de autenticación simulados.
+8. Mi espacio guarda los datos en almacenamiento local (`localStorage`). Las cuentas de usuario con contraseña y la sincronización son una fase futura: no adelantarlas sin que se pida.
 
-9. Para la primera versión de Mi lista, utilizar almacenamiento local si es suficiente, pero diseñar la arquitectura pensando en una futura cuenta de usuario y sincronización.
+9. No convertir Mi espacio en una red social.
 
-10. No convertir Mi lista en una red social.
+10. No añadir funcionalidades simplemente porque sean posibles. Cada funcionalidad debe ayudar a descubrir, elegir, entender o seguir anime.
 
-11. No añadir funcionalidades simplemente porque sean posibles. Cada funcionalidad debe ayudar a descubrir, elegir, entender o seguir anime.
+11. No eliminar archivos o datos sin comprobar previamente sus dependencias.
 
-12. No eliminar archivos o datos sin comprobar previamente sus dependencias.
-
-13. Antes de una modificación importante:
+12. Antes de una modificación importante:
 
     - analizar;
     - explicar;
@@ -89,9 +87,9 @@ Si existe alguna discrepancia entre una suposición y el código real del proyec
     - modificar;
     - comprobar.
 
-14. Cuando una decisión pueda afectar a la estética existente, priorizar conservarla.
+13. Cuando una decisión pueda afectar a la estética existente, priorizar conservarla.
 
-15. Cuando existan varias soluciones técnicas, preferir la más sencilla que cumpla correctamente el objetivo.
+14. Cuando existan varias soluciones técnicas, preferir la más sencilla que cumpla correctamente el objetivo.
 
 ---
 

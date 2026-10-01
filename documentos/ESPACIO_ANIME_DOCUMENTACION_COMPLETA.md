@@ -1,5 +1,5 @@
 # ESPACIO ANIME — DOCUMENTO MAESTRO DEL PROYECTO
-Última actualización: **2026-09-30**.
+Última actualización: **2026-10-01**.
 
 ### 0. Qué es este documento
 
@@ -10,7 +10,7 @@ Esta es la referencia única y completa de Espacio Anime — lo que en un equipo
 2. [Estado actual del proyecto](#2-estado-actual-del-proyecto)
 3. [Cómo funciona por dentro](#3-cómo-funciona-por-dentro) (incluye arquitectura, tecnología y estructura de carpetas en 3.0; motor de Afinidad completo en 3.9; cómo ver el proyecto en el móvil en 3.10)
 4. [El extractor](#4-el-extractor) (incluye manual de operaciones en 4.7)
-5. [Frentes de trabajo abiertos](#5-frentes-de-trabajo-abiertos)
+5. [Hoja de ruta y frentes abiertos](#5-hoja-de-ruta-y-frentes-abiertos)
 
 _____________________________________________________________________________________________________________________________
 ## 1. VISIÓN DE PRODUCTO
@@ -47,17 +47,17 @@ Afinidad   ──┘                    │
 
 - **Franquicias** — *propósito:* el núcleo de información estructurada de todo el proyecto. Una franquicia agrupa series, películas, OVAs, especiales, spin-offs y secuelas de un mismo universo bajo una sola ficha coherente, con buscador, filtros y orden (ver 3.4). *Cómo se conecta:* es la única fuente de datos real (`assets/data/animes.json`) — Descubrir, Afinidad y Mi espacio no tienen su propia base de datos, todos leen o referencian esta.
 
-- **Afinidad** — *propósito:* recomendación por 5 preguntas rápidas (vibra, formato, mundo, motor, época) cruzadas contra las `etiquetas_editoriales` de cada franquicia, para responder "¿qué anime encaja conmigo?" sin que el usuario tenga que explorar el catálogo entero. Diferenciador importante del proyecto — no sustituir por una IA compleja sin necesidad real. *Cómo se conecta:* su calidad depende **directamente** de que las franquicias de Franquicias tengan buenas `etiquetas_editoriales` puestas a mano (ver Frente de trabajo abierto, sección 5, punto 1) — sin eso, recomienda mal aunque el motor de preguntas funcione perfecto.
+- **Afinidad** — *propósito:* recomendación por 5 preguntas rápidas (vibra, formato, mundo, motor, época) cruzadas contra las `etiquetas_editoriales` de cada franquicia, para responder "¿qué anime encaja conmigo?" sin que el usuario tenga que explorar el catálogo entero. Diferenciador importante del proyecto — no sustituir por una IA compleja sin necesidad real. *Cómo se conecta:* su calidad depende **directamente** de que las franquicias de Franquicias tengan buenas `etiquetas_editoriales` puestas a mano (ver 3.9) — sin eso, recomienda mal aunque el motor de preguntas funcione perfecto.
 
-- **Mi lista** (implementada en código/UI como **"Mi espacio"** — mismo pilar, nombre distinto; unificar el nombre es una decisión pendiente de naming, no técnica) — *propósito:* llevar el seguimiento personal (Pendiente/Viendo/Completado/Favoritos, progreso, valoración y notas propias) de lo que el usuario ya descubrió en los otros tres pilares — hace que vuelva. *Cómo se conecta:* guarda solo **referencias** (el `id_franquicia`) en `localStorage`, nunca copia los datos de la franquicia — así, si Franquicias se actualiza, Mi espacio siempre ve la versión más reciente sin sincronizar nada él mismo.
+- **Mi espacio** — *propósito:* llevar el seguimiento personal (Pendiente/Viendo/Completado/Favoritos, progreso, valoración y notas propias) de lo que el usuario ya descubrió en los otros tres pilares — hace que vuelva. *Cómo se conecta:* guarda solo **referencias** (el `id_franquicia`) en `localStorage`, nunca copia los datos de la franquicia — así, si Franquicias se actualiza, Mi espacio siempre ve la versión más reciente sin sincronizar nada él mismo.
 
 Filosofía transversal a los cuatro: **gestionar mi anime, no una red social** (nada de seguidores, chat, feed, perfiles públicos, comentarios o rankings sociales; las notas son siempre privadas).
 
 ### 1.3 Flujo principal del producto
 No sé qué ver → Descubrir/Afinidad/Franquicias → encuentro una obra → 
 entro en la franquicia → consulto información → consulto dónde verla → 
-la añado a Mi lista → Quiero ver → Viendo → 
-actualizo progreso → Vistos → favorito/valoración/nota → vuelvo a descubrir.
+la añado a Mi espacio → Pendiente → Viendo → 
+actualizo progreso → Completado → favorito/valoración/nota → vuelvo a descubrir.
 
 ### 1.4 Identidad visual
 La estética actual (fondo espacial, glassmorfismo, paleta blanco/cian/azul/púrpura) **gusta y debe conservarse** — colores, tipografías, tarjetas, botones, navegación, footer, modales. 
@@ -75,23 +75,26 @@ ________________________________________________________________________________
 ## 2. ESTADO ACTUAL DEL PROYECTO
 _____________________________________________________________________________________________________________________________
 ### 2.1 Los cuatro pilares, estado real
-| **Descubrir** | Pendiente: sigue sin usar `etiquetas_editoriales` (solo las usa Afinidad, ver 3.9) — decisión de diseño abierta, no un fallo. **Auditoría de contenido hecha el 2026-09-30**: revisadas a mano las ~446 referencias a franquicias de las 24 listas (etiquetas del bloque "Elige según lo que te apetezca hoy", chips de las tarjetas destacadas, subtítulos de estudio/director/década) contra la franquicia real a la que apuntan — prácticamente todas correctas. Se corrigieron 6 errores de montaje encontrados de paso (no eran etiquetas mal puestas, sino copy/HTML mal copiado): `directa-al-corazon.html` y `muy-recomendadas.html`/`rutas-alternativas.html` mostraban el título o `alt` equivocado en las tarjetas de Orange y Fate/Zero (la franquicia `fate-zero` en `animes.json` agrupa toda la saga Fate/stay night bajo ese único id — su `titulo_principal` real es "Fate/Zero", así que todo el texto visible se unificó a ese nombre); `para-desconectar.html` y `rarezas-y-curiosidades.html` tenían una clase Tailwind `drop-shadow` duplicada y rota (mismo patrón de copiar/pegar en los dos, comprobado que no se repite en ningún otro archivo); `pilares-de-cada-generacion.html` tenía un typo de capitalización sin impacto visual (el `uppercase` de CSS lo tapaba, pero el HTML fuente estaba mal). El hueco de `monster` que quedaba se cerró el 2026-09-30 (el usuario añadió la franquicia — ver frente 2, sección 5) — las 5 referencias resuelven bien, 0 enlaces rotos en las 24 listas. |
-| **Franquicias** | Poda hecha el 2026-09-07: de 560 franquicias reales (562 era la cifra de memoria, no la del archivo) se pasó a **392**. Metodología en dos rondas: (1) las 207 ya etiquetadas a mano se conservaron todas sin tocar; (2) al resto (353 sin etiquetar) se le aplicó un suelo de popularidad AniList por formato (Serie TV ≥190.000, Película ≥90.000, ONA ≥60.000, OVA ≥30.000); (3) primera ronda de rescate manual (17 casos: Hellsing, InuYasha, Trigun, Cardcaptor Sakura, Initial D 1st Stage, Bakuman., Chihayafuru, SHIROBAKO, Natsume's Book of Friends, Kaiji, Space Brothers, Kids on the Slope, Silver Spoon, Ghibli Porco Rosso/The Cat Returns/When Marnie Was There); (4) segunda ronda de rescate (8 casos más) pedida expresamente por el usuario para comprobar mejor las descartadas mirando antigüedad y votos totales, no solo popularidad: Yu Yu Hakusho: Ghostfiles, Tenchi Muyo! Tenchi Universe, Free! -Iwatobi Swim Club-, Little Witch Academia (TV), Umamusume: Pretty Derby, Kingdom, Ace of the Diamond, Hetalia Axis Powers. Backup del estado previo (560 franquicias) en `assets/data/animes.backup-2026-09-07-antes-de-recorte-560.json`. Auditoría completa con las 560 y su motivo individual, publicada como artifact. Los topes de los botones del extractor ya están ajustados (ver 4.1) para no volver a inflar la base a futuro. |
-| **Afinidad** | Funcional, con auditoría y etiquetado completo del catálogo hecho el 2026-09-30 (bug de `RELATED_TAGS` corregido, % recalibrado a un valor real sin suelo/tope inventado, las 389 franquicias con `etiquetas_editoriales` — incluida Monster, añadida ese mismo día). Detalle técnico completo — mecanismo de cada pregunta, cómo se hacen las etiquetas, fórmula del %, casos a revisar, qué mejorar — en **3.9** (los porcentajes y cifras exhaustivas de 3.9 se calcularon sobre 388; con Monster son 389 — la diferencia de una franquicia no cambia ninguna conclusión). |
-| **Mi espacio** | Pendiente:usuario y contraseña a futuro. |
+| Pilar | Estado |
+|---|---|
+| **Descubrir** | ✅ Hecho. 24 listas curadas; el bloque "Elige según lo que te apetezca hoy" usa las `etiquetas_editoriales` reales. Los 446 enlaces a fichas del sitio comprobados (0 rotos). |
+| **Franquicias** | ✅ Hecho. **389 franquicias** tras la poda del 2026-09-07 (backup previo en `assets/data/backup/animes.backup-2026-09-07-antes-de-recorte-560.json`). Los topes del extractor ya están ajustados (4.1) para no volver a inflar la base. |
+| **Afinidad** | ✅ Hecho. Las 389 franquicias tienen `etiquetas_editoriales`. Detalle técnico completo en **3.9**. |
+| **Mi espacio** | ✅ Hecho. Pendiente/Viendo/Completado/Favoritos, progreso, valoración y notas, guardado en `localStorage` (`mi-espacio.js`). Cuentas de usuario con contraseña: fase futura (5.0). |
 
 ### 2.4 Notas técnicas que siguen vigentes
 - Tailwind se carga por CDN (`cdn.tailwindcss.com`), sin build step.
 - `assets/js/modules/config.js` resuelve `BASE_PATH` según la profundidad de la ruta — no tocar sin necesidad.
 - `assets/js/modules/layout.js` inyecta `nav.html`, `home.html` y `footer.html` por `fetch` en tiempo de ejecución.
-- La identidad visual (fondo espacial, glassmorfismo, paleta blanco/cian/azul/púrpura) es un activo del proyecto y no se ha tocado.
-- **Páginas legales y de proyecto completas desde el 2026-09-30**: `pages/legal/privacidad.html` y `cookies.html` tienen contenido real (antes placeholders vacíos); `pages/proyecto/contacto.html` y `pages/proyecto/sobre-nosotros.html` son nuevas, ambas con el texto final escrito por el propio usuario (correo real: `aaronmorenopizza@gmail.com`). El footer (`partials/layout/footer.html`) ya enlaza "Sobre nosotros" y "Contacto" de verdad — TikTok/Instagram/YouTube siguen en `#` a propósito, hasta que se lance la web y haya cuentas reales que enlazar.
-- **Botón "Pendiente" en el resultado de Afinidad (renombrado 2026-09-30)**: antes decía solo "Añadir" / "✓ Añadido", ambiguo para quien llega nuevo (¿añadir a qué?). Ahora dice "Pendiente" / "✓ Pendiente" (se probó "Añadir a Pendiente" primero, pero no cabía en una sola línea junto a los otros dos botones), coincidiendo con el nombre real que ese estado tiene en Mi espacio (`quiero_ver` → label "Pendiente" en `mi-espacio.js`). Cambiado en `assets/js/modules/afinidad.js` (`actualizarBotonEspacio()`) y en el texto estático de `pages/afinidad/index.html`.
-- **Git inicializado el 2026-09-30**: el proyecto pasó de no tener control de versiones a tener repositorio real (`git init` + primer commit con las 101 archivos del estado actual). `.gitignore` excluye `.claude/` (config local de Claude Code) y `capturas/` (screenshots de depuración) — todo lo demás, incluidos los backups de `animes.json`, sí se versiona a propósito. Identidad configurada: Aaron / `aaronmorenopizza@gmail.com`. Siguiente paso: conectar con GitHub (ver 3.10 o frentes de trabajo, sección 5, para hosting).
-- **Bugs de móvil corregidos el 2026-09-30 (detectados por el usuario probando en su propio móvil, ver 3.10)**:
-  1. **Ficha de franquicia** — `.modal-left-column` (180px fijos) dejaba casi sin ancho a `.modal-right-column` en móvil, y su `overflow:hidden; max-height:350px` recortaba el título y la sinopsis a mitad de palabra en vez de ajustarse. Arreglado con una media query `@media (max-width: 640px)` en `style.css` que apila las columnas, quita ese recorte del título/género/año y deja la sinopsis en una caja con scroll propio — sin tocar ninguna regla de escritorio. Funcionó a la primera.
-  2. **Vista lista de Franquicias** — el bloque "Entradas/Año" de cada tarjeta (`renderCard()` en `catalogo.js`) tenía ancho fijo y no se encogía, y el título no se recortaba con "...", empujando ambos fuera del recuadro en pantallas estrechas. **Esta costó varios intentos** porque las clases de Tailwind por CDN (`[.vista-lista_&]:min-w-0`, `[.vista-lista_&]:truncate`, `hidden md:flex`, etc.) no se aplicaban de forma fiable al tener varias variantes condicionales apiladas en el mismo elemento (el mismo `<div>` lleva clases para vista-grid, vista-lista y vista-compacta a la vez) — visualmente parecía que "no pasaba nada" pese a que el HTML servido sí tenía las clases nuevas, lo que en un primer momento se confundió con un problema de caché del navegador (parte del problema sí era caché — usar una URL de túnel nueva cada vez para descartarlo fue clave para separar ambas causas). **Arreglo definitivo**: se quitaron del todo esas clases de Tailwind conflictivas en `catalogo.js` (ancho de imagen, `flex-1`/`min-w-0` del bloque de texto, `truncate` del título) y se sustituyeron por reglas CSS propias en `pages/franquicias/index.html`, con `!important` y clases dedicadas (`.lista-img`, `.lista-content`, `.lista-info`, `.lista-title`, `.lista-stats`) para que ganen siempre, sin depender de en qué orden cargue cada hoja de estilos. **Lección para futuros bugs de maquetación en este sitio**: si una clase de Tailwind `[.vista-X_&]:algo` no parece aplicarse pese a estar en el HTML servido, no asumir que es solo caché — puede ser que varias variantes condicionales apiladas en el mismo elemento compitan entre sí de forma poco fiable vía el CDN; la solución robusta es CSS propio con `!important`, no más clases de Tailwind encima.
-- **Auditoría de enlaces del sitio completo, 2026-09-30**: comprobadas las 446 referencias a franquicias vía `abrirModalFranquicia('id')` en todo el proyecto (no solo Descubrir) contra `animes.json` — 0 rotas. También revisados nav.html, footer.html, home.html y el índice de Descubrir en busca de enlaces muertos o anclas (`#para-empezar-facil` etc.) que no existieran — todo correcto. Sin restos de `TODO`/`FIXME`/placeholders sin rellenar en ningún `.html` del sitio público.
+- La identidad visual (fondo espacial, glassmorfismo, paleta blanco/cian/azul/púrpura) es un activo del proyecto y no se toca.
+- **Páginas legales y de proyecto**: `pages/legal/privacidad.html`, `cookies.html`, `pages/proyecto/contacto.html` y `sobre-nosotros.html`, con texto final (correo: `aaronmorenopizza@gmail.com`). TikTok/Instagram/YouTube del footer siguen en `#` a propósito hasta el lanzamiento (5.0, fase 12).
+- **Botón "Pendiente" en el resultado de Afinidad**: añade la franquicia a Mi espacio en estado Pendiente (`quiero_ver`).
+- **Git, GitHub y GitHub Pages** ✅: repositorio en `https://github.com/aaroninf/espacio-anime` (rama `main`); web publicada en **https://aaroninf.github.io/espacio-anime/**. Cada `git push` a `main` se publica solo en 1–2 minutos.
+  - Cómo subir cambios (en VS Code, terminal **Git Bash**; en PowerShell de este PC `git` no está en el PATH): `git status` → `git add .` → `git commit -m "..."` → `git push`.
+  - Si justo después de un push no ves el cambio, es la caché del navegador (GitHub Pages la deja 10 min): **Ctrl + F5** o incógnito.
+  - `.gitattributes` fija los saltos de línea a LF; `.gitignore` excluye `.claude/` y `capturas/`.
+- **Franja "Próximamente" de la portada**: `#novedades-strip` en `partials/sections/home.html`, rellenada por `assets/js/modules/home.js`. Muestra 6 franquicias del catálogo con una entrada "Próximamente" y año conocido (la más cercana primero, luego por popularidad). **Se mantiene al día pasando "Actualizar Base de Datos" en el extractor (4.4) y subiendo el `animes.json` nuevo** — si no se pasa, se quedan obras que ya se estrenaron.
+- **Lección de maquetación**: si una clase de Tailwind con variante condicional (`[.vista-lista_&]:algo`) no parece aplicarse aunque esté en el HTML, no asumir que es caché — varias variantes apiladas en el mismo elemento compiten de forma poco fiable vía el CDN. La solución robusta es CSS propio con `!important` (así se arregló la vista lista de Franquicias en móvil, con `.lista-img`, `.lista-title`… en `pages/franquicias/index.html`).
 _____________________________________________________________________________________________________________________________
 ## 3. CÓMO FUNCIONA POR DENTRO
 _____________________________________________________________________________________________________________________________
@@ -121,7 +124,7 @@ espacio_anime/
 │   ├── descubrir/                 → index.html + 24 páginas, una por lista curada
 │   ├── franquicias/                → index.html (catálogo con filtros) + ficha.html (detalle de una franquicia)
 │   ├── afinidad/index.html         → El cuestionario de recomendación
-│   ├── espacio/index.html          → "Mi espacio" (Mi lista)
+│   ├── espacio/index.html          → "Mi espacio"
 │   └── legal/                      → cookies.html, privacidad.html (contenido redactado el 2026-09-30, antes eran placeholders vacíos)
 ├── partials/
 │   ├── layout/                     → nav.html, footer.html (inyectados por fetch en cada página)
@@ -167,7 +170,7 @@ Inicio es la puerta de entrada; los otros cuatro son el núcleo del producto.
 
 - **Inicio** — landing con destacados y accesos a los otros cuatro bloques.
 - **Descubrir** — 24 listas curadas a mano (~200 franquicias), en 4 grupos temáticos de 6 listas cada uno.
-- **Franquicias** — catálogo completo con buscador, filtros, orden y fichas individuales sobre las 562 franquicias.
+- **Franquicias** — catálogo completo con buscador, filtros, orden y fichas individuales sobre las 389 franquicias.
 - **Afinidad** — recomienda una franquicia en base a 5 preguntas rápidas (vibra, formato, mundo, motor, época) cruzadas contra las etiquetas de cada franquicia.
 - **Mi espacio** — lista personal (Pendiente/Viendo/Completado/Favoritos) en `localStorage`, con progreso, valoración propia y notas privadas.
 
@@ -425,15 +428,15 @@ De paso, este análisis detectó que **Your Name.** estaba incompleta: le faltab
 #### 3.9.7 Qué se podría mejorar todavía (honesto, no urgente)
 
 - El diccionario de sinónimos de respaldo (`RELATED_TAGS`) puede dar coincidencias algo sueltas cuando se usa (ver el ejemplo de Ghost in the Shell/"urban" en 3.9.4) — se usa muy poco (bloqueo del 0.0% en vibra/mundo/motor confirma que casi todo se resuelve por etiqueta exacta), así que no es prioritario, pero conviene saber que existe ese margen de imprecisión.
-- **El "secuestro de cabecera"** (frente 4, sección 5) sigue afectando indirectamente a la clasificación de formato/época de Afinidad, porque se lee de la entrada principal de la franquicia — mismo problema ya documentado para la Valoración (3.5), sin relación con las etiquetas.
+- **El "secuestro de cabecera"** (5.2) sigue afectando indirectamente a la clasificación de formato/época de Afinidad, porque se lee de la entrada principal de la franquicia — mismo problema ya documentado para la Valoración (3.5), sin relación con las etiquetas.
 - `WEIGHTS.bonusEditorial` sigue existiendo en el código aunque esté saturado para el 100% del catálogo (3.9.6) — es inofensivo (suma 8 puntos iguales a todos, no afecta al ranking) pero es peso muerto; no se ha eliminado porque no compensa el riesgo de tocarlo sin necesidad real, y el desempate ya no depende de él.
 - Las ~59 franquicias que aún no ganan ninguna combinación (3.9.6) son mayoritariamente casos legítimos de "hay algo mejor casi idéntico", no bugs — revisarlas todas una por una sería trabajo de curación fino, no una corrección de código; se puede retomar si el usuario quiere en el futuro.
 
 Con las 388 franquicias etiquetadas, el bug de `RELATED_TAGS` corregido, el % ya honesto y el desempate arreglado, Afinidad funciona como se diseñó: cruza tags editoriales reales, no descarta por una sola pregunta blanda, el número que ve el usuario es el resultado real del cálculo, y cuando hay empate gana la mejor valorada — no la que llegó antes al archivo.
 
-### 3.10 Cómo ver el proyecto en el móvil (antes de tener hosting)
+### 3.10 Cómo ver el proyecto en el móvil (versión local, sin subir)
 
-El proyecto no está publicado todavía (no hay hosting ni dominio, ver frentes de trabajo en la sección 5), así que para verlo en el móvil hay que servirlo desde tu propio ordenador. Dos formas, de más a menos sencilla.
+**Desde el 2026-10-01 la web está publicada en GitHub Pages** (https://aaroninf.github.io/espacio-anime/, ver 2.4): para ver lo que ya está subido basta con abrir esa URL en el móvil. Esta sección sirve para probar cambios **antes de hacer push**, sirviéndolos desde tu propio ordenador. Dos formas, de más a menos sencilla.
 
 **Esto no es específico de Espacio Anime** — sirve para cualquier proyecto futuro que sea una carpeta de archivos estáticos (HTML/CSS/JS, sin necesidad de backend): solo cambia la ruta del Paso 1 por la carpeta de ese otro proyecto.
 
@@ -470,7 +473,7 @@ Esta URL es pública mientras el túnel esté abierto (aleatoria y difícil de a
 #### Notas
 
 - Ambos métodos sirven los archivos **tal cual están en el disco** — si editas un archivo y refrescas el móvil, ves el cambio al momento (puede hacer falta forzar recarga si el navegador cacheó algo).
-- Ninguno de los dos es el sitio "en producción": son solo para probarlo desde tu propio ordenador antes de publicarlo de verdad (ver hosting en frentes de trabajo, sección 5).
+- Ninguno de los dos es el sitio "en producción" (ese es GitHub Pages): son solo para probar cambios desde tu propio ordenador antes de hacer push.
 
 ____________________________________________________________________________________________________________________
 ## 4. EL EXTRACTOR
@@ -572,7 +575,7 @@ Constante `UMBRALES_CALIDAD`, con umbrales de partida calibrados contra los mín
 
 AniList es una plataforma moderna con muchos menos votantes para clásicos de los 70-90 (Mazinger Z, Doraemon, Star Blazers...) que para anime reciente, sin que eso diga nada sobre su calidad — sin la excepción pre-2000, la fórmula habría purgado 9 clásicos legítimos en la primera simulación contra el catálogo real. El tramo intermedio 2000-2010 se añadió porque esa década también arrastra bastante menos votos que la era posterior a Sword Art Online/Attack on Titan (2011+), y un salto de golpe en la frontera del año 2000 era arbitrario. Si aun con el suelo rebajado un clásico (pre-2000) sigue sin pasar, el informe lo marca aparte con `⚠️ CLÁSICO (revisar a mano)` para que reciba doble revisión antes de darlo por descartado — puede ser una obra de nicho, no relleno.
 
-**Sobre subir estos números con el tiempo:** ver Frente de trabajo abierto en la sección 5 — el suelo de votos es un número fijo que se irá quedando corto según AniList gane usuarios, así que hay que revisarlo cada cierto tiempo, igual que ya se hace con `popularity_greater`.
+**Sobre subir estos números con el tiempo:** ver 5.1 — el suelo de votos es un número fijo que se irá quedando corto según AniList gane usuarios, así que hay que revisarlo cada cierto tiempo, igual que ya se hace con `popularity_greater`.
 
 #### 4.3.3 Filtro 3 — ¿Llega al mínimo de `puntuacion_ponderada`?
 
@@ -588,7 +591,7 @@ puntuacion_ponderada = (v / (v+m)) × R + (m / (v+m)) × C
 
 `C` y `m` los calcula `calcularConstantesPonderacion()` cada vez, a partir de las franquicias que ya tengan `puntuacion_media` y `votos_total` válidos — por eso se autoajustan solos según crece la biblioteca, sin que haga falta tocar nada a mano. Con menos de 10 franquicias puntuadas cargadas, la función devuelve `null` y no hay base suficiente para calcular nada.
 
-**Importante — de dónde sale `R` y `v`:** no son un promedio de todas las temporadas de la franquicia. `actualizarPuntuacionAniList()` (al Procesar) y el refresco de puntuación en "Actualizar Base de Datos" (4.4) piden la nota **solo de la entrada principal** (`Media(id: entrada_principal_ani_id)`), y esa nota se convierte en la nota de toda la franquicia. Si la Temporada 1 es una obra maestra pero un spin-off mediocre le "roba" la cabecera por ser mucho más popular (regla 1 de `elegirCabeceraAutomatica()`, doc. 3.3), la franquicia entera hereda la nota del spin-off. Ver Frente de trabajo abierto en la sección 5 — necesita ampliar qué se guarda por entrada, no es un ajuste de esta fórmula.
+**Importante — de dónde sale `R` y `v`:** no son un promedio de todas las temporadas de la franquicia. `actualizarPuntuacionAniList()` (al Procesar) y el refresco de puntuación en "Actualizar Base de Datos" (4.4) piden la nota **solo de la entrada principal** (`Media(id: entrada_principal_ani_id)`), y esa nota se convierte en la nota de toda la franquicia. Si la Temporada 1 es una obra maestra pero un spin-off mediocre le "roba" la cabecera por ser mucho más popular (regla 1 de `elegirCabeceraAutomatica()`, doc. 3.3), la franquicia entera hereda la nota del spin-off. Ver 5.2 — decisión cerrada, se deja así.
 
 **Bug corregido el 2026-09-08 — el "arranque en frío":** `calcularConstantesPonderacion()` exige al menos 10 franquicias puntuadas para funcionar. Si se procesa una tanda de golpe desde una biblioteca vacía o casi vacía, las primeras ~10 franquicias que se puntúan se quedan con `puntuacion_media`/`votos_total` pero sin `puntuacion_ponderada` para siempre, porque nada las revisita después. Verificado con datos reales: le pasó exactamente a Attack on Titan, Demon Slayer, Jujutsu Kaisen, Death Note, My Hero Academia, Hunter x Hunter, One-Punch Man, One Piece, Tokyo Ghoul y Fullmetal Alchemist Brotherhood (los más populares, procesados primero) en una prueba desde cero. `aplicarFormulaCalidad()` ya no las descarta por este motivo: si detecta `puntuacion_media`/`votos_total` válidos pero `puntuacion_ponderada` ausente, la calcula ahí mismo con la misma fórmula antes de decidir.
 
@@ -635,7 +638,7 @@ Al terminar cualquier botón, **Descargar animes.json** convierte `bibliotecaFra
 | Cambiar qué cuenta como "temporada terminada" | El `.some(e => e.estado === 'Finalizado')` del Filtro 1 (4.3.1) |
 | Tocar la fórmula de valoración en sí (no los umbrales) | `calcularConstantesPonderacion()` y el cálculo de `ponderada` — aparece en tres sitios que hay que mantener sincronizados: `actualizarPuntuacionAniList()`, `actualizarBaseDeDatos()` y el relleno en frío dentro de `aplicarFormulaCalidad()` |
 | Cambiar qué formato prioriza la cabecera de una franquicia | `elegirCabeceraAutomatica()` (doc. 3.3) — cuidado, lo usan tanto Procesar como Actualizar Base de Datos |
-| Ajustar los tiempos de espera/reintento ante bloqueos | **No tocar sin necesidad real** (ver nota de la sección 5) — 65 segundos es el valor ya probado en los cinco sitios que lo usan |
+| Ajustar los tiempos de espera/reintento ante bloqueos | **No tocar sin necesidad real** (ver 5.3) — 65 segundos es el valor ya probado en los cinco sitios que lo usan |
 
 ### 4.7 Manual de operaciones — flujos de trabajo completos
 
@@ -672,25 +675,41 @@ Recetas paso a paso para las tareas más habituales. En todas, el primer paso es
 | Cuando te apetezca ampliar el catálogo | Receta (b) completa | No hay una cadencia fija — es trabajo de curación, no una tarea automática |
 | Cada 1-2 meses | Receta (c), "Actualizar Base de Datos" | Para que estados, episodios y notas no se queden desactualizados, y para pillar temporadas nuevas anunciadas de franquicias que ya tienes |
 | Cada vez que "Rellenar Enlaces" deje algo en "Pendiente" tras un estreno reciente | Botón 3 | AniList tarda en registrar los enlaces de streaming de lo recién estrenado |
-| Una vez al año, o si notas que entra relleno reciente con facilidad | Revisar a mano `UMBRALES_CALIDAD` (4.3.2) y los `popularity_greater` de 4.1 | Ver Frente de trabajo abierto, sección 5, punto 3 — son números fijos que pierden fuerza según AniList gana usuarios |
-| Cuando se retome el trabajo de Afinidad | Botón 6 (Auto-generar Etiquetas) + botón 7 (Revisar Etiquetas Manualmente) | Pendiente pospuesto, sección 5, punto 1 |
+| Una vez al año, o si notas que entra relleno reciente con facilidad | Revisar a mano `UMBRALES_CALIDAD` (4.3.2) y los `popularity_greater` de 4.1 | Ver 5.1 — son números fijos que pierden fuerza según AniList gana usuarios |
+| Al añadir franquicias nuevas | Botón 6 (Auto-generar Etiquetas) + botón 7 (Revisar Etiquetas Manualmente) | Sin etiquetas, Afinidad no puede recomendarlas (3.9) |
 
 _____________________________________________________________________________________________________________________________
-## 5. FRENTES DE TRABAJO ABIERTOS
+## 5. HOJA DE RUTA Y FRENTES ABIERTOS
 _____________________________________________________________________________________________________________________________
-1. **Etiquetas de Descubrir/Afinidad — CERRADO DEL TODO el 2026-09-30.** Las 389 franquicias tienen `etiquetas_editoriales` (ver 2.1/3.9). Además, el bloque "Elige según lo que te apetezca hoy" de las 24 listas de Descubrir ahora usa esas mismas etiquetas reales en vez de texto editorial inventado: 106 botones repartidos en 20 archivos (`grandes-estudios.html`, `reyes-por-genero.html`, `sellos-de-autor.html` y `pilares-de-cada-generacion.html` no tienen ese bloque — están organizados por estudio/género/director/década en su lugar, así que no aplica). Verificado que las 106 etiquetas puestas existen literalmente en `etiquetas_editoriales` de esa franquicia (0 inventadas), que no se rompió ningún enlace (446 referencias, 0 rotas) y que las 24 páginas cargan bien. Las tarjetas "Recomendación 1/2" de arriba y la parrilla de abajo de cada lista no se tocaron — sus etiquetas siguen siendo copy editorial libre, a propósito.
+### 5.0 Hoja de ruta: de la web hecha a la web lanzada (estado a 2026-10-01)
 
-2. **"Monster" (Naoki Urasawa) — CERRADO DEL TODO el 2026-09-30.** El usuario lo añadió con el extractor (Serie TV, 2004, 74 episodios, puntuación 88, `id_franquicia: monster`). Etiquetado con el mismo criterio del resto del catálogo: Oscura, Cerebral, Tensa / Actual / realista / Investigación y misterio, Crimen y bajos fondos, Política y estrategia. Confirmado que las 5 referencias que había en Descubrir a este id ya resuelven bien (0 enlaces rotos en las 24 listas). Catálogo actual: **389 franquicias**, las 389 con `etiquetas_editoriales`.
+✅ hecho · ⏳ pendiente · 🔮 fase futura.
 
-3. **Inflación de votos con el tiempo — mantenimiento periódico, no un bug. Marcado como fase futura por decisión del usuario (2026-09-30) — no se ha tocado `UMBRALES_CALIDAD` en esta sesión, sigue con los valores de 4.3.2.** Los umbrales de votos de `UMBRALES_CALIDAD` (4.3.2 — 5.000 para Serie TV/Película, 4.000 ONA, 3.000 OVA) son números fijos. AniList gana usuarios con el tiempo, así que un anime mediocre de dentro de un par de años llegará a esos números sin esfuerzo y el filtro perderá fuerza poco a poco — no de golpe, pero sí de forma constante. No es algo que compense automatizar ahora (un umbral que se mueve solo añadiría complejidad para un problema que hoy no existe todavía): la mediana `m` de la fórmula de valoración (4.3.3) ya se autoajusta sola con el tamaño de la biblioteca, así que parte del problema se corrige sin hacer nada. Lo que sí hay que hacer de vez en cuando (igual que ya se hace con `popularity_greater` en 4.1.1) es **revisar a mano y subir estos números cada cierto tiempo** — por ejemplo, si dentro de un año o dos el catálogo se empieza a llenar de anime mediocre reciente que antes no habría pasado el filtro, es la señal de que toca subirlos.
+| # | Fase | Estado | Qué incluye |
+|---|---|---|---|
+| 1 | Idea y visión de producto | ✅ | Sección 1. |
+| 2 | Diseño e identidad visual | ✅ | 1.4. |
+| 3 | Los 4 pilares | ✅ | Descubrir, Franquicias, Afinidad, Mi espacio. |
+| 4 | Contenido y datos | ✅ | 389 franquicias, sinopsis en español, etiquetas, 24 listas. |
+| 5 | Páginas legales y de proyecto | ✅ | Privacidad, Cookies, Sobre nosotros, Contacto. |
+| 6 | Git + GitHub | ✅ | 2.4. |
+| 7 | Hosting | ✅ | GitHub Pages (2.4). |
+| 8 | Pulido previo al lanzamiento | ✅ | Franja "Próximamente"; favicon (planeta con anillo, `assets/img/favicon/`); `meta description` propia en las 34 páginas; Open Graph con `assets/img/og-imagen.jpg` (vista previa al compartir); `404.html` propia (calcula sola la raíz del sitio). |
+| 9 | **Dominio propio** | ⏳ **siguiente** | Comprar el dominio, conectarlo a GitHub Pages (`CNAME` + DNS) y activar HTTPS. Después, buscar y reemplazar `https://aaroninf.github.io/espacio-anime/` por el dominio nuevo en todos los `.html` (`og:url` y `og:image` necesitan dirección completa). |
+| 10 | SEO técnico y Google | ⏳ | `sitemap.xml`, `robots.txt`, alta en Google Search Console. Va **después** del dominio porque todo esto se registra con la dirección final. |
+| 11 | Analítica (opcional) | ⏳ | Si pone cookies, reflejarlo en la Política de Cookies. |
+| 12 | Lanzamiento | ⏳ | Crear las redes, enlazarlas en el footer y anunciar la web. |
+| 13 | Mantenimiento | 🔄 | "Actualizar Base de Datos" cada cierto tiempo (también mantiene "Próximamente"); revisar umbrales (5.1). |
+| 14 | Fases futuras | 🔮 | **Cuentas de usuario con contraseña** y sincronización de Mi espacio entre dispositivos; monetización (1.5). |
 
-4. **El "secuestro de cabecera" — CERRADO el 2026-09-30, se deja tal cual está, decisión final del usuario.** Se revisó con datos reales antes de decidir: la regla solo se activa en 18 de las 389 franquicias, y en la gran mayoría (Fullmetal Alchemist: Brotherhood, Hunter x Hunter 2011, Devilman Crybaby, Dororo 2019, Fruits Basket 2019...) hace exactamente lo correcto — sin ella, esas franquicias mostrarían la versión antigua/menos vista en vez de la que todo el mundo conoce. El caso que preocupaba (un spin-off mediocre "robando" la cabecera a una obra maestra) no se ha dado nunca en el catálogo real. Confirmado además que franquicias con muchísimas entradas como One Piece no dependen de esta regla — ya ganan por formato (Serie TV) sin necesidad de popularidad. No tocar sin motivo real nuevo. Cada franquicia muestra una sola nota para representarla entera (la "Valoración" del doc. 3.5), y esa nota **no es una media de todas sus temporadas** — es literalmente la nota de una única entrada, la "cabecera", elegida por `elegirCabeceraAutomatica()` (doc. 3.3). Normalmente la cabecera es la Temporada 1 (la más antigua, o la de formato más importante). Pero hay una excepción ya programada: si **cualquier otra entrada** de esa franquicia se vuelve muchísimo más popular (más de 50.000 de diferencia en popularidad de AniList), esa pasa a ser la cabecera, sin importar que sea un spin-off, una película recopilatoria, lo que sea.
+### 5.1 Mantenimiento periódico: umbrales de votos
+`UMBRALES_CALIDAD` (4.3.2 — 5.000 Serie TV/Película, 4.000 ONA, 3.000 OVA) son números fijos y AniList gana usuarios con el tiempo, así que el filtro pierde fuerza poco a poco. No se automatiza: **revisarlos a mano cada año o así** (igual que `popularity_greater`, 4.1.1), sobre todo si empieza a entrar anime mediocre reciente.
 
-   El riesgo: imagina que la Temporada 1 de una franquicia es una obra maestra (nota 90) pero un spin-off mediocre (nota 55) se vuelve viral y su popularidad supera a la Temporada 1 por más de 50.000. Ese spin-off pasa a ser la cabecera, y **toda la franquicia hereda su nota mala (55)** — el Filtro 3 de la fórmula de calidad (4.3.3) vería un 55 y podría descartar la franquicia entera, obra maestra incluida, sin que nadie se entere de que el problema real era solo el spin-off.
+### 5.2 Decisión cerrada: "secuestro de cabecera"
+Si otra entrada de una franquicia supera en más de 50.000 de popularidad a la principal, pasa a ser la cabecera y la franquicia hereda su nota (3.3, 3.5). Se revisó con datos reales: solo se activa en 18 de 389 franquicias y en todas acierta (FMA: Brotherhood, Hunter x Hunter 2011…). **Se deja tal cual; no tocar sin un motivo real nuevo.** Arreglarlo del todo exigiría guardar la nota de cada entrada (hoy solo se guarda su popularidad), un cambio de esquema grande.
 
-   Por qué no se puede arreglar hoy: cada entrada de una franquicia solo guarda su **popularidad** (`popularidad`), nunca su propia **nota** — la nota solo existe a nivel de franquicia entera, sacada de la cabecera. No hay forma de preguntarle a los datos "¿hay alguna otra entrada aquí dentro con nota alta que se está tapando?" porque ese dato ni se pide ni se guarda en ningún sitio. Arreglarlo de verdad significaría ampliar las consultas GraphQL de "Procesar" (4.2) y "Actualizar Base de Datos" (4.4) para pedir y guardar la nota de cada entrada individual, no solo de la principal — un cambio de esquema más grande que tocaría varias funciones a la vez, no un simple ajuste de umbral. **Es un inconveniente menor** (necesita una combinación bastante concreta de circunstancias para darse: un spin-off mediocre, mucho más popular, con una diferencia superior a 50.000) — queda anotado para una sesión aparte si se quiere ir a por ello, sin prisa.
-
-**NOTA (no es una tarea, es información permanente sobre cómo se comporta AniList).** Hay dos tipos de bloqueo distintos y ninguno es un bug del extractor:
+### 5.3 Información permanente: bloqueos de AniList
+Hay dos tipos de bloqueo distintos y ninguno es un bug del extractor:
    - **429 por rate-limit**: el extractor dispara peticiones a un ritmo que satura AniList temporalmente. Ya tiene ajustada a mano una lógica de espera/reintentos (`sleep`, `fetchConRetryCorto`, hibernaciones de 65s en 429) para manejarlo — **no tocar esa lógica de tiempos sin necesidad real**, cuesta mucho ajustarla bien y cualquier cambio descuidado vuelve a provocar los bloqueos.
    - **403 "temporarily disabled due to severe stability issues"**: caída real del servicio completo de AniList, confirmada el 2026-09-07 con una consulta trivial sin relación con nada que estuviéramos pidiendo (ni rate-limit ni búsqueda concreta). Cuando pasa esto, **ninguna** búsqueda funciona en el extractor (afecta a los botones 3 y 5, que llaman a AniList; el 1, 2 y 4 no, son locales o Jikan) — no es que un título "no exista" o "tenga otro nombre", es que AniList está caída para todo el mundo. Esperar y reintentar más tarde, no tocar el código.
 
