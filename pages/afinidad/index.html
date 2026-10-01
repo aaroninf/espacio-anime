@@ -25,24 +25,82 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        @media (min-width: 1280px) {
-            #afinidad .layout-dual {
-                display: grid;
-                grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
-                gap: 1.75rem;
-                align-items: stretch;
+        /* Test centrado y a ancho medio: la explicación ya no ocupa una columna
+           al lado, vive en el desplegable "¿Cómo funciona?" de la cabecera. */
+        #afinidad .tool-frame {
+            max-width: 960px !important;
+            margin-inline: auto;
+            min-height: 690px;
+        }
+
+        /* "¿Cómo funciona?" va en pequeño bajo el test, alineado con él. */
+        #afinidad .afinidad-como {
+            max-width: 960px;
+            margin: 1.25rem auto 0;
+        }
+
+        #afinidad .afinidad-como summary {
+            display: flex;
+            list-style: none;
+            cursor: pointer;
+            width: fit-content;
+            margin-inline: auto;
+        }
+
+        #afinidad .afinidad-como summary::-webkit-details-marker {
+            display: none;
+        }
+
+        #afinidad .afinidad-como[open] summary {
+            color: white;
+        }
+
+        /* Pantalla de inicio: 5 "postales", una por pregunta del test. */
+        #afinidad .afinidad-postales {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem 0.75rem;
+            width: 100%;
+        }
+
+        #afinidad .afinidad-postal {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Solo móvil: en la pantalla de inicio el recuadro se ajusta a su contenido
+           (en vez de reservar los 600px que necesitan las preguntas), para que no
+           quede tanto hueco por encima y por debajo. */
+        @media (max-width: 767px) {
+            #afinidad .tool-frame:has(#screen-start.active),
+            #afinidad .tool-frame:has(#screen-start.active) .app-shell {
+                min-height: 0;
             }
 
-            #afinidad .layout-dual>#panel-test,
-            #afinidad .layout-dual>#panel-info {
-                width: 100%;
-                min-width: 0;
+            #afinidad #screen-start {
+                padding-block: 2.5rem;
             }
         }
 
-        #afinidad .tool-frame {
-            max-width: 100% !important;
-            min-height: 690px;
+        @media (max-width: 640px) {
+            #afinidad .afinidad-postal {
+                width: calc((100% - 1.5rem) / 3);
+            }
+        }
+
+        #afinidad .afinidad-como-panel {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2rem;
+            padding: 1.75rem 2rem;
+        }
+
+        @media (max-width: 767px) {
+            #afinidad .afinidad-como-panel {
+                padding: 1.5rem;
+            }
         }
 
         #afinidad .app-shell {
@@ -145,9 +203,10 @@
                 <p class="text-lg md:text-xl text-gray-300 leading-relaxed font-medium max-w-full">
                     ¿No sabes qué ver? Responde 5 preguntas rápidas y encuentra la franquicia que mejor se adapta a ti ahora mismo.
                 </p>
+
             </div>
 
-            <div class="layout-dual w-full">
+            <div class="w-full">
 
                 <div id="panel-test" class="w-full h-full">
                     <div class="tool-frame">
@@ -156,16 +215,57 @@
                             <div id="screen-start"
                                 class="screen active flex-col items-center justify-center flex-1 h-full text-center">
                                 <div
-                                    class="w-full max-w-xl mx-auto flex flex-col items-center justify-center text-center h-full">
-                                    
+                                    class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center h-full">
                                     <h2 class="text-3xl md:text-4xl font-black text-white tracking-tight mb-5">
-                                        Encuentra qué ver hoy
+                                        Encuentra qué <br class="md:hidden">ver hoy
                                     </h2>
-                                    
                                     <button id="start-test-btn" type="button" disabled
                                         class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl border border-white/15 bg-white/5 text-white font-black uppercase tracking-[0.18em] text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(255,255,255,0.08)] disabled:opacity-40 disabled:cursor-not-allowed">
                                         Empezar test
                                     </button>
+
+                                    <ul class="afinidad-postales mt-10 md:mt-24" aria-label="Las 5 preguntas del test">
+                                        <li class="afinidad-postal">
+                                            <span class="editorial-icon border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                                </svg>
+                                            </span>
+                                            <span class="text-white font-bold text-sm mt-3">Vibra</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <span class="editorial-icon border border-blue-500/30 bg-blue-500/10 text-blue-400">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                                </svg>
+                                            </span>
+                                            <span class="text-white font-bold text-sm mt-3">Formato</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <span class="editorial-icon border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </span>
+                                            <span class="text-white font-bold text-sm mt-3">Mundo</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <span class="editorial-icon border border-purple-500/30 bg-purple-500/10 text-purple-400">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                </svg>
+                                            </span>
+                                            <span class="text-white font-bold text-sm mt-3">Motor</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <span class="editorial-icon border border-amber-500/30 bg-amber-500/10 text-amber-400">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </span>
+                                            <span class="text-white font-bold text-sm mt-3">Época</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -203,6 +303,8 @@
                                         Contemplativa</button>
                                 </div>
                                 <p class="option-feedback"></p>
+                                <button type="button" data-category="vibra" data-next="screen-q2"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🎲 Sorpréndeme (aleatorio)</button>
                             </div>
 
                             <div id="screen-q2"
@@ -227,6 +329,8 @@
                                     </button>
                                 </div>
                                 <p class="option-feedback"></p>
+                                <button type="button" data-category="formato" data-next="screen-q3"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🤷 Me da igual (no filtrar)</button>
                             </div>
 
                             <div id="screen-q3"
@@ -265,6 +369,8 @@
                                         Guerra / militar</button>
                                 </div>
                                 <p class="option-feedback"></p>
+                                <button type="button" data-category="mundo" data-next="screen-q4"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🎲 Sorpréndeme (aleatorio)</button>
                             </div>
 
                             <div id="screen-q4"
@@ -312,6 +418,8 @@
                                         Música / escenario</button>
                                 </div>
                                 <p class="option-feedback"></p>
+                                <button type="button" data-category="motor" data-next="screen-q5"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🎲 Sorpréndeme (aleatorio)</button>
                             </div>
 
                             <div id="screen-q5"
@@ -332,6 +440,8 @@
                                         class="js-answer option-btn py-5 px-4 text-sm">🆕 Actual (2020+)</button>
                                 </div>
                                 <p class="option-feedback"></p>
+                                <button type="button" data-category="epoca" data-next="screen-result"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🤷 Me da igual (no filtrar)</button>
                             </div>
 
                             <div id="screen-result"
@@ -404,10 +514,18 @@
                                                 <div id="res-alt-list" class="grid md:grid-cols-2 gap-3"></div>
                                             </div>
 
-                                            <div class="text-center lg:text-left">
+                                            <div class="mt-8 flex items-center justify-center lg:justify-start gap-6">
                                                 <button id="repeat-test" type="button"
-                                                    class="mt-8 text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.15em] underline underline-offset-4 transition-colors">
+                                                    class="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.15em] underline underline-offset-4 transition-colors">
                                                     Repetir test
+                                                </button>
+                                                <button id="res-share" type="button" title="Compartir resultado"
+                                                    class="inline-flex items-center gap-1.5 text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 3v12m0-12L8 7m4-4l4 4M5 11v8a2 2 0 002 2h10a2 2 0 002-2v-8" />
+                                                    </svg>
+                                                    <span id="res-share-label">Compartir</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -419,17 +537,18 @@
                     </div>
                 </div>
 
-                <div id="panel-info" class="w-full h-full">
-                    <div class="info-frame">
-                        <div class="w-full h-full flex flex-col">
-                            <h3 class="text-xl lg:text-2xl font-bold text-white mb-5">El concepto</h3>
-                            <p class="text-sm md:text-base leading-7 text-slate-300">
-                                          Afinidad es un sistema de recomendación inteligente diseñado para eliminar la indecisión. En solo cinco preguntas, analiza tus respuestas y te devuelve una propuesta clara, coherente y fácil de empezar.
-                                        </p>
-                                        <br>
-                            <h3 class="text-xl lg:text-2xl font-bold text-white mb-5">Cómo funciona</h3>
-
-                            <div class="flex flex-col gap-7 text-left">
+                    <details class="afinidad-como">
+                    <summary class="inline-flex items-center gap-1.5 text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        ¿Cómo funciona Afinidad?
+                    </summary>
+                    <div class="afinidad-como-panel mt-4">
+                        <p class="text-sm md:text-base leading-7 text-slate-300 mb-7">
+                            Afinidad es un sistema de recomendación inteligente diseñado para eliminar la indecisión. En solo cinco preguntas, analiza tus respuestas y te devuelve una propuesta clara, coherente y fácil de empezar.
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-7 text-left">
                                 <div class="flex items-start gap-4">
                                     <div
                                         class="editorial-icon border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
@@ -483,11 +602,8 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="flex-1"></div>
-                        </div>
                     </div>
-                </div>
+                </details>
 
             </div>
         </section>

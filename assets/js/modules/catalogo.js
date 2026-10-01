@@ -464,6 +464,10 @@ export function cambiarVista(tipo) {
 export async function initCatalogoPage() {
   if (!hasCatalogPage()) return;
 
+  // En móvil, la cuadrícula deja una tarjeta por fila: se arranca en Mini.
+  // Los tres botones siguen disponibles para cambiar de vista.
+  if (window.matchMedia('(max-width: 767px)').matches) cambiarVista('compacta');
+
   allAnimes = await getAnimes();
   filteredAnimes = [...allAnimes];
   bindCatalogEvents();

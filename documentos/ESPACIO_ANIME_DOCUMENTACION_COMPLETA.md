@@ -94,6 +94,13 @@ ________________________________________________________________________________
   - Si justo después de un push no ves el cambio, es la caché del navegador (GitHub Pages la deja 10 min): **Ctrl + F5** o incógnito.
   - `.gitattributes` fija los saltos de línea a LF; `.gitignore` excluye `.claude/` y `capturas/`.
 - **Franja "Próximamente" de la portada**: `#novedades-strip` en `partials/sections/home.html`, rellenada por `assets/js/modules/home.js`. Muestra 6 franquicias del catálogo con una entrada "Próximamente" y año conocido (la más cercana primero, luego por popularidad). **Se mantiene al día pasando "Actualizar Base de Datos" en el extractor (4.4) y subiendo el `animes.json` nuevo** — si no se pasa, se quedan obras que ya se estrenaron.
+- **Vista por defecto de Franquicias en móvil**: por debajo de 768px el catálogo arranca en vista Mini (`initCatalogoPage()` en `catalogo.js`), porque la cuadrícula deja una tarjeta por fila. Los tres botones de vista siguen funcionando igual.
+- **Mi espacio — notas en Viendo**: si una entrada está en Viendo, su tarjeta muestra dos líneas: "Por dónde voy" (campo `nota`, el mismo de siempre, así no se pierde nada de lo escrito antes) y "Lo próximo" (campo nuevo `proximo`). En el resto de estados queda una sola "Nota privada". Cada línea lleva un icono: cuaderno con lápiz (nota), tick verde (por dónde voy) y reloj cian (lo próximo). Las notas se escapan antes de pintarse (`escaparHtml`), para que un JSON importado nunca pueda meter código.
+- **Mi espacio — limpieza automática**: al abrir Mi espacio, `limpiarHuerfanas()` borra las entradas cuyo `id_franquicia` ya no existe en `animes.json`, para que "Total" cuadre con lo que se ve. **Ojo al curar la base:** si una franquicia se borra o cambia de `id_franquicia`, desaparece de Mi espacio de quien la tuviera. Mantener los ids estables.
+- **Mi espacio — importar**: si ya hay algo guardado, pide confirmación antes de sustituir la lista entera ("Esto sustituirá tu lista actual (N animes)…"). No hay fusión de listas, a propósito.
+- **Afinidad — maquetación**: una sola columna; el test va centrado a 960px como máximo y la explicación ("El concepto / Cómo funciona", texto en 3.9.1.1) vive en un desplegable `<details>` "¿Cómo funciona Afinidad?", en letra pequeña **debajo del test** (al abrirlo, la página baja hasta la explicación). Bajo el botón "Empezar test" hay 5 "postales" (`.afinidad-postal`), una por pregunta: solo el círculo con el icono de color y el nombre debajo, sin borde ni texto de la pregunta (3 + 2 en móvil). El título va justo encima del botón; en ordenador las postales quedan bastante más abajo (`md:mt-24`). En móvil el título se parte a propósito en "Encuentra qué / ver hoy" (`<br class="md:hidden">`), y en la pantalla de inicio el recuadro se ajusta a su contenido (regla `:has(#screen-start.active)`) en vez de reservar los 600px que necesitan las preguntas. Al empezar el test, el recuadro vuelve a su altura normal. Antes se probaron un brillo cian con chips y una lista vertical, y se descartaron. Idea pendiente de decidir: cambiar los iconos por ilustraciones propias que representen cada pregunta (no imágenes de anime). Descartado a propósito: mostrar la portada que va ganando mientras se responde, porque condicionaría las respuestas. Las reglas `.layout-dual` e `.info-frame` de `style.css` se borraron al quedarse sin uso.
+- **Afinidad — compartir**: el botón "Compartir" (junto a "Repetir test") genera un enlace con las 5 respuestas (`?vibra=…&formato=…&mundo=…&motor=…&epoca=…`). También lleva `r=<id_franquicia>` de la franquicia que se está viendo: si es una alternativa, quien abre el enlace ve esa alternativa. Quien lo abre ve directamente el resultado recalculado. En el móvil abre el menú nativo de compartir; en el ordenador copia el enlace. Depende de que la base no haya cambiado.
+- **Modo depuración de Afinidad**: `DEBUG_AFINIDAD` (línea 5 de `afinidad.js`) está en `false` en la web publicada. Con `true`, cada respuesta del test escribe en la consola el top 10 con sus puntos, y `window.afinidadDebug()` da una foto del estado. Sirve para revisar en local por qué gana una franquicia; hay que volver a ponerlo en `false` antes de subir.
 - **Lección de maquetación**: si una clase de Tailwind con variante condicional (`[.vista-lista_&]:algo`) no parece aplicarse aunque esté en el HTML, no asumir que es caché — varias variantes apiladas en el mismo elemento compiten de forma poco fiable vía el CDN. La solución robusta es CSS propio con `!important` (así se arregló la vista lista de Franquicias en móvil, con `.lista-img`, `.lista-title`… en `pages/franquicias/index.html`).
 _____________________________________________________________________________________________________________________________
 ## 3. CÓMO FUNCIONA POR DENTRO
@@ -313,6 +320,15 @@ Estas tres claves se borran solo al pulsar un enlace del menú/footer (cambiar d
 
 Afinidad responde a "¿qué anime encaja conmigo ahora mismo?" sin que el usuario tenga que explorar el catálogo entero. La promesa de producto: 5 preguntas rápidas → 1 recomendación clara y lista para empezar, con un % de afinidad honesto (no una IA generativa, no un modelo de lenguaje — es una fórmula determinista escrita a mano). Página: `pages/afinidad/index.html`. Motor: `assets/js/modules/afinidad.js`. No llama a ninguna API en tiempo real — cruza las respuestas contra el catálogo ya cargado de `assets/data/animes.json`, igual que Franquicias.
 
+#### 3.9.1.1 Texto oficial "El concepto / Cómo funciona" (panel derecho de `pages/afinidad/index.html`)
+
+Copia literal del texto que se muestra al usuario, guardada aquí porque transmite el criterio editorial del proyecto y sirve de base para cualquier rediseño o para comunicar Afinidad fuera de la web (redes, presentación):
+
+- **El concepto** — Afinidad es un sistema de recomendación inteligente diseñado para eliminar la indecisión. En solo cinco preguntas, analiza tus respuestas y te devuelve una propuesta clara, coherente y fácil de empezar.
+- **Base curada** — Partimos de una base de datos propia, construida a partir de franquicias seleccionadas por su calidad, relevancia e interés editorial.
+- **Etiquetado editorial** — No nos quedamos solo en los géneros. Clasificamos cada obra según su tono, su mundo, su enfoque narrativo, su formato y su identidad visual.
+- **Cálculo de afinidad** — Tus respuestas nos permiten descartar lo que no encaja, priorizar lo que sí y devolverte una recomendación principal lista para explorar o ver directamente.
+
 #### 3.9.2 La pieza que lo hace posible: `etiquetas_editoriales`
 
 Cada franquicia guarda una lista plana de 0 a ~13 etiquetas en el campo `etiquetas_editoriales`. El vocabulario es **cerrado y fijo — 33 valores posibles, ni uno más**, repartidos en 3 dimensiones que coinciden letra a letra (con sus tildes) con las opciones de las preguntas 1, 3 y 4:
@@ -365,6 +381,23 @@ El test es lineal y obligatorio (`screen-q1` → `screen-q2` → `screen-q3` →
 | 5 | "¿Qué época visual te apetece?" (época) | screen-q5 | Clásica (<2010) / Moderna (2010-2020) / Actual (2020+) | **Dura** | 12 |
 
 Los 5 pesos suman exactamente **100** — no es casualidad, es la base del % final (ver 3.9.4).
+
+**Resumen en una tabla (qué mide y cómo puntúa cada pregunta):**
+
+| Pregunta | Qué mide | Cómo puntúa | Peso |
+|---|---|---|---|
+| **Vibra**: ¿Qué te pide el cuerpo? | Cómo te quieres sentir | Etiqueta exacta, 28 puntos. Si no, pero sus géneros de AniList se parecen (por ejemplo, "acción" para Adrenalínica), unos 17. Si no hay nada, 0, pero **no la descarta** | 28 (la que más pesa) |
+| **Formato**: ¿Cómo quieres empezar? | Película, serie corta o larga | **Filtro duro**: si no coincide, queda fuera | 18 |
+| **Mundo**: ¿Dónde quieres entrar? | El escenario (escolar, fantasía, isekai…) | Igual que vibra | 18 |
+| **Motor**: ¿Qué debe mover la historia? | Lo que engancha (combates, misterio, romance…) | Igual que vibra | 24 |
+| **Época**: ¿Qué época visual te apetece? | Clásica, moderna o actual | **Filtro duro** | 12 |
+
+**"Sorpréndeme" y "Me da igual"** (enlace pequeño subrayado bajo las opciones de cada pregunta, a propósito fuera de la rejilla de opciones para no competir con ellas):
+- **Vibra, Mundo y Motor → "🎲 Sorpréndeme (aleatorio)"**: elige al azar una de las opciones de esa pregunta que no esté en gris, y la puntúa con normalidad. En la explicación del resultado aparece "(elegida/elegido al azar)". Se guarda en `state.azar`.
+- **Formato y Época → "🤷 Me da igual (no filtrar)"**: guarda el valor `cualquiera`. Esa pregunta **no descarta** ninguna franquicia y cuenta como acertada para todas (suma sus 18 o 12 puntos), así que el % sigue siendo comparable. La explicación dice "El formato te daba igual: …" / "La época te daba igual: …".
+- El enlace de compartir guarda ambos casos: `formato=cualquiera`, `epoca=cualquiera` y `azar=vibra,mundo,motor` (los valores elegidos al azar van en su pregunta, así el resultado compartido es el mismo).
+
+El % que ve el usuario es real: 28 + 18 + 18 + 24 + 12 = 100. Una franquicia que no acierta ninguna de las tres preguntas de etiquetas (vibra, mundo, motor) queda fuera, aunque cumpla el formato y la época.
 
 **Q1 — Vibra (28 puntos, el peso más alto).** Es la pregunta que más pesa porque el tono es lo que más define "qué apetece ver ahora". Mecanismo (`resolverCoincidencia('vibra', ...)`): ¿la franquicia tiene esa etiqueta exacta en `etiquetas_editoriales`? → 28 puntos. Si no, ¿hay una palabra relacionada en sus géneros o en los `tags_anilist` en bruto (inglés)? → ~17 puntos (62% del máximo, vía el diccionario `RELATED_TAGS.vibra`). Si ninguna de las dos → 0 puntos, pero la franquicia no se descarta solo por esto.
 

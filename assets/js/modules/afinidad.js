@@ -2,7 +2,7 @@ import { getAnimes } from './anime-data.js';
 import { abrirModalFranquicia } from './modal-franquicia.js';
 import { platformData, resolverEnlaceVer } from './plataformas.js';
 
-const DEBUG_AFINIDAD = true;
+const DEBUG_AFINIDAD = false;
 
 const state = {
   franquicias: [],
@@ -15,8 +15,19 @@ const state = {
     mundo: '',
     motor: '',
     epoca: ''
-  }
+  },
+  // Preguntas de etiquetas (vibra/mundo/motor) respondidas con "Sorpréndeme".
+  azar: new Set()
 };
+
+// "Me da igual" en formato/época guarda este valor: esa pregunta no filtra y cuenta
+// como acertada para todas las franquicias (cualquier formato/época te vale).
+const CUALQUIERA = 'cualquiera';
+const PREGUNTAS_SIN_FILTRO = ['formato', 'epoca'];
+
+function filtraPor(preferencias, categoria) {
+  return Boolean(preferencias[categoria]) && preferencias[categoria] !== CUALQUIERA;
+}
 
 const CATEGORY_ORDER = ['vibra', 'formato', 'mundo', 'motor', 'epoca'];
 
@@ -79,6 +90,79 @@ export async function initAfinidadPage() {
   bindAfinidadEvents();
   await cargarBaseDeDatos();
   exponerDebugGlobal();
+  abrirResultadoCompartido();
+}
+
+// --- Compartir resultado ---
+// El enlace lleva las 5 respuestas en la URL (?vibra=...&formato=...) y la franquicia
+// que se está viendo (r=...). Quien lo abre recalcula el test con esas respuestas y,
+// si se compartió una alternativa, se le muestra esa en vez de la principal.
+function construirEnlaceCompartir() {
+  const params = new URLSearchParams();
+  CATEGORY_ORDER.forEach((cat) => params.set(cat, state.preferencias[cat]));
+  if (state.azar.size) params.set('azar', [...state.azar].join(','));
+  if (state.mejorFranquicia?.id_franquicia) params.set('r', state.mejorFranquicia.id_franquicia);
+  return `${location.origin}${location.pathname}?${params.toString()}`;
+}
+
+function esRespuestaValida(categoria, valor) {
+  if (valor === CUALQUIERA) return PREGUNTAS_SIN_FILTRO.includes(categoria);
+  return [...document.querySelectorAll(`.js-answer[data-category="${categoria}"]`)]
+    .some((button) => button.dataset.value === valor);
+}
+
+function abrirResultadoCompartido() {
+  if (!state.franquicias.length) return;
+  const params = new URLSearchParams(location.search);
+  const valida = CATEGORY_ORDER.every((cat) => esRespuestaValida(cat, params.get(cat)));
+  if (!valida) return;
+
+  CATEGORY_ORDER.forEach((cat) => {
+    state.preferencias[cat] = params.get(cat);
+  });
+  state.azar = new Set((params.get('azar') || '').split(',').filter((cat) => ['vibra', 'mundo', 'motor'].includes(cat)));
+  actualizarBotonesDisponibles();
+  changeScreen('screen-result');
+
+  const alternativa = state.alternativas.find((alt) => alt.franquicia?.id_franquicia === params.get('r'));
+  if (alternativa) {
+    state.mejorFranquicia = alternativa.franquicia;
+    state.resultadoPrincipal = alternativa;
+    mostrarResultado(alternativa, false);
+  }
+}
+
+async function compartirResultado() {
+  const titulo = state.mejorFranquicia?.titulo_principal || state.mejorFranquicia?.titulo;
+  if (!titulo) return;
+
+  const url = construirEnlaceCompartir();
+  const texto = `Afinidad me recomienda ${titulo}. Haz el test en Espacio Anime:`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Afinidad | Espacio Anime', text: texto, url });
+    } catch (error) {
+      // Cancelar el menú de compartir no es un error que haya que mostrar.
+    }
+    return;
+  }
+
+  const label = document.getElementById('res-share-label');
+  try {
+    await navigator.clipboard.writeText(url);
+    if (label) label.textContent = 'Enlace copiado';
+  } catch (error) {
+    if (label) label.textContent = 'No se pudo copiar';
+  }
+  setTimeout(() => {
+    if (label) label.textContent = 'Compartir';
+  }, 2000);
+}
+
+function actualizarBotonCompartir(visible) {
+  const boton = document.getElementById('res-share');
+  if (boton) boton.style.display = visible ? '' : 'none';
 }
 
 function bindAfinidadEvents() {
@@ -100,6 +184,14 @@ function bindAfinidadEvents() {
   if (repeatButton) {
     repeatButton.addEventListener('click', resetTest);
   }
+
+  document.getElementById('res-share')?.addEventListener('click', compartirResultado);
+
+  // Al abrir "¿Cómo funciona?" (bajo el test) se baja hasta la explicación.
+  const comoFunciona = document.querySelector('#afinidad .afinidad-como');
+  comoFunciona?.addEventListener('toggle', () => {
+    if (comoFunciona.open) comoFunciona.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   if (fichaButton) {
     fichaButton.addEventListener('click', () => {
@@ -191,6 +283,30 @@ function bindAfinidadEvents() {
     });
   });
 
+  // "Sorpréndeme" (vibra/mundo/motor) elige al azar una de las opciones disponibles;
+  // "Me da igual" (formato/época) deja esa pregunta sin filtrar.
+  document.querySelectorAll('.js-skip').forEach((button) => {
+    button.addEventListener('click', () => {
+      const category = button.dataset.category;
+
+      if (PREGUNTAS_SIN_FILTRO.includes(category)) {
+        state.preferencias[category] = CUALQUIERA;
+      } else {
+        const disponibles = [...document.querySelectorAll(`.js-answer[data-category="${category}"]`)]
+          .filter((option) => option.dataset.disabled !== 'true');
+        if (!disponibles.length) return;
+        const elegida = disponibles[Math.floor(Math.random() * disponibles.length)];
+        state.preferencias[category] = elegida.dataset.value;
+        state.azar.add(category);
+      }
+
+      actualizarBotonesDisponibles();
+      limpiarFeedbackActivo();
+      debugEstado(`Respuesta: ${category} = ${state.preferencias[category]}${state.azar.has(category) ? ' (azar)' : ''}`);
+      changeScreen(button.dataset.next);
+    });
+  });
+
   document.querySelectorAll('.js-back').forEach((button) => {
     button.addEventListener('click', () => {
       const prevId = button.dataset.prev;
@@ -265,6 +381,7 @@ function resetPreferencias() {
   CATEGORY_ORDER.forEach((cat) => {
     state.preferencias[cat] = '';
   });
+  state.azar.clear();
 }
 
 function limpiarPreferenciasDesde(categoriaInicio) {
@@ -273,6 +390,7 @@ function limpiarPreferenciasDesde(categoriaInicio) {
 
   for (let i = startIndex; i < CATEGORY_ORDER.length; i += 1) {
     state.preferencias[CATEGORY_ORDER[i]] = '';
+    state.azar.delete(CATEGORY_ORDER[i]);
   }
 }
 
@@ -281,6 +399,9 @@ function resetTest() {
   state.resultadoPrincipal = null;
   state.alternativas = [];
   resetPreferencias();
+
+  // Si se llegó desde un enlace compartido, repetir el test limpia la URL.
+  if (location.search) history.replaceState(null, '', location.pathname);
 
   const img = document.getElementById('res-img');
   const title = document.getElementById('res-title');
@@ -404,8 +525,8 @@ function cumpleCaminoPosible(franquicia, preferencias) {
   const epocaPrincipal = clasificarEpoca(obtenerAnoPrincipal(franquicia, entradaPrincipal));
   const etiquetas = obtenerEtiquetasFranquicia(franquicia);
 
-  if (preferencias.formato && formatoPrincipal.key !== preferencias.formato) return false;
-  if (preferencias.epoca && epocaPrincipal.key !== preferencias.epoca) return false;
+  if (filtraPor(preferencias, 'formato') && formatoPrincipal.key !== preferencias.formato) return false;
+  if (filtraPor(preferencias, 'epoca') && epocaPrincipal.key !== preferencias.epoca) return false;
 
   const prefsSoft = ['vibra', 'mundo', 'motor'].filter((key) => preferencias[key]);
   if (prefsSoft.length === 0) return true;
@@ -474,11 +595,11 @@ function evaluarFranquicia(franquicia, preferencias) {
   const etiquetas = obtenerEtiquetasFranquicia(franquicia);
   const link = resolverEnlaceVer(franquicia, entradaPrincipal);
 
-  if (preferencias.formato && formatoPrincipal.key !== preferencias.formato) {
+  if (filtraPor(preferencias, 'formato') && formatoPrincipal.key !== preferencias.formato) {
     return null;
   }
 
-  if (preferencias.epoca && epocaPrincipal.key !== preferencias.epoca) {
+  if (filtraPor(preferencias, 'epoca') && epocaPrincipal.key !== preferencias.epoca) {
     return null;
   }
 
@@ -495,7 +616,7 @@ function evaluarFranquicia(franquicia, preferencias) {
     score += resVibra.points;
     if (resVibra.points > 0) {
       coincidenciasReales += 1;
-      razones.push(`una vibra ${preferencias.vibra.toLowerCase()}`);
+      razones.push(`una vibra ${preferencias.vibra.toLowerCase()}${state.azar.has('vibra') ? ' (elegida al azar)' : ''}`);
     }
   }
 
@@ -506,7 +627,7 @@ function evaluarFranquicia(franquicia, preferencias) {
     score += resMundo.points;
     if (resMundo.points > 0) {
       coincidenciasReales += 1;
-      razones.push(`un mundo ${preferencias.mundo.toLowerCase()}`);
+      razones.push(`un mundo ${preferencias.mundo.toLowerCase()}${state.azar.has('mundo') ? ' (elegido al azar)' : ''}`);
     }
   }
 
@@ -517,7 +638,7 @@ function evaluarFranquicia(franquicia, preferencias) {
     score += resMotor.points;
     if (resMotor.points > 0) {
       coincidenciasReales += 1;
-      razones.push(`un motor centrado en ${preferencias.motor.toLowerCase()}`);
+      razones.push(`un motor centrado en ${preferencias.motor.toLowerCase()}${state.azar.has('motor') ? ' (elegido al azar)' : ''}`);
     }
   }
 
@@ -711,7 +832,9 @@ function construirExplicacion({ entradaPrincipal, formatoPrincipal, epocaPrincip
     texto += ' dentro de la base actual.';
   }
 
-  if (preferencias.formato === 'pelicula') {
+  if (preferencias.formato === CUALQUIERA) {
+    texto += ` El formato te daba igual: su entrada principal funciona como ${formatoPrincipal.label}.`;
+  } else if (preferencias.formato === 'pelicula') {
     texto += ' Además, entra exactamente en el formato que has marcado: una película como punto de entrada.';
   } else if (preferencias.formato === 'serie_corta') {
     texto += ' Además, funciona bien como una serie corta: entra rápido y se deja ver con mucha facilidad.';
@@ -725,7 +848,9 @@ function construirExplicacion({ entradaPrincipal, formatoPrincipal, epocaPrincip
     texto += ` La opción más clara para empezar es “${entradaTitulo}”.`;
   }
 
-  texto += ` Visualmente encaja con una etapa ${epocaPrincipal.label}.`;
+  texto += preferencias.epoca === CUALQUIERA
+    ? ` La época te daba igual: visualmente es de una etapa ${epocaPrincipal.label}.`
+    : ` Visualmente encaja con una etapa ${epocaPrincipal.label}.`;
 
   return texto;
 }
@@ -804,6 +929,7 @@ function mostrarResultado(resultado, lanzarCelebracion = true) {
   }
 
   actualizarBotonEspacio(franquicia?.id_franquicia);
+  actualizarBotonCompartir(Boolean(franquicia?.id_franquicia));
 
   renderAlternativas();
 
@@ -915,6 +1041,7 @@ function mostrarSinResultados() {
   }
   if (alternatives) alternatives.innerHTML = '';
   if (wrap) wrap.style.display = 'none';
+  actualizarBotonCompartir(false);
 }
 
 function crearChip(texto) {

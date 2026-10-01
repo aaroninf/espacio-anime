@@ -87,6 +87,11 @@ export function importarDatos(file) {
       if (typeof datos !== 'object' || datos === null || Array.isArray(datos)) {
         throw new Error('Formato inválido');
       }
+      // Importar sustituye la lista entera: si ya hay algo guardado, se avisa antes.
+      const actuales = Object.keys(getStore()).length;
+      if (actuales > 0 && !confirm(`Esto sustituirá tu lista actual (${actuales} ${actuales === 1 ? 'anime' : 'animes'}) por la del archivo. ¿Continuar?`)) {
+        return;
+      }
       saveStore(datos);
       alert('Lista importada correctamente.');
     } catch (error) {
@@ -109,15 +114,44 @@ export function setNota(id, texto) {
   upsertEntry(id, { nota: texto });
 }
 
+// Solo se usa en Viendo: "nota" hace de "Por dónde voy" y "proximo" de "Lo próximo".
+export function setProximo(id, texto) {
+  upsertEntry(id, { proximo: texto });
+}
+
+// Quita de Mi espacio las franquicias que ya no existen en el catálogo, para que
+// los contadores (sobre todo Total) cuadren con lo que se ve en pantalla.
+function limpiarHuerfanas(animes) {
+  if (!animes.length) return; // Sin catálogo cargado no se borra nada.
+  const ids = new Set(animes.map((anime) => anime.id_franquicia));
+  const store = getStore();
+  const huerfanas = Object.keys(store).filter((id) => !ids.has(id));
+  if (!huerfanas.length) return;
+  huerfanas.forEach((id) => delete store[id]);
+  saveStore(store);
+}
+
 window.miEspacioToggleEstado = toggleEstado;
 window.miEspacioToggleFavorito = toggleFavorito;
 window.miEspacioQuitar = quitarDeLista;
 window.miEspacioSetValoracion = setValoracion;
 window.miEspacioSetNota = setNota;
+window.miEspacioSetProximo = setProximo;
 window.miEspacioGetEntry = getEntry;
 
 let allAnimes = [];
 let activeTab = 'quiero_ver';
+
+// La nota la escribe el usuario (o llega en un JSON importado de otra persona):
+// se escapa antes de meterla en el HTML para que nunca se interprete como código.
+function escaparHtml(texto) {
+  return String(texto)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 function notaWidget(idFranquicia, valoracion = 0) {
   return `
@@ -131,8 +165,32 @@ function notaWidget(idFranquicia, valoracion = 0) {
   `;
 }
 
+// Iconos de las notas: cuaderno con lápiz (nota libre), tick (por dónde voy) y reloj (lo próximo).
+const ICONOS_NOTA = {
+  nota: { color: 'text-gray-500', path: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z' },
+  visto: { color: 'text-emerald-400/80', path: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+  proximo: { color: 'text-cyan-400/80', path: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+};
+
+function notaTextarea(idFranquicia, setter, placeholder, valor, icono) {
+  const { color, path } = ICONOS_NOTA[icono];
+  return `<div class="flex items-center gap-2 mt-2 w-full max-w-md">
+          <svg class="w-4 h-4 shrink-0 ${color}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="${path}" />
+          </svg>
+          <textarea placeholder="${placeholder}" rows="1"
+            onchange="${setter}('${idFranquicia}', this.value)"
+            class="anilist-input w-full text-xs bg-gray-800/50 border-white/10 resize-none">${escaparHtml(valor || '')}</textarea>
+        </div>`;
+}
+
 function renderCard(idFranquicia, data, anime) {
   const valoracionHtml = `<div class="mt-3">${notaWidget(idFranquicia, data.valoracion || 0)}</div>`;
+  // En Viendo la nota se parte en dos líneas; en el resto de estados es una nota libre.
+  const notasHtml = data.estado === 'viendo'
+    ? notaTextarea(idFranquicia, 'miEspacioSetNota', 'Por dónde voy...', data.nota, 'visto')
+      + notaTextarea(idFranquicia, 'miEspacioSetProximo', 'Lo próximo...', data.proximo, 'proximo')
+    : notaTextarea(idFranquicia, 'miEspacioSetNota', 'Nota privada...', data.nota, 'nota');
 
   return `
     <div class="group w-full flex flex-row items-center mb-4 p-3 bg-gray-900 border border-white/10 rounded-xl hover:border-white/30 hover:bg-gray-800 transition-colors duration-300">
@@ -145,9 +203,7 @@ function renderCard(idFranquicia, data, anime) {
         <h3 class="font-black uppercase tracking-tight text-white text-lg md:text-xl truncate cursor-pointer"
           onclick="abrirModalFranquicia('${idFranquicia}')">${anime.titulo_principal || 'Sin título'}</h3>
         ${valoracionHtml}
-        <textarea placeholder="Nota privada..." rows="1"
-          onchange="miEspacioSetNota('${idFranquicia}', this.value)"
-          class="anilist-input mt-2 w-full max-w-md text-xs bg-gray-800/50 border-white/10 resize-none">${data.nota || ''}</textarea>
+        ${notasHtml}
         <div class="flex items-center gap-4 mt-2">
           <button onclick="miEspacioToggleFavorito('${idFranquicia}')"
             class="text-lg leading-none ${data.favorito ? 'text-red-500' : 'text-gray-600'} hover:text-red-400 transition-colors">
@@ -403,6 +459,7 @@ export async function initEspacioPage() {
   if (!root) return;
 
   allAnimes = await getAnimes();
+  limpiarHuerfanas(allAnimes);
   bindTabs();
   bindOrden();
   bindBuscador();
