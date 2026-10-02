@@ -35,7 +35,7 @@
                     Mi espacio
                 </h1>
                 <p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-medium">
-                    Lleva el control y el progreso de todos tus animes, guarda tus favoritos y anota los próximos para ver.
+                    Lleva el control y el progreso de todos tus animes, guarda tus favoritos, anota los próximos para ver y organízalos en tus propias listas.
                 </p>
             </div>
 
@@ -81,6 +81,11 @@
                         Favoritos
                         <span data-tab-count="favoritos" class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">0</span>
                     </button>
+                    <button data-tab-espacio="listas"
+                        class="anilist-input flex items-center gap-2 bg-gray-800/50 border-white/10 text-gray-400 font-bold uppercase text-xs tracking-widest transition-all">
+                        Listas
+                        <span data-tab-count="listas" class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">0</span>
+                    </button>
                     <button data-tab-espacio="total"
                         class="flex items-center gap-1.5 px-3 py-2 text-gray-600 hover:text-gray-400 font-bold uppercase text-xs tracking-widest transition-colors">
                         Total
@@ -102,7 +107,9 @@
                 </div>
             </div>
 
-            <div id="mi-espacio-grid" class="relative z-10 min-h-[300px]"></div>
+            <div id="mi-espacio-listas-bar" class="hidden mb-8"></div>
+
+            <div id="mi-espacio-grid"class="relative z-10 min-h-[300px]"></div>
 
             <div id="mi-espacio-empty" class="hidden flex flex-col items-center justify-center py-20 opacity-40">
                 <span class="text-6xl mb-4">🗂️</span>

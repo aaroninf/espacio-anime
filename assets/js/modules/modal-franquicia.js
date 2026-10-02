@@ -1,6 +1,7 @@
 import { getAnimes } from './anime-data.js';
 import { platformData, resolverEnlaceVer, obtenerEntradaPrincipal } from './plataformas.js';
 import { resolvePath } from './config.js';
+import { escaparHtml } from './mi-espacio.js';
 
 export const NAV_STORAGE_KEY = 'ea_ficha_nav_order';
 // Cuántos saltos de flecha ← → separan la ficha actual de la página de
@@ -47,7 +48,10 @@ function renderMiEspacioBar(idFranquicia) {
     </button>
   `;
 
+  // Fila de los 4 botones de siempre y, debajo, el botón de Listas (como quinto
+  // icono no cabía bien en móvil).
   return `
+    <div class="flex items-center justify-around">
     ${botonEstado('quiero_ver', 'Pendiente',
       '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
       estadoActivo === 'quiero_ver', 'text-orange-400')}
@@ -64,8 +68,62 @@ function renderMiEspacioBar(idFranquicia) {
       </svg>
       <span class="text-[10px] font-bold uppercase tracking-widest">Favorito</span>
     </button>
+    </div>
+    ${renderBotonListas(idFranquicia)}
   `;
 }
+
+// El desplegable de Listas sigue abierto al marcar/crear una lista (la barra se
+// vuelve a pintar entera con ficha:refrescar) y se cierra al pulsar fuera.
+let panelListasAbierto = false;
+
+function renderBotonListas(idFranquicia) {
+  const listas = window.miEspacioGetListas ? window.miEspacioGetListas() : [];
+  const enCuantas = listas.filter((lista) => lista.ids.includes(idFranquicia)).length;
+  const texto = enCuantas ? `En ${enCuantas} ${enCuantas === 1 ? 'lista' : 'listas'}` : 'Añadir a una lista';
+
+  const opciones = listas.map((lista) => `
+    <label class="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer text-sm text-gray-300">
+      <input type="checkbox" ${lista.ids.includes(idFranquicia) ? 'checked' : ''} class="accent-purple-400"
+        onchange="miEspacioToggleEnLista('${lista.id}','${idFranquicia}'); window.dispatchEvent(new Event('ficha:refrescar'));">
+      <span class="truncate">${escaparHtml(lista.nombre)}</span>
+    </label>`).join('');
+
+  return `
+    <div id="ficha-listas" class="relative flex justify-center mt-5" onclick="event.stopPropagation();">
+      <button onclick="fichaTogglePanelListas()"
+        class="flex items-center gap-2 px-4 py-1.5 rounded-full border transition-colors ${enCuantas ? 'border-purple-400/50 text-purple-400' : 'border-white/10 text-[#A0AECA] hover:text-white hover:border-white/30'}">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"></path>
+        </svg>
+        <span class="text-[10px] font-bold uppercase tracking-widest">${texto}</span>
+      </button>
+      <div id="ficha-listas-panel"
+        class="${panelListasAbierto ? '' : 'hidden'} absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64 max-w-[85vw] z-50 p-3 rounded-xl border border-white/10 bg-gray-900/95 backdrop-blur-xl shadow-2xl">
+        ${opciones ? `<div class="max-h-60 overflow-y-auto mb-3">${opciones}</div>` : '<p class="text-xs text-gray-500 mb-3 px-2">Todavía no tienes listas.</p>'}
+        <form onsubmit="event.preventDefault(); fichaCrearLista(this.nombre.value, '${idFranquicia}');" class="flex items-center gap-2">
+          <input name="nombre" type="text" maxlength="40" autocomplete="off" placeholder="Nueva lista..."
+            class="anilist-input w-full text-xs bg-gray-800/50 border-white/10">
+          <button type="submit"
+            class="shrink-0 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">+ Crear</button>
+        </form>
+      </div>
+    </div>
+  `;
+}
+
+window.fichaTogglePanelListas = () => {
+  panelListasAbierto = !panelListasAbierto;
+  document.getElementById('ficha-listas-panel')?.classList.toggle('hidden', !panelListasAbierto);
+};
+
+// Crear una lista desde la ficha ya mete en ella la franquicia que estás viendo.
+window.fichaCrearLista = (nombre, idFranquicia) => {
+  const listaId = window.miEspacioCrearLista?.(nombre);
+  if (!listaId) return;
+  window.miEspacioToggleEnLista(listaId, idFranquicia);
+  window.dispatchEvent(new Event('ficha:refrescar'));
+};
 
 async function renderFicha(idFranquicia) {
   const contenido = document.getElementById('ficha-contenido');
@@ -176,6 +234,12 @@ export async function initModalFranquicia() {
   renderNavArrows(idFranquicia);
   bindBackButton();
   window.addEventListener('ficha:refrescar', () => renderFicha(idFranquicia));
+  // Los clics dentro del desplegable de Listas no llegan aquí (stopPropagation).
+  document.addEventListener('click', () => {
+    if (!panelListasAbierto) return;
+    panelListasAbierto = false;
+    document.getElementById('ficha-listas-panel')?.classList.add('hidden');
+  });
 }
 
 // El botón "← Atrás" usa el historial del navegador (así vuelve a la página

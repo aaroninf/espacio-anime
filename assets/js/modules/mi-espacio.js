@@ -1,6 +1,10 @@
 import { getAnimes } from './anime-data.js';
 
 const STORAGE_KEY = 'espacio-anime-mi-espacio';
+// Las listas propias van en otra clave: el store de arriba es un mapa id → datos
+// y cualquier otra cosa metida ahí descuadraría contadores y limpieza de huérfanas.
+const LISTAS_KEY = 'espacio-anime-mi-espacio-listas';
+const MAX_NOMBRE_LISTA = 40;
 
 const ESTADOS = [
   { key: 'quiero_ver', label: 'Pendiente' },
@@ -66,9 +70,78 @@ export function toggleFavorito(id) {
   saveStore(store);
 }
 
+// --- Listas propias: [{ id, nombre, ids: [id_franquicia, ...] }] ---
+// Son independientes de los estados: un anime puede estar en una lista sin
+// estar en Pendiente/Viendo/Completado.
+
+function getListas() {
+  try {
+    const listas = JSON.parse(localStorage.getItem(LISTAS_KEY));
+    // Se descartan entradas mal formadas (por ejemplo, de un JSON importado editado a mano).
+    return Array.isArray(listas)
+      ? listas.filter((lista) => lista && typeof lista.id === 'string' && Array.isArray(lista.ids))
+      : [];
+  } catch (error) {
+    console.error('Error leyendo las listas de Mi espacio:', error);
+    return [];
+  }
+}
+
+function saveListas(listas) {
+  localStorage.setItem(LISTAS_KEY, JSON.stringify(listas));
+  document.dispatchEvent(new CustomEvent('mi-espacio:change'));
+}
+
+export function crearLista(nombre) {
+  const limpio = String(nombre || '').trim().slice(0, MAX_NOMBRE_LISTA);
+  if (!limpio) return null;
+  const listas = getListas();
+  const id = `lista-${Date.now()}`;
+  listas.push({ id, nombre: limpio, ids: [] });
+  saveListas(listas);
+  return id;
+}
+
+export function renombrarLista(listaId) {
+  const listas = getListas();
+  const lista = listas.find((item) => item.id === listaId);
+  if (!lista) return;
+  const nombre = prompt('Nuevo nombre de la lista:', lista.nombre);
+  const limpio = String(nombre || '').trim().slice(0, MAX_NOMBRE_LISTA);
+  if (!limpio) return;
+  lista.nombre = limpio;
+  saveListas(listas);
+}
+
+export function borrarLista(listaId) {
+  const listas = getListas();
+  const lista = listas.find((item) => item.id === listaId);
+  if (!lista) return;
+  if (!confirm(`¿Borrar la lista «${lista.nombre}»? Los animes no se quitan de Mi espacio.`)) return;
+  saveListas(listas.filter((item) => item.id !== listaId));
+}
+
+export function toggleEnLista(listaId, idFranquicia) {
+  const listas = getListas();
+  const lista = listas.find((item) => item.id === listaId);
+  if (!lista) return;
+  lista.ids = lista.ids.includes(idFranquicia)
+    ? lista.ids.filter((id) => id !== idFranquicia)
+    : [...lista.ids, idFranquicia];
+  saveListas(listas);
+}
+
+window.miEspacioGetListas = getListas;
+window.miEspacioCrearLista = crearLista;
+window.miEspacioRenombrarLista = renombrarLista;
+window.miEspacioBorrarLista = borrarLista;
+window.miEspacioToggleEnLista = toggleEnLista;
+
+// La copia incluye animes y listas: { animes, listas }. Las copias antiguas
+// (solo el mapa de animes, sin listas) se siguen pudiendo importar.
 export function exportarDatos() {
-  const store = getStore();
-  const blob = new Blob([JSON.stringify(store, null, 2)], { type: 'application/json' });
+  const datos = { animes: getStore(), listas: getListas() };
+  const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const enlace = document.createElement('a');
   enlace.href = url;
@@ -87,12 +160,20 @@ export function importarDatos(file) {
       if (typeof datos !== 'object' || datos === null || Array.isArray(datos)) {
         throw new Error('Formato inválido');
       }
+      const formatoNuevo = Array.isArray(datos.listas);
+      const animes = formatoNuevo ? datos.animes : datos;
+      if (typeof animes !== 'object' || animes === null || Array.isArray(animes)) {
+        throw new Error('Formato inválido');
+      }
       // Importar sustituye la lista entera: si ya hay algo guardado, se avisa antes.
+      // Una copia antigua no trae listas: en ese caso se conservan las actuales.
       const actuales = Object.keys(getStore()).length;
-      if (actuales > 0 && !confirm(`Esto sustituirá tu lista actual (${actuales} ${actuales === 1 ? 'anime' : 'animes'}) por la del archivo. ¿Continuar?`)) {
+      const listasActuales = formatoNuevo ? getListas().length : 0;
+      if ((actuales > 0 || listasActuales > 0) && !confirm(`Esto sustituirá tu lista actual (${actuales} ${actuales === 1 ? 'anime' : 'animes'}${listasActuales ? `, ${listasActuales} ${listasActuales === 1 ? 'lista propia' : 'listas propias'}` : ''}) por la del archivo. ¿Continuar?`)) {
         return;
       }
-      saveStore(datos);
+      if (formatoNuevo) saveListas(datos.listas);
+      saveStore(animes);
       alert('Lista importada correctamente.');
     } catch (error) {
       console.error('Error importando Mi espacio:', error);
@@ -126,9 +207,21 @@ function limpiarHuerfanas(animes) {
   const ids = new Set(animes.map((anime) => anime.id_franquicia));
   const store = getStore();
   const huerfanas = Object.keys(store).filter((id) => !ids.has(id));
-  if (!huerfanas.length) return;
-  huerfanas.forEach((id) => delete store[id]);
-  saveStore(store);
+  if (huerfanas.length) {
+    huerfanas.forEach((id) => delete store[id]);
+    saveStore(store);
+  }
+
+  const listas = getListas();
+  let listasCambiadas = false;
+  listas.forEach((lista) => {
+    const vigentes = lista.ids.filter((id) => ids.has(id));
+    if (vigentes.length !== lista.ids.length) {
+      lista.ids = vigentes;
+      listasCambiadas = true;
+    }
+  });
+  if (listasCambiadas) saveListas(listas);
 }
 
 window.miEspacioToggleEstado = toggleEstado;
@@ -141,6 +234,7 @@ window.miEspacioGetEntry = getEntry;
 
 let allAnimes = [];
 let activeTab = 'quiero_ver';
+let activeLista = null;
 
 // La nota la escribe el usuario (o llega en un JSON importado de otra persona):
 // se escapa antes de meterla en el HTML para que nunca se interprete como código.
@@ -219,6 +313,93 @@ function renderCard(idFranquicia, data, anime) {
   `;
 }
 
+// Mismos colores que los botones de estado de la ficha (modal-franquicia.js).
+const COLOR_ESTADO = { quiero_ver: 'text-orange-400', viendo: 'text-blue-400', vistos: 'text-emerald-400' };
+
+// Tarjeta dentro de una lista propia: las listas sirven para organizar, así que
+// no lleva puntuación ni notas (eso vive en las pestañas de estado); muestra en
+// qué estado está el anime y "Quitar" lo saca solo de la lista.
+function renderCardLista(idFranquicia, data, anime, listaId) {
+  const estado = ESTADOS.find((item) => item.key === data.estado);
+  const estadoHtml = estado
+    ? `<span class="text-[10px] font-bold uppercase tracking-widest ${COLOR_ESTADO[estado.key]}">${estado.label}</span>`
+    : '<span class="text-[10px] font-bold uppercase tracking-widest text-gray-600">Sin estado</span>';
+
+  return `
+    <div class="group w-full flex flex-row items-center mb-4 p-3 bg-gray-900 border border-white/10 rounded-xl hover:border-white/30 hover:bg-gray-800 transition-colors duration-300">
+      <div class="relative shrink-0 overflow-hidden bg-gray-950 w-24 md:w-32 aspect-[2/3] rounded-lg shadow-md cursor-pointer"
+        onclick="abrirModalFranquicia('${idFranquicia}')">
+        <img src="${anime.imagen_principal || ''}" alt="${anime.titulo_principal || ''}"
+          class="w-full h-full object-cover transition-[transform,filter] duration-700 ease-out group-hover:scale-110 group-hover:brightness-110">
+      </div>
+      <div class="flex-1 min-w-0 pl-4 md:pl-6">
+        <h3 class="font-black uppercase tracking-tight text-white text-lg md:text-xl truncate cursor-pointer"
+          onclick="abrirModalFranquicia('${idFranquicia}')">${anime.titulo_principal || 'Sin título'}</h3>
+        <div class="mt-2">${estadoHtml}</div>
+        <div class="flex items-center gap-4 mt-2">
+          <button onclick="miEspacioToggleFavorito('${idFranquicia}')"
+            class="text-lg leading-none ${data.favorito ? 'text-red-500' : 'text-gray-600'} hover:text-red-400 transition-colors">
+            ${data.favorito ? '♥' : '♡'}
+          </button>
+          <button onclick="miEspacioToggleEnLista('${listaId}', '${idFranquicia}')"
+            class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
+            Quitar de la lista
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Barra de la pestaña Listas: una píldora por lista, el campo para crear otra
+// y las acciones de la lista elegida.
+function renderBarraListas(listas, lista) {
+  const chips = listas.map((item) => {
+    const activa = lista && item.id === lista.id;
+    return `
+      <button onclick="miEspacioElegirLista('${item.id}')"
+        class="flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-bold transition-colors ${activa ? 'bg-white/10 border-white/70 text-white' : 'bg-gray-800/50 border-white/10 text-gray-400 hover:text-white'}">
+        ${escaparHtml(item.nombre)}
+        <span class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">${item.ids.length}</span>
+      </button>`;
+  }).join('');
+
+  const acciones = lista
+    ? `<div class="flex items-center gap-4 mt-4">
+        <button onclick="miEspacioRenombrarLista('${lista.id}')"
+          class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Renombrar</button>
+        <button onclick="miEspacioBorrarLista('${lista.id}')"
+          class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Borrar lista</button>
+      </div>`
+    : '';
+
+  return `
+    <div class="flex flex-wrap items-center gap-2">
+      ${chips}
+      <form onsubmit="event.preventDefault(); miEspacioCrearListaDesdeBarra(this.nombre);" class="flex items-center gap-2">
+        <input name="nombre" type="text" maxlength="${MAX_NOMBRE_LISTA}" autocomplete="off" placeholder="Nueva lista..."
+          class="anilist-input w-40 text-xs bg-gray-800/50 border-white/10">
+        <button type="submit"
+          class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">+ Crear</button>
+      </form>
+    </div>
+    ${acciones}
+  `;
+}
+
+window.miEspacioElegirLista = (listaId) => {
+  activeLista = listaId;
+  render();
+};
+
+window.miEspacioCrearListaDesdeBarra = (input) => {
+  const id = crearLista(input.value);
+  if (id) {
+    activeLista = id;
+    render();
+  }
+};
+
 function contarPorTab() {
   const store = getStore();
   const entries = Object.entries(store);
@@ -227,6 +408,7 @@ function contarPorTab() {
     viendo: entries.filter(([, d]) => d.estado === 'viendo').length,
     vistos: entries.filter(([, d]) => d.estado === 'vistos').length,
     favoritos: entries.filter(([, d]) => d.favorito).length,
+    listas: getListas().length,
     total: entries.length,
   };
 }
@@ -293,7 +475,9 @@ function ordenarItems(items, criterioCombinado) {
       return direccion === 'desc' ? -cmp : cmp;
     });
   }
-  return items.sort((a, b) => (b.data.actualizado || 0) - (a.data.actualizado || 0));
+  // "Más recientes": en las pestañas de estado, lo último que tocaste; en una
+  // lista propia, lo último que añadiste a ella.
+  return items.sort((a, b) => b.reciente - a.reciente);
 }
 
 function render() {
@@ -304,14 +488,30 @@ function render() {
   const criterio = document.getElementById('filter-orden')?.value || 'reciente';
   const busqueda = (document.getElementById('mi-espacio-buscar')?.value || '').trim().toLowerCase();
   const store = getStore();
+  const buscarAnime = (id) => allAnimes.find((item) => item.id_franquicia === id);
 
-  const itemsDelTab = Object.entries(store)
-    .filter(([, data]) => {
-      if (activeTab === 'total') return true;
-      if (activeTab === 'favoritos') return data.favorito;
-      return data.estado === activeTab;
-    })
-    .map(([id, data]) => ({ id, data, anime: allAnimes.find((item) => item.id_franquicia === id) }))
+  // Pestaña Listas: si la lista elegida ya no existe (borrada), se pasa a la primera.
+  let lista = null;
+  if (activeTab === 'listas') {
+    const listas = getListas();
+    lista = listas.find((item) => item.id === activeLista) || listas[0] || null;
+    activeLista = lista?.id || null;
+  }
+  const barraListas = document.getElementById('mi-espacio-listas-bar');
+  if (barraListas) {
+    barraListas.classList.toggle('hidden', activeTab !== 'listas');
+    barraListas.innerHTML = activeTab === 'listas' ? renderBarraListas(getListas(), lista) : '';
+  }
+
+  const itemsDelTab = (activeTab === 'listas'
+    ? (lista?.ids || []).map((id, posicion) => ({ id, data: store[id] || {}, anime: buscarAnime(id), reciente: posicion }))
+    : Object.entries(store)
+      .filter(([, data]) => {
+        if (activeTab === 'total') return true;
+        if (activeTab === 'favoritos') return data.favorito;
+        return data.estado === activeTab;
+      })
+      .map(([id, data]) => ({ id, data, anime: buscarAnime(id), reciente: data.actualizado || 0 })))
     .filter((item) => item.anime);
 
   const items = ordenarItems(
@@ -328,7 +528,14 @@ function render() {
     grid.innerHTML = '';
     empty.classList.remove('hidden');
 
-    if (itemsDelTab.length === 0) {
+    if (activeTab === 'listas' && itemsDelTab.length === 0) {
+      if (emptyTitle) emptyTitle.textContent = lista ? 'Esta lista está vacía' : 'Todavía no tienes listas';
+      if (emptyText) {
+        emptyText.innerHTML = `${lista ? '' : 'Crea tu primera lista arriba (por ejemplo «Ver este año» o «Esperar al doblaje») y luego '}
+          ${lista ? 'Abre' : 'abre'} una franquicia desde <a href="../franquicias/index.html" class="text-white underline hover:text-cyan-400 transition-colors">Franquicias</a>
+          y pulsa el botón Listas para añadirla.`;
+      }
+    } else if (itemsDelTab.length === 0) {
       if (emptyTitle) emptyTitle.textContent = 'Todavía no hay nada aquí';
       if (emptyText) {
         emptyText.innerHTML = `Abre una franquicia desde <a href="../descubrir/index.html" class="text-white underline hover:text-cyan-400 transition-colors">Descubrir</a>
@@ -341,7 +548,9 @@ function render() {
     }
   } else {
     empty.classList.add('hidden');
-    grid.innerHTML = items.map((item) => renderCard(item.id, item.data, item.anime)).join('');
+    grid.innerHTML = items.map((item) => (activeTab === 'listas'
+      ? renderCardLista(item.id, item.data, item.anime, lista.id)
+      : renderCard(item.id, item.data, item.anime))).join('');
   }
 
   actualizarContadores();
@@ -467,4 +676,4 @@ export async function initEspacioPage() {
   render();
 }
 
-export { getEntry, ESTADOS };
+export { getEntry, ESTADOS, escaparHtml };

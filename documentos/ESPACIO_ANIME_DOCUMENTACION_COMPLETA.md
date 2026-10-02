@@ -49,7 +49,7 @@ Afinidad   ──┘                    │
 
 - **Afinidad** — *propósito:* recomendación por 5 preguntas rápidas (vibra, formato, mundo, motor, época) cruzadas contra las `etiquetas_editoriales` de cada franquicia, para responder "¿qué anime encaja conmigo?" sin que el usuario tenga que explorar el catálogo entero. Diferenciador importante del proyecto — no sustituir por una IA compleja sin necesidad real. *Cómo se conecta:* su calidad depende **directamente** de que las franquicias de Franquicias tengan buenas `etiquetas_editoriales` puestas a mano (ver 3.9) — sin eso, recomienda mal aunque el motor de preguntas funcione perfecto.
 
-- **Mi espacio** — *propósito:* llevar el seguimiento personal (Pendiente/Viendo/Completado/Favoritos, progreso, valoración y notas propias) de lo que el usuario ya descubrió en los otros tres pilares — hace que vuelva. *Cómo se conecta:* guarda solo **referencias** (el `id_franquicia`) en `localStorage`, nunca copia los datos de la franquicia — así, si Franquicias se actualiza, Mi espacio siempre ve la versión más reciente sin sincronizar nada él mismo.
+- **Mi espacio** — *propósito:* llevar el seguimiento personal (Pendiente/Viendo/Completado/Favoritos, listas propias, progreso, valoración y notas propias) de lo que el usuario ya descubrió en los otros tres pilares — hace que vuelva. *Cómo se conecta:* guarda solo **referencias** (el `id_franquicia`) en `localStorage`, nunca copia los datos de la franquicia — así, si Franquicias se actualiza, Mi espacio siempre ve la versión más reciente sin sincronizar nada él mismo.
 
 Filosofía transversal a los cuatro: **gestionar mi anime, no una red social** (nada de seguidores, chat, feed, perfiles públicos, comentarios o rankings sociales; las notas son siempre privadas).
 
@@ -80,7 +80,7 @@ ________________________________________________________________________________
 | **Descubrir** | ✅ Hecho. 24 listas curadas; el bloque "Elige según lo que te apetezca hoy" usa las `etiquetas_editoriales` reales. Los 446 enlaces a fichas del sitio comprobados (0 rotos). |
 | **Franquicias** | ✅ Hecho. **389 franquicias** tras la poda del 2026-09-07 (backup previo en `assets/data/backup/animes.backup-2026-09-07-antes-de-recorte-560.json`). Los topes del extractor ya están ajustados (4.1) para no volver a inflar la base. |
 | **Afinidad** | ✅ Hecho. Las 389 franquicias tienen `etiquetas_editoriales`. Detalle técnico completo en **3.9**. |
-| **Mi espacio** | ✅ Hecho. Pendiente/Viendo/Completado/Favoritos, progreso, valoración y notas, guardado en `localStorage` (`mi-espacio.js`). Cuentas de usuario con contraseña: fase futura (5.0). |
+| **Mi espacio** | ✅ Hecho. Pendiente/Viendo/Completado/Favoritos, listas propias, progreso, valoración y notas, guardado en `localStorage` (`mi-espacio.js`). Cuentas de usuario con contraseña: fase futura (5.0). |
 
 ### 2.4 Notas técnicas que siguen vigentes
 - Tailwind se carga por CDN (`cdn.tailwindcss.com`), sin build step.
@@ -151,7 +151,7 @@ espacio_anime/
 | `catalogo.js` | Todo el buscador, filtros y orden de la página Franquicias (ver 3.4) — opera en memoria sobre el array ya cargado, sin llamar a ninguna API. |
 | `modal-franquicia.js` | Renderiza la ficha individual de una franquicia (`pages/franquicias/ficha.html`), las flechas de navegación ←→ y el botón "Atrás" (ver 3.8). |
 | `afinidad.js` | El motor de las 5 preguntas y el cruce contra `etiquetas_editoriales` para recomendar una franquicia. |
-| `mi-espacio.js` | Toda la lógica de "Mi espacio": lee/escribe el store de `localStorage`, estados (Pendiente/Viendo/Completado/Favoritos), progreso, valoración, notas, y exportar/importar esos datos. |
+| `mi-espacio.js` | Toda la lógica de "Mi espacio": lee/escribe el store de `localStorage`, estados (Pendiente/Viendo/Completado/Favoritos), progreso, valoración, notas, listas propias, y exportar/importar esos datos. Dos claves: `espacio-anime-mi-espacio` (mapa `id_franquicia` → estado/favorito/valoración/notas) y `espacio-anime-mi-espacio-listas` (`[{ id, nombre, ids }]`, independientes de los estados; se añaden desde el botón "Listas" de la ficha, `modal-franquicia.js`). La copia exportada es `{ animes, listas }`; las copias antiguas (solo el mapa) se siguen importando y conservan las listas actuales. |
 | `plataformas.js` | Helpers compartidos: estilo del badge de cada plataforma de streaming, y `obtenerEntradaPrincipal()` (resuelve cuál es la entrada principal de una franquicia) — lo usan varios módulos para no duplicar esa lógica. |
 
 **Flujo de datos, de arriba a abajo:**
@@ -179,7 +179,7 @@ Inicio es la puerta de entrada; los otros cuatro son el núcleo del producto.
 - **Descubrir** — 24 listas curadas a mano (~200 franquicias), en 4 grupos temáticos de 6 listas cada uno.
 - **Franquicias** — catálogo completo con buscador, filtros, orden y fichas individuales sobre las 389 franquicias.
 - **Afinidad** — recomienda una franquicia en base a 5 preguntas rápidas (vibra, formato, mundo, motor, época) cruzadas contra las etiquetas de cada franquicia.
-- **Mi espacio** — lista personal (Pendiente/Viendo/Completado/Favoritos) en `localStorage`, con progreso, valoración propia y notas privadas.
+- **Mi espacio** — lista personal (Pendiente/Viendo/Completado/Favoritos) y listas propias creadas por el usuario en `localStorage`, con progreso, valoración propia y notas privadas.
 
 ### 3.2 La ficha de datos: `assets/data/animes.json`
 
@@ -500,6 +500,10 @@ npx --yes localtunnel --port 8000
 ```
 
 La primera vez tarda unos segundos en descargar la herramienta. Al terminar, imprime una línea `your url is: https://algo-aleatorio.loca.lt` — esa es la URL que abres en el móvil, desde cualquier red (Wi-Fi o datos). La primera vez que entres, `loca.lt` muestra un aviso ("Friendly reminder...") — dale a **"Click to Continue"** y ya carga la web.
+
+- **Si pide "Tunnel Password":** es la IP pública del PC. Se consulta abriendo https://loca.lt/mytunnelpassword en el navegador del PC; se copia ese número, se pega en el móvil y se da a continuar.
+- **La ventana del túnel tiene que quedarse abierta.** Si se lanza con `!` desde Claude Code, el proceso se corta nada más imprimir la URL y el móvil muestra "Tunnel unavailable" (error 503). Hay que lanzarlo en una ventana de PowerShell propia y no cerrarla.
+- **Claude Code puede no tener permiso para abrirlo él mismo:** el filtro automático de permisos a veces bloquea los túneles públicos (decide caso por caso). Si pasa, abrirlo a mano como se explica arriba.
 
 Esta URL es pública mientras el túnel esté abierto (aleatoria y difícil de adivinar, pero no protegida por contraseña) — ciérrala cuando termines de probar (`Ctrl+C` en esa terminal, o cerrando la ventana).
 
