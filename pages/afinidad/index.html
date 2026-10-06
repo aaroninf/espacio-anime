@@ -1,0 +1,654 @@
+﻿<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afinidad | Espacio Anime</title>
+    <meta name="description" content="Responde 5 preguntas rápidas y descubre qué anime encaja contigo ahora mismo, según tu estado de ánimo, el formato, el tipo de mundo y la época.">
+    <link rel="icon" href="../../assets/img/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../../assets/img/favicon/favicon.ico" sizes="32x32">
+    <link rel="apple-touch-icon" href="../../assets/img/favicon/apple-touch-icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Espacio Anime">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:title" content="Afinidad | Espacio Anime">
+    <meta property="og:description" content="Responde 5 preguntas rápidas y descubre qué anime encaja contigo ahora mismo, según tu estado de ánimo, el formato, el tipo de mundo y la época.">
+    <meta property="og:url" content="https://aaroninf.github.io/espacio-anime/pages/afinidad/">
+    <meta property="og:image" content="https://aaroninf.github.io/espacio-anime/assets/img/fondo/fondo1.webp">
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Test centrado y a ancho medio: la explicación ya no ocupa una columna
+           al lado, vive en el desplegable "¿Cómo funciona?" de la cabecera. */
+        #afinidad .tool-frame {
+            max-width: 960px !important;
+            margin-inline: auto;
+            min-height: 690px;
+        }
+
+        /* "¿Cómo funciona?" va en pequeño bajo el test, alineado con él. */
+        #afinidad .afinidad-como {
+            max-width: 960px;
+            margin: 1.25rem auto 0;
+        }
+
+        #afinidad .afinidad-como summary {
+            display: flex;
+            list-style: none;
+            cursor: pointer;
+            width: fit-content;
+            margin-inline: auto;
+        }
+
+        #afinidad .afinidad-como summary::-webkit-details-marker {
+            display: none;
+        }
+
+        #afinidad .afinidad-como[open] summary {
+            color: white;
+        }
+
+        /* Pantalla de inicio: 5 "postales", una por pregunta del test. */
+        #afinidad .afinidad-postales {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem 0.75rem;
+            width: 100%;
+        }
+
+        #afinidad .afinidad-postal {
+            width: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Tarjetas de imagen por dimensión */
+        #afinidad .postal-img {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            background-size: cover;
+            background-position: center 20%;
+            border-radius: 0.875rem;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        #afinidad .postal-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.45) 100%);
+        }
+
+        #afinidad .afinidad-postal:hover .postal-img {
+            transform: translateZ(0) translateY(-4px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+        }
+
+        /* Imagen individual de cada dimensión */
+        #afinidad .postal-vibra   { background-image: url('../../assets/img/afinidad/vibra.jpg'); }
+        #afinidad .postal-formato { background-image: url('../../assets/img/afinidad/formato.jpg'); }
+        #afinidad .postal-mundo   { background-image: url('../../assets/img/afinidad/mundo.jpg'); }
+        #afinidad .postal-motor   { background-image: url('../../assets/img/afinidad/motor.jpg'); }
+        #afinidad .postal-epoca   { background-image: url('../../assets/img/afinidad/epoca.jpg'); }
+
+        /* Texto de pregunta: espacio siempre reservado, solo cambia la opacidad */
+        #afinidad .postal-pregunta {
+            display: block;
+            height: 1.1rem;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.55);
+            text-align: center;
+            white-space: nowrap;
+            margin-top: 0.3rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        #afinidad .afinidad-postal:hover .postal-pregunta {
+            opacity: 1;
+        }
+
+        /* Solo móvil: en la pantalla de inicio el recuadro se ajusta a su contenido
+           (en vez de reservar los 600px que necesitan las preguntas), para que no
+           quede tanto hueco por encima y por debajo. */
+        @media (max-width: 767px) {
+            #afinidad .tool-frame:has(#screen-start.active),
+            #afinidad .tool-frame:has(#screen-start.active) .app-shell {
+                min-height: 0;
+            }
+
+            #afinidad #screen-start {
+                padding-block: 2.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #afinidad .afinidad-postal {
+                width: calc((100% - 2rem) / 3);
+            }
+        }
+
+        #afinidad .afinidad-como-panel {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2rem;
+            padding: 1.75rem 2rem;
+        }
+
+        @media (max-width: 767px) {
+            #afinidad .afinidad-como-panel {
+                padding: 1.5rem;
+            }
+        }
+
+        #afinidad .app-shell {
+            height: auto !important;
+            min-height: 690px;
+        }
+
+        #screen-result .result-card {
+            width: 100%;
+            max-width: none;
+            margin-inline: 0;
+        }
+
+        /* --- CAMBIO: DISEÑO MINI TARJETAS (Imagen Izq, Texto Der) --- */
+        .result-mini-card {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .result-mini-card img {
+            width: 72px; /* Imagen más grande */
+            aspect-ratio: 2 / 3;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0; /* Evita que la imagen se aplaste */
+        }
+
+        .result-mini-card .mini-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .result-mini-card .mini-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            width: 100%;
+        }
+        /* --- FIN CAMBIO --- */
+
+        .option-btn.is-disabled {
+            opacity: 0.35;
+            filter: grayscale(1);
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .option-btn.is-disabled:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: rgb(156 163 175);
+            box-shadow: none;
+            transform: none !important;
+        }
+
+        .option-feedback {
+            min-height: 1.35rem;
+            margin-top: 0.85rem;
+            font-size: 0.72rem;
+            line-height: 1.2rem;
+            color: rgb(148 163 184);
+            text-align: center;
+        }
+
+        .option-feedback.is-warning {
+            color: rgb(251 191 36);
+        }
+
+        @media (max-width: 1279px) {
+            #screen-result .result-card {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+
+    <div id="include-nav"></div>
+
+    <main class="pt-28 pb-20 min-h-screen">
+        <section id="afinidad" class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-10 text-left w-full">
+                <h1
+                    class="text-5xl md:text-6xl xl:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-5 pb-1 pr-1">
+                    Afinidad
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 leading-relaxed font-medium max-w-full">
+                    ¿No sabes qué ver? Responde 5 preguntas rápidas y encuentra la franquicia que mejor se adapta a ti ahora mismo.
+                </p>
+
+            </div>
+
+            <div class="w-full">
+
+                <div id="panel-test" class="w-full h-full">
+                    <div class="tool-frame">
+                        <div id="afinidad-app" class="w-full app-shell">
+
+                            <div id="screen-start"
+                                class="screen active flex-col items-center justify-center flex-1 h-full text-center">
+                                <div
+                                    class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center h-full">
+                                    <h2 class="text-3xl md:text-4xl font-black text-white tracking-tight mb-5">
+                                        Encuentra qué <br class="md:hidden">ver hoy
+                                    </h2>
+                                    <button id="start-test-btn" type="button" disabled
+                                        class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl border border-white/15 bg-white/5 text-white font-black uppercase tracking-[0.18em] text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(255,255,255,0.08)] disabled:opacity-40 disabled:cursor-not-allowed">
+                                        Empezar test
+                                    </button>
+
+                                    <ul class="afinidad-postales mt-10 md:mt-16" aria-label="Las 5 preguntas del test">
+                                        <li class="afinidad-postal">
+                                            <div class="postal-img postal-vibra" role="img" aria-label="Vibra"></div>
+                                            <span class="text-white font-bold text-sm mt-3">Vibra</span>
+                                            <span class="postal-pregunta">¿Qué te pide el cuerpo?</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <div class="postal-img postal-formato" role="img" aria-label="Formato"></div>
+                                            <span class="text-white font-bold text-sm mt-3">Formato</span>
+                                            <span class="postal-pregunta">¿Cómo quieres empezar?</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <div class="postal-img postal-mundo" role="img" aria-label="Mundo"></div>
+                                            <span class="text-white font-bold text-sm mt-3">Mundo</span>
+                                            <span class="postal-pregunta">¿Dónde quieres entrar?</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <div class="postal-img postal-motor" role="img" aria-label="Motor"></div>
+                                            <span class="text-white font-bold text-sm mt-3">Motor</span>
+                                            <span class="postal-pregunta">¿Qué mueve la historia?</span>
+                                        </li>
+                                        <li class="afinidad-postal">
+                                            <div class="postal-img postal-epoca" role="img" aria-label="Época"></div>
+                                            <span class="text-white font-bold text-sm mt-3">Época</span>
+                                            <span class="postal-pregunta">¿Qué época te apetece?</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div id="screen-q1"
+                                class="screen flex-col items-center justify-start text-center w-full max-w-md mx-auto flex-1 pt-2 md:pt-4">
+                                <div class="w-full flex items-center justify-between mb-4">
+                                    <button type="button" class="js-back back-btn"
+                                        data-prev="screen-start">Atrás</button>
+                                    <span class="question-badge">Pregunta 1 de 5</span>
+                                </div>
+                                <h3 class="question-heading">¿Qué te pide el cuerpo?</h3>
+                                <div class="grid grid-cols-2 gap-3 w-full">
+                                    <button data-category="vibra" data-value="Adrenalínica" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">💥 Adrenalínica</button>
+                                    <button data-category="vibra" data-value="Divertida" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">😂 Divertida</button>
+                                    <button data-category="vibra" data-value="Emotiva" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">😭 Emotiva</button>
+                                    <button data-category="vibra" data-value="Tensa" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">😰 Tensa</button>
+                                    <button data-category="vibra" data-value="Cerebral" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">🧠 Cerebral</button>
+                                    <button data-category="vibra" data-value="Terrorífica" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">😱 Terrorífica</button>
+                                    <button data-category="vibra" data-value="Aventurera" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">🗺️ Aventurera</button>
+                                    <button data-category="vibra" data-value="Relajante" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">☕ Relajante</button>
+                                    <button data-category="vibra" data-value="Romántica" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">❤️ Romántica</button>
+                                    <button data-category="vibra" data-value="Oscura" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">🌑 Oscura</button>
+                                    <button data-category="vibra" data-value="Contemplativa" data-next="screen-q2"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm col-span-2">✨
+                                        Contemplativa</button>
+                                </div>
+                                <p class="option-feedback"></p>
+                                <button type="button" data-category="vibra" data-next="screen-q2"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🎲 Sorpréndeme (aleatorio)</button>
+                            </div>
+
+                            <div id="screen-q2"
+                                class="screen flex-col items-center justify-start text-center w-full max-w-sm mx-auto flex-1 pt-2 md:pt-4">
+                                <div class="w-full flex items-center justify-between mb-4">
+                                    <button type="button" class="js-back back-btn" data-prev="screen-q1">Atrás</button>
+                                    <span class="question-badge">Pregunta 2 de 5</span>
+                                </div>
+                                <h3 class="question-heading">¿Cómo quieres empezar?</h3>
+                                <div class="flex flex-col gap-4 w-full">
+                                    <button data-category="formato" data-value="pelicula" data-next="screen-q3"
+                                        class="js-answer option-btn py-5 px-4 text-sm">
+                                        🎬 Con una película como punto de entrada
+                                    </button>
+                                    <button data-category="formato" data-value="serie_corta" data-next="screen-q3"
+                                        class="js-answer option-btn py-5 px-4 text-sm">
+                                        📺 Con una serie corta para probar
+                                    </button>
+                                    <button data-category="formato" data-value="serie_larga" data-next="screen-q3"
+                                        class="js-answer option-btn py-5 px-4 text-sm">
+                                        🌌 Con una serie larga para quedarme
+                                    </button>
+                                </div>
+                                <p class="option-feedback"></p>
+                                <button type="button" data-category="formato" data-next="screen-q3"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🤷 Me da igual (no filtrar)</button>
+                            </div>
+
+                            <div id="screen-q3"
+                                class="screen flex-col items-center justify-start text-center w-full max-w-md mx-auto flex-1 pt-2 md:pt-4">
+                                <div class="w-full flex items-center justify-between mb-4">
+                                    <button type="button" class="js-back back-btn" data-prev="screen-q2">Atrás</button>
+                                    <span class="question-badge">Pregunta 3 de 5</span>
+                                </div>
+                                <h3 class="question-heading">¿Dónde quieres entrar?</h3>
+                                <div class="grid grid-cols-2 gap-3 w-full">
+                                    <button data-category="mundo" data-value="Actual / realista" data-next="screen-q4"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">🏙️ Actual / realista</button>
+                                    <button data-category="mundo" data-value="Escolar" data-next="screen-q4"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">🏫 Escolar</button>
+                                    <button data-category="mundo" data-value="Fantasía" data-next="screen-q4"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">🐉 Fantasía</button>
+                                    <button data-category="mundo" data-value="Sobrenatural urbano"
+                                        data-next="screen-q4" class="js-answer option-btn py-3.5 px-2 text-sm">👻
+                                        Sobrenatural urbano</button>
+                                    <button data-category="mundo" data-value="Ciencia ficción futurista"
+                                        data-next="screen-q4" class="js-answer option-btn py-3.5 px-2 text-sm">🚀 CiFi
+                                        futurista</button>
+                                    <button data-category="mundo" data-value="Distopía / postapocalipsis"
+                                        data-next="screen-q4" class="js-answer option-btn py-3.5 px-2 text-sm">🏚️
+                                        Postapocalipsis</button>
+                                    <button data-category="mundo" data-value="Histórico" data-next="screen-q4"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">📜 Histórico</button>
+                                    <button data-category="mundo" data-value="Otro mundo / isekai"
+                                        data-next="screen-q4" class="js-answer option-btn py-3.5 px-2 text-sm">🌀
+                                        Isekai / Otro mundo</button>
+                                    <button data-category="mundo" data-value="Mundo virtual / videojuego"
+                                        data-next="screen-q4" class="js-answer option-btn py-3.5 px-2 text-sm">🎮
+                                        Videojuego / VR</button>
+                                    <button data-category="mundo" data-value="Guerra / militar"
+                                        data-next="screen-q4" class="js-answer option-btn py-3.5 px-2 text-sm">⚔️
+                                        Guerra / militar</button>
+                                </div>
+                                <p class="option-feedback"></p>
+                                <button type="button" data-category="mundo" data-next="screen-q4"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🎲 Sorpréndeme (aleatorio)</button>
+                            </div>
+
+                            <div id="screen-q4"
+                                class="screen flex-col items-center justify-start text-center w-full max-w-md mx-auto flex-1 pt-2 md:pt-4">
+                                <div class="w-full flex items-center justify-between mb-4">
+                                    <button type="button" class="js-back back-btn" data-prev="screen-q3">Atrás</button>
+                                    <span class="question-badge">Pregunta 4 de 5</span>
+                                </div>
+                                <h3 class="question-heading">¿Qué debe mover la historia?</h3>
+                                <div class="grid grid-cols-2 gap-3 w-full">
+                                    <button data-category="motor" data-value="Acción y combates"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🔥
+                                        Acción y combates</button>
+                                    <button data-category="motor" data-value="Investigación y misterio"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🕵️
+                                        Investigación y misterio</button>
+                                    <button data-category="motor" data-value="Romance central"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">💑
+                                        Romance central</button>
+                                    <button data-category="motor" data-value="Vida cotidiana" data-next="screen-q5"
+                                        class="js-answer option-btn py-3.5 px-2 text-sm">☀️ Vida cotidiana</button>
+                                    <button data-category="motor" data-value="Crecimiento personal"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🌱
+                                        Crecimiento personal</button>
+                                    <button data-category="motor" data-value="Viaje y exploración"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🧭 Viaje
+                                        y exploración</button>
+                                    <button data-category="motor" data-value="Deporte y competición"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🏆
+                                        Deporte y competición</button>
+                                    <button data-category="motor" data-value="Crimen y bajos fondos"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🕶️
+                                        Crimen y bajos fondos</button>
+                                    <button data-category="motor" data-value="Política y estrategia"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">♟️
+                                        Política y estrategia</button>
+                                    <button data-category="motor" data-value="Supervivencia / juego mortal"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🩸
+                                        Supervivencia / juego mortal</button>
+                                    <button data-category="motor" data-value="Mechas y pilotos"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🤖
+                                        Mechas y pilotos</button>
+                                    <button data-category="motor" data-value="Música / escenario"
+                                        data-next="screen-q5" class="js-answer option-btn py-3.5 px-2 text-sm">🎸
+                                        Música / escenario</button>
+                                </div>
+                                <p class="option-feedback"></p>
+                                <button type="button" data-category="motor" data-next="screen-q5"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🎲 Sorpréndeme (aleatorio)</button>
+                            </div>
+
+                            <div id="screen-q5"
+                                class="screen flex-col items-center justify-start text-center w-full max-w-sm mx-auto flex-1 pt-2 md:pt-4">
+                                <div class="w-full flex items-center justify-between mb-4">
+                                    <button type="button" class="js-back back-btn" data-prev="screen-q4">Atrás</button>
+                                    <span class="question-badge">Pregunta 5 de 5</span>
+                                </div>
+                                <h3 class="question-heading">¿Qué época visual te apetece?</h3>
+                                <div class="flex flex-col gap-4 w-full">
+                                    <button data-category="epoca" data-value="clasico" data-next="screen-result"
+                                        class="js-answer option-btn py-5 px-4 text-sm">📼 Clásica (antes de
+                                        2010)</button>
+                                    <button data-category="epoca" data-value="moderno" data-next="screen-result"
+                                        class="js-answer option-btn py-5 px-4 text-sm">📺 Moderna (2010 -
+                                        2020)</button>
+                                    <button data-category="epoca" data-value="actual" data-next="screen-result"
+                                        class="js-answer option-btn py-5 px-4 text-sm">🆕 Actual (2020+)</button>
+                                </div>
+                                <p class="option-feedback"></p>
+                                <button type="button" data-category="epoca" data-next="screen-result"
+                                    class="js-skip text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">🤷 Me da igual (no filtrar)</button>
+                            </div>
+
+                            <div id="screen-result"
+                                class="screen flex-col items-center justify-start w-full flex-1 pt-2 md:pt-4">
+                                <div class="result-card">
+                                    <div class="grid lg:grid-cols-[230px_minmax(0,1fr)] gap-8 items-start">
+                                        <div class="relative w-full max-w-[230px] mx-auto lg:mx-0">
+                                            <img id="res-img" src="" alt="Cover"
+                                                class="w-full aspect-[2/3] object-cover rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] border border-white/10">
+                                            <div
+                                                class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 border border-gray-600/50 px-5 py-2 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.8)] whitespace-nowrap">
+                                                <span id="res-score-label"
+                                                    class="text-white font-black tracking-[0.16em] text-[11px] uppercase">
+                                                    Afinidad alta
+                                                </span>
+                                                <span class="text-gray-400 font-bold text-[11px]">
+                                                    (<span id="res-score"></span>%)
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="min-w-0 text-left">
+                                            <h2 id="res-title"
+                                                class="text-2xl md:text-3xl font-black text-white uppercase tracking-tight mb-4 drop-shadow-md text-center lg:text-left">
+                                                Cargando...
+                                            </h2>
+
+                                            <div id="res-meta"
+                                                class="flex flex-wrap justify-center lg:justify-start gap-2 mb-4"></div>
+
+                                            <p id="res-entry-note"
+                                                class="hidden text-sm text-slate-400 leading-6 mb-4 text-center lg:text-left">
+                                            </p>
+
+                                            <div
+                                                class="rounded-2xl border border-white/10 bg-white/5 px-5 py-5 mb-6 text-left">
+                                                <p id="res-why"
+                                                    class="text-sm md:text-base leading-7 text-slate-300">
+                                                    —
+                                                </p>
+                                            </div>
+
+                                            <div
+                                                class="flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto lg:mx-0">
+                                                <a id="res-link-streaming" href="#" target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="sm:flex-1 py-3.5 text-white font-black uppercase tracking-wider rounded-xl transition-all shadow-lg text-center text-sm flex items-center justify-center gap-2">
+                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M8 5v14l11-7z" />
+                                                    </svg>
+                                                    <span id="res-link-streaming-label">Ver</span>
+                                                </a>
+
+                                                <button id="res-link-web" type="button"
+                                                    class="sm:flex-1 py-3.5 bg-[#1e2f47] hover:bg-[#2a405e] border border-white/10 text-white font-bold uppercase tracking-wider rounded-xl transition-all text-center text-sm">
+                                                    Ficha
+                                                </button>
+
+                                                <button id="res-add-espacio" type="button"
+                                                    class="sm:flex-1 py-3.5 border border-white/10 text-white font-bold uppercase tracking-wider rounded-xl transition-all text-center text-sm">
+                                                    Pendiente
+                                                </button>
+                                            </div>
+
+                                            <div id="res-alt-wrap" class="mt-8">
+                                                <p
+                                                    class="text-[11px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-4 text-center lg:text-left">
+                                                    También se ajustan a tu perfil:
+                                                </p>
+                                                <div id="res-alt-list" class="grid md:grid-cols-2 gap-3"></div>
+                                            </div>
+
+                                            <div class="mt-8 flex items-center justify-center lg:justify-start gap-6">
+                                                <button id="repeat-test" type="button"
+                                                    class="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.15em] underline underline-offset-4 transition-colors">
+                                                    Repetir test
+                                                </button>
+                                                <button id="res-share" type="button" title="Compartir resultado"
+                                                    class="inline-flex items-center gap-1.5 text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 3v12m0-12L8 7m4-4l4 4M5 11v8a2 2 0 002 2h10a2 2 0 002-2v-8" />
+                                                    </svg>
+                                                    <span id="res-share-label">Compartir</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                    <details class="afinidad-como">
+                    <summary class="inline-flex items-center gap-1.5 text-[11px] text-gray-500 hover:text-white underline underline-offset-4 transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        ¿Cómo funciona Afinidad?
+                    </summary>
+                    <div class="afinidad-como-panel mt-4">
+                        <p class="text-sm md:text-base leading-7 text-slate-300 mb-7">
+                            Afinidad es un sistema de recomendación inteligente diseñado para eliminar la indecisión. En solo cinco preguntas, analiza tus respuestas y te devuelve una propuesta clara, coherente y fácil de empezar.
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-7 text-left">
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="editorial-icon border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-bold text-lg mb-1.5">Base curada</h4>
+                                        <p class="text-sm md:text-base leading-7 text-slate-300">
+                                            Partimos de una base de datos propia, construida a partir de franquicias seleccionadas por su calidad, relevancia e interés editorial.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="editorial-icon border border-blue-500/30 bg-blue-500/10 text-blue-400">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-bold text-lg mb-1.5">Etiquetado editorial</h4>
+                                        <p class="text-sm md:text-base leading-7 text-slate-300">
+                                            No nos quedamos solo en los géneros. Clasificamos cada obra según su tono, su mundo, su enfoque narrativo, su formato y su identidad visual.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="editorial-icon border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            stroke-width="2">
+                                            <circle cx="9.5" cy="12" r="7" stroke-linecap="round"
+                                                stroke-linejoin="round"></circle>
+                                            <circle cx="14.5" cy="12" r="7" stroke-linecap="round"
+                                                stroke-linejoin="round"></circle>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-bold text-lg mb-1.5">Cálculo de afinidad</h4>
+                                        <p class="text-sm md:text-base leading-7 text-slate-300">
+                                            Tus respuestas nos permiten descartar lo que no encaja, priorizar lo que sí y devolverte una recomendación principal lista para explorar o ver directamente.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </details>
+
+            </div>
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>

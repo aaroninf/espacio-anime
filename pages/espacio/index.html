@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi espacio | Espacio Anime</title>
+    <meta name="description" content="Tu lista personal de anime: lo que tienes pendiente, lo que estás viendo y lo que has completado, con favoritos, puntuación y notas privadas.">
+    <link rel="icon" href="../../assets/img/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../../assets/img/favicon/favicon.ico" sizes="32x32">
+    <link rel="apple-touch-icon" href="../../assets/img/favicon/apple-touch-icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Espacio Anime">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:title" content="Mi espacio | Espacio Anime">
+    <meta property="og:description" content="Tu lista personal de anime: lo que tienes pendiente, lo que estás viendo y lo que has completado, con favoritos, puntuación y notas privadas.">
+    <meta property="og:url" content="https://aaroninf.github.io/espacio-anime/pages/espacio/">
+    <meta property="og:image" content="https://aaroninf.github.io/espacio-anime/assets/img/fondo/fondo1.webp">
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+    <div id="include-nav"></div>
+
+    <main class="pt-28 pb-20">
+        <section id="mi-espacio-app" class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-6 text-left max-w-full">
+                <h1
+                    class="text-5xl md:text-6xl xl:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-6 pb-1 pr-1">
+                    Mi espacio
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-medium">
+                    Lleva el control y el progreso de todos tus animes, guarda tus favoritos, anota los próximos para ver y organízalos en tus propias listas.
+                </p>
+            </div>
+
+            <div class="relative w-full mb-6">
+                <svg class="w-4 h-4 text-slate-500 absolute left-3 top-3.5 pointer-events-none" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input autocomplete="off" type="text" id="mi-espacio-buscar" placeholder="Buscar en tu lista..."
+                    class="anilist-input pl-9 w-full max-w-sm bg-gray-800/50 border-white/10">
+            </div>
+
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mb-6 text-[11px] text-gray-500">
+                <span>⚠️ Esta lista se guarda solo en este navegador: si borras sus datos o cambias de dispositivo, la pierdes.</span>
+                <button onclick="miEspacioExportar()" class="text-gray-400 hover:text-white underline transition-colors">Exportar copia</button>
+                <label class="text-gray-400 hover:text-white underline transition-colors cursor-pointer">
+                    Importar copia
+                    <input type="file" accept="application/json" class="hidden" onchange="miEspacioImportar(this.files[0]); this.value='';">
+                </label>
+            </div>
+
+            <div class="relative w-full mb-10 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex flex-wrap items-center gap-3">
+                    <button data-tab-espacio="quiero_ver"
+                        class="anilist-input flex items-center gap-2 bg-gray-800/50 border-white/10 text-gray-400 font-bold uppercase text-xs tracking-widest transition-all">
+                        Pendiente
+                        <span data-tab-count="quiero_ver"
+                            class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">0</span>
+                    </button>
+                    <button data-tab-espacio="viendo"
+                        class="anilist-input flex items-center gap-2 bg-gray-800/50 border-white/10 text-gray-400 font-bold uppercase text-xs tracking-widest transition-all">
+                        Viendo
+                        <span data-tab-count="viendo" class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">0</span>
+                    </button>
+                    <button data-tab-espacio="vistos"
+                        class="anilist-input flex items-center gap-2 bg-gray-800/50 border-white/10 text-gray-400 font-bold uppercase text-xs tracking-widest transition-all">
+                        Completado
+                        <span data-tab-count="vistos" class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">0</span>
+                    </button>
+                    <button data-tab-espacio="favoritos"
+                        class="anilist-input flex items-center gap-2 bg-gray-800/50 border-white/10 text-gray-400 font-bold uppercase text-xs tracking-widest transition-all">
+                        Favoritos
+                        <span data-tab-count="favoritos" class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">0</span>
+                    </button>
+                    <button data-tab-espacio="listas"
+                        class="anilist-input flex items-center gap-2 bg-gray-800/50 border-white/10 text-gray-400 font-bold uppercase text-xs tracking-widest transition-all">
+                        Listas
+                        <span data-tab-count="listas" class="bg-white/10 rounded-full px-2 py-0.5 text-[10px]">0</span>
+                    </button>
+                    <button data-tab-espacio="total"
+                        class="flex items-center gap-1.5 px-3 py-2 text-gray-600 hover:text-gray-400 font-bold uppercase text-xs tracking-widest transition-colors">
+                        Total
+                        <span data-tab-count="total">0</span>
+                    </button>
+                </div>
+
+                <div class="custom-dropdown" id="dropdown-orden" style="width: 190px;">
+                    <div class="dropdown-trigger bg-gray-800/50 border-white/10">Más recientes</div>
+                    <div class="dropdown-options bg-gray-900/90 backdrop-blur-xl border-white/10">
+                        <div class="dropdown-option" data-criterio="reciente">Más recientes</div>
+                        <div class="dropdown-option" data-criterio="alfabetico" data-dir="asc">Alfabéticamente ↑</div>
+                        <div class="dropdown-option" data-criterio="fecha" data-dir="desc">Fecha ↓</div>
+                        <div class="dropdown-option" data-criterio="popularidad" data-dir="desc">Popularidad ↓</div>
+                        <div class="dropdown-option" data-criterio="valoracion" data-dir="desc">Valoración ↓</div>
+                        <div class="dropdown-option" data-criterio="mi_puntuacion" data-dir="desc">Tu puntuación ↓</div>
+                    </div>
+                    <input type="hidden" id="filter-orden" value="reciente">
+                </div>
+            </div>
+
+            <div id="mi-espacio-listas-bar" class="hidden mb-8"></div>
+
+            <div id="mi-espacio-grid"class="relative z-10 min-h-[300px]"></div>
+
+            <div id="mi-espacio-empty" class="hidden flex flex-col items-center justify-center py-20 opacity-40">
+                <span class="text-6xl mb-4">🗂️</span>
+                <p id="mi-espacio-empty-title" class="font-black uppercase tracking-[0.3em] text-white">Todavía no hay nada aquí</p>
+                <p id="mi-espacio-empty-text" class="text-sm text-gray-400 mt-2 max-w-md text-center">
+                    Abre una franquicia desde <a href="../descubrir/index.html" class="text-white underline hover:text-cyan-400 transition-colors">Descubrir</a>
+                    o <a href="../franquicias/index.html" class="text-white underline hover:text-cyan-400 transition-colors">Franquicias</a>
+                    y añádela a Pendiente, Viendo o Completado.
+                </p>
+            </div>
+
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>

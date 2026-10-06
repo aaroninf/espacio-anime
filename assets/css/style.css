@@ -1,0 +1,287 @@
+/* ==========================================================================
+   1. Glassmorfismo Espacial Premium (60% - La Base)
+   2. Bento Box UI (30% - La Estructura)
+   3. Sci-Fi Minimalista (10% - Los Detalles)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES Y CONFIGURACIÓN BASE
+   -------------------------------------------------------------------------- */
+:root { 
+    --neon-cyan: #06b6d4;          
+    --neon-cyan-rgb: 6, 182, 212; 
+    --space-dark: #0b1622;         
+    --space-panel: #151f2e;        
+    --text-silver: #9fadbd;        
+    --text-white: #ffffff;         
+}
+
+body {
+    overflow-x: hidden;
+    background: radial-gradient(circle at top, #1a2639 0%, #111827 40%, var(--space-dark) 100%);
+    background-attachment: fixed;
+    color: var(--text-silver);
+}
+
+/* --------------------------------------------------------------------------
+   2. TARJETAS BASE (Glassmorfismo)
+   Se aplica a: Biblioteca, Estrenos y Novedades
+   -------------------------------------------------------------------------- */
+.cyber-card,
+#novedades-container > div,
+.estreno-card {
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    background: rgba(31, 41, 55, 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    border-radius: 16px;
+    flex-shrink: 0;
+}
+
+/* Efecto Hover Premium (Brillo blanco puro) */
+.cyber-card:hover,
+#novedades-container > div:hover,
+.estreno-card:hover {
+    border-color: #ffffff !important;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.05) translateY(-8px) !important;
+    z-index: 100;
+    background: rgba(31, 41, 55, 0.85);
+}
+
+/* --------------------------------------------------------------------------
+   3. CARRUSEL DE ESTRENOS (Novedades)
+   Controla el scroll magnético y el número de tarjetas visibles
+   -------------------------------------------------------------------------- */
+#novedades-container {
+    scroll-snap-type: x mandatory; 
+}
+
+#novedades-container > div {
+    scroll-snap-align: start; 
+    /* 4 tarjetas exactas con gap-8 (32px). 3 huecos * 32 = 96px / 4 = 24px a restar */
+    flex: 0 0 calc(25% - 24px) !important; 
+}
+
+@media (max-width: 1024px) {
+    #novedades-container > div { flex: 0 0 calc(33.333% - 21px) !important; /* 3 tarjetas Tablet */ }
+}
+
+@media (max-width: 768px) {
+    #novedades-container > div { flex: 0 0 calc(50% - 16px) !important; /* 2 tarjetas Móvil */ }
+}
+
+@media (max-width: 480px) {
+    #novedades-container > div { flex: 0 0 85% !important; /* 1 tarjeta Móvil pequeño */ }
+}
+
+/* --------------------------------------------------------------------------
+   4. SISTEMA DE VISTAS (Biblioteca)
+   Controla cómo se ven las tarjetas según el botón seleccionado (Grid/Lista/Compacta)
+   -------------------------------------------------------------------------- */
+/* VISTA GRID (Por defecto) */
+.vista-grid .cyber-card { flex-direction: column; height: 100%; }
+.vista-grid .h-cover { height: 280px; width: 100%; position: relative; }
+.vista-grid .h-cover img { width: 100%; height: 100%; object-fit: cover; }
+.vista-grid .card-info-container { padding: 16px; }
+.vista-grid .card-title { font-size: 14px; line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; color: var(--text-white); text-transform: uppercase; font-weight: 900; }
+.list-label { display: none; font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; letter-spacing: 0.1em; margin-bottom: 2px; }
+.list-data { display: none; color: var(--text-white); font-weight: 600; font-size: 13px; }
+
+/* VISTA LISTA (Filas horizontales) */
+.vista-lista { display: flex !important; flex-direction: column; gap: 15px; align-items: center; }
+.vista-lista .cyber-card { flex-direction: row !important; height: auto !important; min-height: 120px; width: 100%; max-width: 1200px; align-items: center; padding-right: 20px; }
+.vista-lista .h-cover { width: 110px !important; height: 100% !important; flex-shrink: 0; position: relative; }
+.vista-lista .h-cover img { width: 100%; height: 100%; object-fit: cover; }
+.vista-lista .card-info-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; padding: 10px 30px; gap: 10px; }
+.vista-lista .list-label, .vista-lista .list-data { display: block; }
+.vista-lista .info-row-main { display: grid; grid-template-columns: 2.5fr 1fr 1fr; gap: 20px; align-items: center; }
+.vista-lista .info-row-sub { display: flex; gap: 40px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 8px; margin-top: 5px; }
+.vista-lista .card-title { font-size: 20px !important; margin: 0; color: var(--text-white); font-weight: 900; }
+
+/* VISTA COMPACTA (Grid denso) */
+.vista-compacta { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; gap: 15px !important; }
+.vista-compacta .cyber-card { flex-direction: column; }
+.vista-compacta .h-cover { height: 180px !important; }
+.vista-compacta .card-info-container { padding: 10px; text-align: center; }
+.vista-compacta .info-row-sub, .vista-compacta .format-block, .vista-compacta .year-block { display: none; }
+.vista-compacta .card-title { font-size: 11px !important; color: #cbd5e1; }
+
+/* --------------------------------------------------------------------------
+   5. UI Y COMPONENTES (Filtros, Dropdowns, Scrollbars)
+   -------------------------------------------------------------------------- */
+/* Barra de filtros superior */
+.anilist-filter-bar { background: var(--space-panel); border-radius: 12px; padding: 15px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 15px; margin-bottom: 30px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); position: relative; z-index: 50; }
+.anilist-input, .dropdown-trigger { background: var(--space-dark); color: var(--text-silver); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 16px; font-weight: bold; font-size: 13px; outline: none; transition: all 0.3s;}
+
+.anilist-input:hover, .anilist-input:focus, .dropdown-trigger:hover { background: #1f2937; color: var(--text-white); border-color: #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
+.btn-reset-dark { background: var(--space-dark); color: var(--text-silver); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: all 0.2s; font-size: 16px; }
+.btn-reset-dark:hover { background: #1f2937; color: var(--text-white); transform: scale(1.05); border-color: #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
+
+/* Flechas ← → de navegación entre fichas de franquicia */
+.ficha-nav-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--space-dark);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: white;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    transition: all 0.2s;
+}
+.ficha-nav-arrow:hover { background: #1f2937; color: white; border-color: #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); transform: translateY(-50%) scale(1.08); }
+/* A medio camino entre el borde de la pantalla y el borde de la ficha (900px), no pegadas a ninguno de los dos */
+.ficha-nav-prev { left: clamp(16px, calc((100vw - 900px) / 4), 220px); }
+.ficha-nav-next { right: clamp(16px, calc((100vw - 900px) / 4), 220px); }
+@media (max-width: 1100px) {
+    .ficha-nav-arrow { width: 52px; height: 52px; font-size: 1.6rem; }
+}
+@media (max-width: 640px) {
+    .ficha-nav-arrow { width: 42px; height: 42px; font-size: 1.3rem; }
+}
+
+/* Numerito de posición en las tarjetas de Franquicias, solo visible cuando el
+   orden activo es un ranking real (Más populares / Mejor valoradas). */
+.rank-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 6px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 22, 34, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(4px);
+}
+
+/* Ocultar flechas en inputs numéricos */
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* Dropdowns personalizados */
+.custom-dropdown { position: relative; font-size: 13px; font-weight: 700; min-width: 140px; }
+.dropdown-trigger { cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dropdown-trigger::after { content: '▼'; font-size: 8px; margin-left: 8px; opacity: 0.7; flex-shrink: 0; }
+
+.dropdown-options { position: absolute; top: 110%; left: 0; width: 100%; background: var(--space-panel); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 1000; display: none; padding: 5px; }
+.dropdown-options.show { display: block; animation: fadeIn 0.2s ease; }
+.dropdown-option { padding: 8px 12px; border-radius: 6px; cursor: pointer; color: #cbd5e1; transition: all 0.2s; white-space: nowrap; }
+.dropdown-option:hover { background: rgba(255, 255, 255, 0.1) !important; color: #ffffff !important; }
+
+#dropdown-genre .dropdown-options { max-height: 280px !important; overflow-y: auto !important; overflow-x: hidden !important; padding-right: 8px !important; }
+
+/* Scrollbars Globales y Específicos */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
+
+.custom-scrollbar::-webkit-scrollbar, .scroll-aislado::-webkit-scrollbar, .sinopsis-container::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track, .scroll-aislado::-webkit-scrollbar-track, .sinopsis-container::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb, .scroll-aislado::-webkit-scrollbar-thumb, .sinopsis-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover, .scroll-aislado::-webkit-scrollbar-thumb:hover, .sinopsis-container::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
+
+/* Clases utilitarias y animaciones */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --------------------------------------------------------------------------
+   7. FICHA DE FRANQUICIA
+   Estructura de la página de ficha individual (pages/franquicias/ficha.html)
+   -------------------------------------------------------------------------- */
+.modal-content-franq { background: var(--space-panel); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 30px; box-shadow: 0 10px 60px rgba(0,0,0,0.9); animation: fadeIn 0.3s ease-out; }
+
+/* Estructura Modal */
+.modal-header-franq { display: flex; gap: 25px; margin-bottom: 30px; align-items: stretch; }
+.modal-left-column { width: 180px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
+.modal-left-column img { width: 100%; height: 260px; border-radius: 10px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+.botones-container { display: flex; flex-direction: column; gap: 8px; }
+
+.modal-right-column { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; max-height: 350px; }
+.modal-right-column h2 { color: var(--text-white); margin-top: 0; font-size: 28px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; line-height: 1.1; }
+
+/* Tipografía y Etiquetas */
+.modal-tags-franq { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; margin-bottom: 8px; }
+.modal-tags-franq span { background: rgba(255,255,255, 0.05); color: var(--text-white); padding: 5px 12px; border-radius: 5px; font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255, 0.1); }
+.modal-metadata { font-size: 16px; font-weight: bold; color: var(--text-silver); margin-bottom: 15px; }
+.sinopsis-container p { font-size: 13px; line-height: 1.6; color: var(--text-silver); margin: 0; }
+
+/* Solo móvil: en pantallas estrechas, .modal-left-column (180px fijos) dejaba casi sin
+   sitio a .modal-right-column, y su overflow:hidden + max-height:350px recortaba el
+   título y la sinopsis a mitad de palabra en vez de ajustarse. En escritorio no cambia nada. */
+@media (max-width: 640px) {
+  .modal-header-franq { flex-direction: column; }
+  .modal-left-column { width: 100%; }
+  .modal-left-column img { height: auto; aspect-ratio: 2 / 3; max-height: 340px; }
+  .modal-right-column { max-height: none; overflow: visible; }
+  .sinopsis-container { max-height: 140px; overflow-y: auto; }
+}
+
+/* Contenido (Entradas Relacionadas) */
+.modal-body-franq h2 { color: var(--text-white); margin-bottom: 15px; font-size: 18px; font-weight: bold; border-left: 4px solid #ffffff; padding-left: 10px; }
+.entradas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+
+.entrada-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.3s; }
+.entrada-card:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+.entrada-card h4 { margin: 0; color: #e5e7eb; font-size: 15px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.entrada-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-silver); font-weight: bold; }
+.entrada-links { display: flex; gap: 10px; margin-top: auto; padding-top: 10px; }
+
+/* Botones Modal */
+.entrada-links a { flex: 1; text-align: center; padding: 8px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; transition: 0.3s; }
+.btn-ver { background: #ffffff; color: #000000; box-shadow: 0 0 10px rgba(255,255,255, 0.3); }
+.btn-ver:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255,255,255, 0.6); }
+.btn-comprar { background: transparent; border: 1px solid #ffffff; color: #ffffff; }
+.btn-comprar:hover { background: rgba(255,255,255, 0.1); }
+
+/* --------------------------------------------------------------------------
+   8. HERRAMIENTA AFINIDAD
+   -------------------------------------------------------------------------- */
+.screen { display: none; opacity: 0; width: 100%; animation: fadeInAfinidad 0.35s ease-out forwards; }
+.screen.active { display: flex; }
+@keyframes fadeInAfinidad { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.app-shell { width: 100%; min-height: 690px; height: 690px; display: flex; flex-direction: column; }
+.question-badge { color: rgb(107 114 128); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; }
+.question-heading { font-size: 1.5rem; line-height: 1.2; font-weight: 900; color: white; text-align: center; margin-bottom: 1.5rem; }
+
+.option-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: rgb(209 213 219); font-weight: 700; border-radius: 0.75rem; transition: all 0.25s ease; text-align: center; }
+.option-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.35); color: white; transform: translateY(-0.2rem); box-shadow: 0 0 18px rgba(255, 255, 255, 0.08); }
+
+.back-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.6rem 0.9rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.03); color: rgb(203 213 225); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; transition: all 0.25s ease; }
+.back-btn:hover { background: rgba(255, 255, 255, 0.08); color: white; border-color: rgba(255, 255, 255, 0.2); }
+
+.tool-frame { width: 100%; max-width: 460px; margin-right: auto; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2rem; padding: 1.75rem; background: transparent; min-height: 690px; height: 100%; }
+.editorial-icon { width: 2.75rem; height: 2.75rem; flex-shrink: 0; border-radius: 999px; display: flex; align-items: center; justify-content: center; margin-top: 0.15rem; color: white; }
+.result-card { width: 100%; max-width: 320px; margin: 0 auto; text-align: center; }
+
+@media (max-width: 1279px) {
+    .app-shell { min-height: 600px; height: 100%; }
+    .tool-frame { min-height: auto; height: auto; }
+}

@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franquicias | Espacio Anime</title>
+    <meta name="description" content="Catálogo de franquicias de anime: cada saga en una sola ficha con sus temporadas y películas, filtros por género, año y plataforma, y dónde verla.">
+    <link rel="icon" href="../../assets/img/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../../assets/img/favicon/favicon.ico" sizes="32x32">
+    <link rel="apple-touch-icon" href="../../assets/img/favicon/apple-touch-icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Espacio Anime">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:title" content="Franquicias | Espacio Anime">
+    <meta property="og:description" content="Catálogo de franquicias de anime: cada saga en una sola ficha con sus temporadas y películas, filtros por género, año y plataforma, y dónde verla.">
+    <meta property="og:url" content="https://aaroninf.github.io/espacio-anime/pages/franquicias/">
+    <meta property="og:image" content="https://aaroninf.github.io/espacio-anime/assets/img/fondo/fondo1.webp">
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+    .switching-view,
+    .switching-view * {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    /* Vista principal: mismo comportamiento que Descubrir, pero centrado */
+    #contenedor-animes.vista-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem 1.5rem;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    #contenedor-animes.vista-grid > .franquicia-card {
+        width: 220px;
+        flex: 0 0 220px;
+    }
+
+    /* Vista lista */
+    #contenedor-animes.vista-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Vista lista: estructura de la fila en CSS directo, no con las clases de Tailwind
+       que llevaba antes (esas se generan de forma dinámica por el CDN y no se estaban
+       aplicando de forma fiable con varias variantes condicionales apiladas en el
+       mismo elemento). Con !important para que gane pase lo que pase, sin depender de
+       en qué orden cargue cada hoja de estilos. */
+    #contenedor-animes.vista-lista .franquicia-card {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    #contenedor-animes.vista-lista .lista-img {
+        width: 96px !important;
+        flex-shrink: 0 !important;
+    }
+
+    @media (min-width: 768px) {
+        #contenedor-animes.vista-lista .lista-img {
+            width: 128px !important;
+        }
+    }
+
+    #contenedor-animes.vista-lista .lista-content {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    #contenedor-animes.vista-lista .lista-info {
+        flex: 1 1 0% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        padding-right: 1rem !important;
+        box-sizing: border-box !important;
+    }
+
+    #contenedor-animes.vista-lista .lista-title {
+        display: block !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+    }
+
+    /* Solo móvil: el bloque Entradas/Año de la vista lista tiene ancho fijo y no se
+       encoge, así que en pantallas estrechas empujaba el título/sinopsis fuera del
+       recuadro. Se oculta por debajo de 768px; en escritorio no cambia nada. */
+    @media (max-width: 767px) {
+        #contenedor-animes.vista-lista .lista-stats {
+            display: none !important;
+        }
+    }
+
+    /* Vista mini: mismo concepto, sin deformarse */
+    #contenedor-animes.vista-compacta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    #contenedor-animes.vista-compacta > .franquicia-card {
+        width: 140px;
+        flex: 0 0 140px;
+    }
+</style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans selection:bg-slate-500 selection:text-white" id="top">
+    <div id="include-nav"></div>
+
+    <main class="pt-28 pb-20">
+        <section id="franquicias" class="container mx-auto px-4 relative z-10">
+
+            <div class="mb-6 text-left max-w-full">
+                <h1
+                    class="text-5xl md:text-6xl xl:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 inline-block w-fit uppercase tracking-tighter drop-shadow-lg mb-6 pb-1 pr-1">
+                    Franquicias
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-full leading-relaxed font-medium">
+                    Explora sagas, consulta fichas y encuentra fácilmente dónde ver cada anime con nuestro catálogo.
+                </p>
+            </div>
+
+            <div id="catalogo" class="scroll-mt-32 relative">
+                <div class="relative z-10">
+
+                    <div class="relative w-full mb-8 mt-6 z-50">
+                        <div
+                            class="anilist-filter-bar bg-gray-900/40 backdrop-blur-xl border border-white/10 flex flex-wrap items-center gap-3 w-full px-4 pt-6 pb-4 rounded-xl relative z-40 shadow-2xl">
+
+                            <div class="relative group">
+                                <svg class="w-4 h-4 text-slate-500 absolute left-3 top-3.5 pointer-events-none"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                <input autocomplete="off" type="text" id="search-input"
+                                    placeholder="Buscar franquicia..."
+                                    class="anilist-input pl-9 w-56 bg-gray-800/50 backdrop-blur-md border-white/10">
+                            </div>
+
+                            <div class="custom-dropdown" id="dropdown-genre" style="width: 210px;">
+                                <div class="dropdown-trigger bg-gray-800/50 border-white/10">Géneros</div>
+                                <div
+                                    class="dropdown-options bg-gray-900/90 backdrop-blur-xl border-white/10 max-h-60 overflow-y-auto">
+                                    <div class="dropdown-option" data-value="">Todos</div>
+                                    <div class="dropdown-option" data-value="Acción,Aventura">Acción y Aventura</div>
+                                    <div class="dropdown-option" data-value="Comedia,Ecchi">Comedia</div>
+                                    <div class="dropdown-option" data-value="Drama,Psicológico">Drama y Psicológico</div>
+                                    <div class="dropdown-option" data-value="Fantasía,Sobrenatural">Fantasía y Sobrenatural</div>
+                                    <div class="dropdown-option" data-value="Romance">Romance</div>
+                                    <div class="dropdown-option" data-value="Recuerdos de la vida">Vida Cotidiana</div>
+                                    <div class="dropdown-option" data-value="Misterio,Thriller">Misterio</div>
+                                    <div class="dropdown-option" data-value="Ciencia Ficción">Ciencia Ficción</div>
+                                    <div class="dropdown-option" data-value="Terror">Terror</div>
+                                    <div class="dropdown-option" data-value="Deportes">Deportes</div>
+                                </div>
+                                <input type="hidden" id="filter-genre" value="">
+                            </div>
+
+                            <input type="number" id="filter-year" placeholder="Año" min="1900" max="2030"
+                                class="anilist-input w-20 text-center px-2 bg-gray-800/50 border-white/10">
+
+                            <div class="custom-dropdown" id="dropdown-format" style="width: 120px;">
+                                <div class="dropdown-trigger bg-gray-800/50 border-white/10">Formato</div>
+                                <div class="dropdown-options bg-gray-900/90 backdrop-blur-xl border-white/10">
+                                    <div class="dropdown-option" data-value="">Todos</div>
+                                    <div class="dropdown-option" data-value="Serie TV">Serie TV</div>
+                                    <div class="dropdown-option" data-value="Película">Película</div>
+                                    <div class="dropdown-option" data-value="ONA">ONA</div>
+                                    <div class="dropdown-option" data-value="OVA">OVA</div>
+                                </div>
+                                <input type="hidden" id="filter-format" value="">
+                            </div>
+
+                            <div class="custom-dropdown" id="dropdown-platform" style="width: 190px;"
+                                title="&quot;Sin plataforma principal&quot; = no disponible en Crunchyroll, Netflix, Disney+, Prime Video ni YouTube. Puede estar en otras plataformas (alquiler, Filmin, etc.).">
+                                <div class="dropdown-trigger bg-gray-800/50 border-white/10">Plataforma</div>
+                                <div
+                                    class="dropdown-options bg-gray-900/90 backdrop-blur-xl border-white/10 max-h-60 overflow-y-auto">
+                                    <div class="dropdown-option" data-value="">Todas</div>
+                                    <div class="dropdown-option" data-value="Crunchyroll">Crunchyroll</div>
+                                    <div class="dropdown-option" data-value="Netflix">Netflix</div>
+                                    <div class="dropdown-option" data-value="Disney">Disney+</div>
+                                    <div class="dropdown-option" data-value="Prime">Prime Video</div>
+                                    <div class="dropdown-option" data-value="YouTube">YouTube</div>
+                                    <div class="dropdown-option" data-value="Sin plataforma principal">Sin plataforma principal</div>
+                                </div>
+                                <input type="hidden" id="filter-platform" value="">
+                            </div>
+
+                            <div class="custom-dropdown" id="dropdown-status" style="width: 140px;">
+                                <div class="dropdown-trigger bg-gray-800/50 border-white/10">Estado</div>
+                                <div class="dropdown-options bg-gray-900/90 backdrop-blur-xl border-white/10">
+                                    <div class="dropdown-option" data-value="">Todos</div>
+                                    <div class="dropdown-option" data-value="En Emisión">En Emisión</div>
+                                    <div class="dropdown-option" data-value="Finalizado">Finalizado</div>
+                                    <div class="dropdown-option" data-value="Próximamente">Próximamente</div>
+                                </div>
+                                <input type="hidden" id="filter-status" value="">
+                            </div>
+
+                            <div class="custom-dropdown" id="dropdown-sort" style="width: 160px;">
+                                <div class="dropdown-trigger bg-gray-800/50 border-white/10">Aleatorio</div>
+                                <div class="dropdown-options bg-gray-900/90 backdrop-blur-xl border-white/10">
+                                    <div class="dropdown-option" data-criterio="default">Aleatorio</div>
+                                    <div class="dropdown-option" data-criterio="alfabetico" data-dir="asc">Alfabéticamente ↑</div>
+                                    <div class="dropdown-option" data-criterio="fecha" data-dir="desc">Fecha ↓</div>
+                                    <div class="dropdown-option" data-criterio="popularidad" data-dir="desc">Popularidad ↓</div>
+                                    <div class="dropdown-option" data-criterio="valoracion" data-dir="desc">Valoración ↓</div>
+                                </div>
+                                <input type="hidden" id="filter-sort" value="default">
+                            </div>
+
+                            <button id="reset-filters" class="btn-reset-dark bg-gray-800/50 border-white/10"
+                                title="Limpiar todo">✕</button>
+
+                            <div class="flex-grow"></div>
+
+                            <div
+                                class="flex bg-gray-900/50 backdrop-blur-md rounded-lg p-1 gap-1 border border-white/10">
+                                <button onclick="cambiarVista('grid')"
+                                    class="p-2 rounded hover:bg-white/10 text-slate-400 hover:text-cyan-400 transition"
+                                    title="Cuadrícula">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z" />
+                                    </svg>
+                                </button>
+                                <button onclick="cambiarVista('lista')"
+                                    class="p-2 rounded hover:bg-white/10 text-slate-400 hover:text-cyan-400 transition"
+                                    title="Lista">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+                                    </svg>
+                                </button>
+                                <button onclick="cambiarVista('compacta')"
+                                    class="p-2 rounded hover:bg-white/10 text-slate-400 hover:text-cyan-400 transition"
+                                    title="Mini">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M4 4h2v2H4zm4 0h2v2H8zm4 0h2v2h-2zm4 0h2v2h-2zm-12 4h2v2H4zm4 0h2v2H8zm4 0h2v2h-2zm4 0h2v2h-2zm-12 4h2v2H4zm4 0h2v2H8zm4 0h2v2h-2zm4 0h2v2h-2z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contenedor-animes"
+                        class="vista-grid relative z-10 min-h-[300px]">
+                    </div>
+
+                    <div id="pagination-controls" class="flex justify-center items-center gap-6 mt-16 mb-20 w-full">
+                    </div>
+
+                    <div id="no-results" class="hidden flex flex-col items-center justify-center py-20 opacity-40">
+                        <span class="text-6xl mb-4">🛸</span>
+                        <p class="font-black uppercase tracking-[0.3em] text-white">Sin resultados</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+
+    <div id="include-footer"></div>
+
+    <script type="module" src="../../assets/js/script.js"></script>
+</body>
+
+</html>

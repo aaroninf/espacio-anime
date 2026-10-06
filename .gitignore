@@ -1,0 +1,26 @@
+# Configuración local de Claude Code (específica de este ordenador, no del proyecto)
+.claude/
+
+# Capturas de pantalla usadas para depurar durante el desarrollo, no parte del sitio
+capturas/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Base de datos completa (archivo grande, no necesario para el sitio)
+assets/data/animes.bbdd.completa.json
+
+# Backups locales
+assets/data/animes.BACKUP.json
+assets/data/backup/
+
+# Imágenes de trabajo no usadas en el sitio
+assets/img/afinidad1.jfif
+assets/img/afinidad1.jpg
+assets/img/afinidad2.jfif
+assets/img/afinidad2.jpg
+
+# Archivos de configuración de Claude Code (no parte del sitio)
+CLAUDE.md
+documentos/
