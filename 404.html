@@ -8,6 +8,12 @@
          así que las rutas relativas se resuelven desde la raíz del sitio: /espacio-anime/ en GitHub Pages
          y / con dominio propio (o en local). -->
     <script>
+        // Red de seguridad: si una franquicia nueva aún no tiene su página generada
+        // (tools/generar-fichas.mjs), se abre con la ficha genérica.
+        (function () {
+            var m = location.pathname.match(/^(.*\/pages\/franquicias\/)([a-z0-9-]+)\.html$/);
+            if (m && m[2] !== 'index' && m[2] !== 'ficha') location.replace(m[1] + 'ficha.html?id=' + m[2]);
+        })();
         document.write('<base href="' + (location.hostname.endsWith('github.io') ? '/espacio-anime/' : '/') + '">');
     </script>
     <title>Página no encontrada | Espacio Anime</title>

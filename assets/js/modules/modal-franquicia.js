@@ -236,7 +236,10 @@ export async function initModalFranquicia() {
   const root = document.getElementById('ficha-app');
   if (!root) return;
 
-  const idFranquicia = new URLSearchParams(window.location.search).get('id');
+  // Cada franquicia tiene su propia página (pages/franquicias/<id>.html,
+  // generada con tools/generar-fichas.mjs) que lleva el id en data-franquicia.
+  // ficha.html?id=... se mantiene como respaldo para enlaces antiguos.
+  const idFranquicia = root.dataset.franquicia || new URLSearchParams(window.location.search).get('id');
 
   if (!idFranquicia) {
     document.getElementById('ficha-contenido')?.classList.add('hidden');
@@ -284,6 +287,11 @@ function bindBackButton() {
   }
 }
 
+// Página propia de cada franquicia, relativa a pages/franquicias/.
+function urlFicha(idFranquicia) {
+  return `${encodeURIComponent(idFranquicia)}.html`;
+}
+
 // Navega a la ficha de la franquicia. Se mantiene este nombre porque se usa
 // desde onclick="abrirModalFranquicia(...)" en decenas de páginas ya existentes.
 export function abrirModalFranquicia(idFranquicia) {
@@ -304,7 +312,7 @@ export function abrirModalFranquicia(idFranquicia) {
   // lista…), así que un solo salto de "← Atrás" basta para volver a ella.
   sessionStorage.setItem(DEPTH_STORAGE_KEY, '1');
 
-  window.location.href = resolvePath(`pages/franquicias/ficha.html?id=${encodeURIComponent(idFranquicia)}`);
+  window.location.href = resolvePath(`pages/franquicias/${urlFicha(idFranquicia)}`);
 }
 
 // Pinta (o esconde) las flechas ← → de la ficha según el contexto de
@@ -333,11 +341,11 @@ function renderNavArrows(idFranquicia) {
   prevBtn.classList.toggle('hidden', !prevId);
   nextBtn.classList.toggle('hidden', !nextId);
   if (prevId) {
-    prevBtn.href = `ficha.html?id=${encodeURIComponent(prevId)}`;
+    prevBtn.href = urlFicha(prevId);
     prevBtn.addEventListener('click', marcarSaltoAntesDeNavegar);
   }
   if (nextId) {
-    nextBtn.href = `ficha.html?id=${encodeURIComponent(nextId)}`;
+    nextBtn.href = urlFicha(nextId);
     nextBtn.addEventListener('click', marcarSaltoAntesDeNavegar);
   }
 }
