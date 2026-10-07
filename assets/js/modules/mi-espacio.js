@@ -39,7 +39,7 @@ function upsertEntry(id, changes) {
 
 function limpiarSiVacio(store, id) {
   const entry = store[id];
-  if (entry && !entry.estado && !entry.favorito) {
+  if (entry && !entry.estado && !entry.favorito && !entry.noMeGusta) {
     delete store[id];
   }
 }
@@ -64,6 +64,20 @@ export function toggleFavorito(id) {
   const store = getStore();
   const current = store[id] || { estado: null, favorito: false };
   current.favorito = !current.favorito;
+  if (current.favorito) current.noMeGusta = false; // Favorito y No me gusta se excluyen.
+  current.actualizado = Date.now();
+  store[id] = current;
+  limpiarSiVacio(store, id);
+  saveStore(store);
+}
+
+// "No me gusta" funciona como Favorito (independiente del estado), pero al revés:
+// no oculta nada del catálogo, solo hace que Afinidad no lo recomiende.
+export function toggleNoMeGusta(id) {
+  const store = getStore();
+  const current = store[id] || { estado: null, favorito: false };
+  current.noMeGusta = !current.noMeGusta;
+  if (current.noMeGusta) current.favorito = false;
   current.actualizado = Date.now();
   store[id] = current;
   limpiarSiVacio(store, id);
@@ -226,6 +240,7 @@ function limpiarHuerfanas(animes) {
 
 window.miEspacioToggleEstado = toggleEstado;
 window.miEspacioToggleFavorito = toggleFavorito;
+window.miEspacioToggleNoMeGusta = toggleNoMeGusta;
 window.miEspacioQuitar = quitarDeLista;
 window.miEspacioSetValoracion = setValoracion;
 window.miEspacioSetNota = setNota;
@@ -278,6 +293,18 @@ function notaTextarea(idFranquicia, setter, placeholder, valor, icono) {
         </div>`;
 }
 
+// Manita abajo (mismo icono que en la ficha); rellena cuando está marcada.
+const PATH_NO_ME_GUSTA = 'M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17';
+
+function botonNoMeGusta(idFranquicia, activo) {
+  return `<button onclick="miEspacioToggleNoMeGusta('${idFranquicia}')" title="No me gusta" aria-label="No me gusta"
+            class="${activo ? 'text-gray-200' : 'text-gray-600'} hover:text-gray-300 transition-colors">
+            <svg class="w-4 h-4" fill="${activo ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="${PATH_NO_ME_GUSTA}" />
+            </svg>
+          </button>`;
+}
+
 function renderCard(idFranquicia, data, anime) {
   const valoracionHtml = `<div class="mt-3">${notaWidget(idFranquicia, data.valoracion || 0)}</div>`;
   // En Viendo la nota se parte en dos líneas; en el resto de estados es una nota libre.
@@ -303,6 +330,7 @@ function renderCard(idFranquicia, data, anime) {
             class="text-lg leading-none ${data.favorito ? 'text-red-500' : 'text-gray-600'} hover:text-red-400 transition-colors">
             ${data.favorito ? '♥' : '♡'}
           </button>
+          ${botonNoMeGusta(idFranquicia, data.noMeGusta)}
           <button onclick="miEspacioQuitar('${idFranquicia}')"
             class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
             Quitar
@@ -341,6 +369,7 @@ function renderCardLista(idFranquicia, data, anime, listaId) {
             class="text-lg leading-none ${data.favorito ? 'text-red-500' : 'text-gray-600'} hover:text-red-400 transition-colors">
             ${data.favorito ? '♥' : '♡'}
           </button>
+          ${botonNoMeGusta(idFranquicia, data.noMeGusta)}
           <button data-lista-id="${escaparHtml(listaId)}" data-franquicia-id="${idFranquicia}" onclick="miEspacioToggleEnLista(this.dataset.listaId, this.dataset.franquiciaId)"
             class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
             Quitar de la lista
@@ -408,6 +437,7 @@ function contarPorTab() {
     viendo: entries.filter(([, d]) => d.estado === 'viendo').length,
     vistos: entries.filter(([, d]) => d.estado === 'vistos').length,
     favoritos: entries.filter(([, d]) => d.favorito).length,
+    no_me_gusta: entries.filter(([, d]) => d.noMeGusta).length,
     listas: getListas().length,
     total: entries.length,
   };
@@ -509,6 +539,7 @@ function render() {
       .filter(([, data]) => {
         if (activeTab === 'total') return true;
         if (activeTab === 'favoritos') return data.favorito;
+        if (activeTab === 'no_me_gusta') return data.noMeGusta;
         return data.estado === activeTab;
       })
       .map(([id, data]) => ({ id, data, anime: buscarAnime(id), reciente: data.actualizado || 0 })))

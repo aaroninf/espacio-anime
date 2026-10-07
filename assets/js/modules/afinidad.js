@@ -457,9 +457,9 @@ function esFranquiciaValida(franquicia) {
   if (!Array.isArray(franquicia.entradas) || franquicia.entradas.length === 0) return false;
   if (!franquicia.entrada_principal_titulo && !franquicia.entrada_principal_ani_id) return false;
 
-  // No recomendar algo que el usuario ya marcó como Completado o Favorito en Mi espacio.
+  // No recomendar algo que el usuario ya marcó como Completado, Favorito o No me gusta en Mi espacio.
   const guardado = window.miEspacioGetEntry?.(franquicia.id_franquicia);
-  if (guardado?.estado === 'vistos' || guardado?.favorito) return false;
+  if (guardado?.estado === 'vistos' || guardado?.favorito || guardado?.noMeGusta) return false;
 
   return true;
 }

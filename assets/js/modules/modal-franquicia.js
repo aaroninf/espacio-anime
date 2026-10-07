@@ -39,6 +39,7 @@ function renderMiEspacioBar(idFranquicia) {
   const guardado = window.miEspacioGetEntry ? window.miEspacioGetEntry(idFranquicia) : null;
   const estadoActivo = guardado?.estado || null;
   const favoritoActivo = !!guardado?.favorito;
+  const noMeGustaActivo = !!guardado?.noMeGusta;
 
   const botonEstado = (estado, label, svgPaths, activo, colorActivo) => `
     <button onclick="miEspacioToggleEstado('${idFranquicia}','${estado}'); window.dispatchEvent(new Event('ficha:refrescar'));"
@@ -48,10 +49,13 @@ function renderMiEspacioBar(idFranquicia) {
     </button>
   `;
 
-  // Fila de los 4 botones de siempre y, debajo, el botón de Listas (como quinto
-  // icono no cabía bien en móvil).
+  // En escritorio, los 5 botones en una fila; en móvil no caben, así que van los
+  // 3 estados arriba y Favorito/No me gusta debajo (con sm:contents las dos
+  // filas desaparecen y los botones pasan a ser una sola fila). Debajo de todo,
+  // el botón de Listas.
   return `
-    <div class="flex items-center justify-around">
+    <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-around sm:gap-0">
+    <div class="flex items-center justify-around sm:contents">
     ${botonEstado('quiero_ver', 'Pendiente',
       '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
       estadoActivo === 'quiero_ver', 'text-orange-400')}
@@ -61,6 +65,8 @@ function renderMiEspacioBar(idFranquicia) {
     ${botonEstado('vistos', 'Completado',
       '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
       estadoActivo === 'vistos', 'text-emerald-400')}
+    </div>
+    <div class="flex items-center justify-around sm:contents">
     <button onclick="miEspacioToggleFavorito('${idFranquicia}'); window.dispatchEvent(new Event('ficha:refrescar'));"
       class="flex flex-col items-center gap-2 transition-colors ${favoritoActivo ? 'text-red-500' : 'text-[#A0AECA] hover:text-white'}">
       <svg class="w-7 h-7" fill="${favoritoActivo ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,6 +74,14 @@ function renderMiEspacioBar(idFranquicia) {
       </svg>
       <span class="text-[10px] font-bold uppercase tracking-widest">Favorito</span>
     </button>
+    <button onclick="miEspacioToggleNoMeGusta('${idFranquicia}'); window.dispatchEvent(new Event('ficha:refrescar'));"
+      class="flex flex-col items-center gap-2 transition-colors ${noMeGustaActivo ? 'text-gray-200' : 'text-[#A0AECA] hover:text-white'}">
+      <svg class="w-7 h-7" fill="${noMeGustaActivo ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"></path>
+      </svg>
+      <span class="text-[10px] font-bold uppercase tracking-widest">No me gusta</span>
+    </button>
+    </div>
     </div>
     ${renderBotonListas(idFranquicia)}
   `;
