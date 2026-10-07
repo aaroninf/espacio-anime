@@ -1,6 +1,6 @@
-import { getAnimes } from './anime-data.js?v=baaad63634';
-import { abrirModalFranquicia } from './modal-franquicia.js?v=baaad63634';
-import { platformData, resolverEnlaceVer } from './plataformas.js?v=baaad63634';
+import { getAnimes } from './anime-data.js?v=9711ea3d94';
+import { abrirModalFranquicia } from './modal-franquicia.js?v=9711ea3d94';
+import { platformData, resolverEnlaceVer } from './plataformas.js?v=9711ea3d94';
 
 const DEBUG_AFINIDAD = false;
 
@@ -908,12 +908,13 @@ function mostrarResultado(resultado, lanzarCelebracion = true) {
     }
   }
 
-  const { label: streamLabelText, className: streamClassName } = platformData(entradaPrincipal?.plataforma || '');
+  const { label: streamLabelText, className: streamClassName, sinPlataforma } = platformData(entradaPrincipal?.plataforma || '');
 
   if (streamLink) {
     streamLink.style.display = 'flex';
     streamLink.href = link || '#';
-    streamLink.className = `sm:flex-1 py-3.5 text-white font-black uppercase tracking-wider rounded-xl transition-all shadow-lg text-center text-sm flex items-center justify-center gap-2 ${streamClassName}`;
+    streamLink.className = `sm:flex-1 py-3.5 text-white font-black uppercase tracking-wider rounded-xl transition-all shadow-lg text-center text-sm flex items-center justify-center gap-2 ${sinPlataforma ? 'px-3 leading-snug' : ''} ${streamClassName}`;
+    streamLink.title = sinPlataforma ? 'Buscar en Google dónde verlo' : '';
   }
 
   if (streamLabel) {

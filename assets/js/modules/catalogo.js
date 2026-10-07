@@ -1,5 +1,5 @@
-import { getAnimes } from './anime-data.js?v=baaad63634';
-import { obtenerEntradaPrincipal } from './plataformas.js?v=baaad63634';
+import { getAnimes } from './anime-data.js?v=9711ea3d94';
+import { obtenerEntradaPrincipal, esPlataformaPrincipal } from './plataformas.js?v=9711ea3d94';
 
 let allAnimes = [];
 let filteredAnimes = [];
@@ -334,17 +334,17 @@ export function filtrar() {
     // (p. ej. "Acción y Aventura"), guardados como data-value separados por
     // coma: basta con que la franquicia tenga alguno de ellos.
     const matchGenre = !genre || genre.split(',').some((g) => anime.generos?.includes(g));
-    // "Sin plataforma principal" no es un valor real de plataforma en los datos
-    // (los animes sin plataforma confirmada se guardan como "Pendiente"), así que
-    // se resuelve aparte: cualquier entrada principal sin plataforma útil cuenta
-    // como tal. El nombre evita decir "sin streaming en España" o "sin streaming
+    // "Sin plataforma principal" no es un valor real de plataforma en los datos,
+    // así que se resuelve aparte: cuenta toda entrada principal que no esté en
+    // una de las 5 principales (esPlataformaPrincipal), sea "Pendiente" u otra
+    // plataforma de AniList (Tubi, HIDIVE...) — igual que el botón de la ficha. El nombre evita decir "sin streaming en España" o "sin streaming
     // oficial" porque algunas de estas franquicias sí tienen streaming legal en
     // España (Filmin, alquiler...), solo que no en Crunchyroll/Netflix/Disney+/
     // Prime Video/YouTube, que es lo único que este filtro comprueba.
     const matchPlatform = !platform
       ? true
       : platform.toLowerCase() === 'sin plataforma principal'
-        ? !entradaPrincipal.plataforma || entradaPrincipal.plataforma.toLowerCase() === 'pendiente'
+        ? !esPlataformaPrincipal(entradaPrincipal.plataforma)
         : (entradaPrincipal.plataforma || '').toLowerCase().includes(platform.toLowerCase());
     // El formato ya viene calculado a nivel de franquicia (entrada_principal_tipo).
     // "Serie Corta" se trata como "Serie TV" al filtrar: son series de episodios

@@ -1,7 +1,7 @@
-import { getAnimes } from './anime-data.js?v=baaad63634';
-import { platformData, resolverEnlaceVer, obtenerEntradaPrincipal } from './plataformas.js?v=baaad63634';
-import { resolvePath } from './config.js?v=baaad63634';
-import { escaparHtml } from './mi-espacio.js?v=baaad63634';
+import { getAnimes } from './anime-data.js?v=9711ea3d94';
+import { platformData, resolverEnlaceVer, obtenerEntradaPrincipal } from './plataformas.js?v=9711ea3d94';
+import { resolvePath } from './config.js?v=9711ea3d94';
+import { escaparHtml } from './mi-espacio.js?v=9711ea3d94';
 
 export const NAV_STORAGE_KEY = 'ea_ficha_nav_order';
 // Cuántos saltos de flecha ← → separan la ficha actual de la página de
@@ -155,7 +155,7 @@ async function renderFicha(idFranquicia) {
     }
 
     const entradaPrincipal = obtenerEntradaPrincipal(franquicia);
-    const { label, className } = platformData(entradaPrincipal?.plataforma || '');
+    const { label, className, sinPlataforma } = platformData(entradaPrincipal?.plataforma || '');
 
     // TÍTULO DE LA PÁGINA Y SEO
     document.title = `${franquicia.titulo_principal || 'Franquicia'} | Espacio Anime`;
@@ -192,7 +192,7 @@ async function renderFicha(idFranquicia) {
 
     // BOTÓN PRINCIPAL (ver online)
     elements.buttons.innerHTML = `
-      <a href="${watchLink}" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded font-black text-white text-center uppercase text-[11px] tracking-wider shadow-lg ${className}">${label}</a>
+      <a href="${watchLink}" target="_blank" rel="noopener noreferrer" ${sinPlataforma ? 'title="Buscar en Google dónde verlo"' : ''} class="w-full py-2.5 ${sinPlataforma ? 'px-2 leading-snug' : ''} rounded font-black text-white text-center uppercase text-[11px] tracking-wider shadow-lg ${className}">${label}</a>
     `;
 
     // BARRA MI ESPACIO
