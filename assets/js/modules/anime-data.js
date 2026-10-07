@@ -1,11 +1,11 @@
-import { resolvePath } from './config.js';
+import { resolvePath, VERSION } from './config.js?v=baaad63634';
 
 let animesCache = null;
 
 export async function getAnimes() {
   if (animesCache) return animesCache;
 
-  const response = await fetch(resolvePath('assets/data/animes.json'));
+  const response = await fetch(resolvePath(`assets/data/animes.json?v=${VERSION}`));
   if (!response.ok) {
     throw new Error('No se pudo cargar animes.json');
   }

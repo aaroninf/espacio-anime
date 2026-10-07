@@ -1,13 +1,13 @@
-import { BASE_PATH, resolvePath } from './config.js';
-import { FILTERS_STORAGE_KEY } from './catalogo.js';
-import { NAV_STORAGE_KEY, DEPTH_STORAGE_KEY } from './modal-franquicia.js';
+import { BASE_PATH, resolvePath, VERSION } from './config.js?v=baaad63634';
+import { FILTERS_STORAGE_KEY } from './catalogo.js?v=baaad63634';
+import { NAV_STORAGE_KEY, DEPTH_STORAGE_KEY } from './modal-franquicia.js?v=baaad63634';
 
 async function loadComponent(targetId, filePath) {
   const target = document.getElementById(targetId);
   if (!target) return;
 
   try {
-    const response = await fetch(resolvePath(filePath));
+    const response = await fetch(resolvePath(`${filePath}?v=${VERSION}`));
     if (!response.ok) return;
     let html = await response.text();
     html = html.replaceAll('{{BASE_PATH}}', BASE_PATH);
