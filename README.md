@@ -111,9 +111,10 @@ Se genera un nuevo catálogo (`animes.json`) que se revisa y sustituye al anteri
 
 Un script de Node que se ejecuta antes de cada publicación y prepara la web:
 
-- **Una página por franquicia**, para que Google encuentre cada anime y, al compartirla, salgan su portada y su sinopsis.
+- **Una página por franquicia**, con su contenido ya escrito, para que Google encuentre cada anime y, al compartirla, salgan su portada y su sinopsis.
 - **El mapa de la web** (`sitemap.xml`), la lista de todas las páginas para Google, siempre al día.
 - **La versión de la web**: marca cada archivo con una versión, para que tras publicar los navegadores descarguen lo nuevo en vez de usar una copia vieja.
+- **Los estilos**: un único archivo CSS con solo las clases de Tailwind que usa la web, en vez de cargar Tailwind entero en cada visita.
 
 
 #### 3. Afinidad

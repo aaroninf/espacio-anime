@@ -1,5 +1,5 @@
-import { getAnimes } from './anime-data.js?v=78fcdf4f77';
-import { obtenerEntradaPrincipal, platformData, resolverEnlaceVer } from './plataformas.js?v=78fcdf4f77';
+import { getAnimes } from './anime-data.js?v=a0430ceff7';
+import { obtenerEntradaPrincipal, platformData, resolverEnlaceVer } from './plataformas.js?v=a0430ceff7';
 
 const STORAGE_KEY = 'espacio-anime-mi-espacio';
 // Las listas propias van en otra clave: el store de arriba es un mapa id → datos

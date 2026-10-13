@@ -1,6 +1,6 @@
-import { getAnimes } from './anime-data.js?v=78fcdf4f77';
-import { abrirModalFranquicia } from './modal-franquicia.js?v=78fcdf4f77';
-import { platformData, resolverEnlaceVer } from './plataformas.js?v=78fcdf4f77';
+import { getAnimes } from './anime-data.js?v=a0430ceff7';
+import { abrirModalFranquicia } from './modal-franquicia.js?v=a0430ceff7';
+import { platformData, resolverEnlaceVer } from './plataformas.js?v=a0430ceff7';
 
 const DEBUG_AFINIDAD = false;
 
