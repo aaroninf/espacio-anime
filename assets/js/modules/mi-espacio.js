@@ -1,5 +1,5 @@
-import { getAnimes } from './anime-data.js?v=f140fc8f3f';
-import { obtenerEntradaPrincipal, platformData, resolverEnlaceVer } from './plataformas.js?v=f140fc8f3f';
+import { getAnimes } from './anime-data.js?v=78fcdf4f77';
+import { obtenerEntradaPrincipal, platformData, resolverEnlaceVer } from './plataformas.js?v=78fcdf4f77';
 
 const STORAGE_KEY = 'espacio-anime-mi-espacio';
 // Las listas propias van en otra clave: el store de arriba es un mapa id → datos
@@ -12,6 +12,15 @@ const ESTADOS = [
   { key: 'viendo', label: 'Viendo' },
   { key: 'vistos', label: 'Completado' },
 ];
+
+// Etiqueta opcional dentro de cada estado (una como máximo, campo `subestado`). Lista
+// cerrada a propósito: así se puede filtrar y siempre dice lo mismo. El estado dice qué
+// has hecho tú; la etiqueta, el matiz: en Completado, si la obra tiene final o no.
+const SUBESTADOS = {
+  quiero_ver: [{ key: 'volver_a_ver', label: 'Volver a ver' }, { key: 'nueva', label: 'Nueva' }],
+  viendo: [{ key: 'en_espera', label: 'En espera' }],
+  vistos: [{ key: 'finalizado', label: 'Finalizado' }, { key: 'inacabado', label: 'Inacabado' }],
+};
 
 function getStore() {
   try {
@@ -49,9 +58,21 @@ export function toggleEstado(id, estado) {
   const store = getStore();
   const current = store[id] || { favorito: false, estado: null };
   current.estado = current.estado === estado ? null : estado;
+  // La etiqueta depende del estado ("En espera" no tiene sentido en Completado): se borra al cambiarlo.
+  delete current.subestado;
   current.actualizado = Date.now();
   store[id] = current;
   limpiarSiVacio(store, id);
+  saveStore(store);
+}
+
+export function toggleSubestado(id, subestado) {
+  const store = getStore();
+  const current = store[id];
+  if (!current) return;
+  if (current.subestado === subestado) delete current.subestado;
+  else current.subestado = subestado;
+  current.actualizado = Date.now();
   saveStore(store);
 }
 
@@ -240,6 +261,7 @@ function limpiarHuerfanas(animes) {
 }
 
 window.miEspacioToggleEstado = toggleEstado;
+window.miEspacioToggleSubestado = toggleSubestado;
 window.miEspacioToggleFavorito = toggleFavorito;
 window.miEspacioToggleNoMeGusta = toggleNoMeGusta;
 window.miEspacioQuitar = quitarDeLista;
@@ -253,6 +275,8 @@ let activeTab = 'quiero_ver';
 let activeLista = null;
 // "Elige por mí": id del pendiente que ha salido en el sorteo (null = recuadro cerrado).
 let sorteadoId = null;
+// Filtro por etiqueta dentro de la pestaña (null = todos).
+let subfiltro = null;
 
 // La nota la escribe el usuario (o llega en un JSON importado de otra persona):
 // se escapa antes de meterla en el HTML para que nunca se interprete como código.
@@ -308,6 +332,52 @@ function botonNoMeGusta(idFranquicia, activo) {
           </button>`;
 }
 
+const CLASE_PILDORA = 'px-2.5 py-1 rounded-full border text-[10px] uppercase tracking-widest font-bold transition-colors';
+const CLASE_PILDORA_ACTIVA = 'border-white/60 bg-white/10 text-white';
+const CLASE_PILDORA_INACTIVA = 'border-white/10 text-gray-500 hover:text-white hover:border-white/30';
+
+// Píldoras de las etiquetas del estado de la tarjeta; la elegida va resaltada en blanco.
+function etiquetasSubestado(idFranquicia, data) {
+  const opciones = SUBESTADOS[data.estado] || [];
+  if (!opciones.length) return '';
+  return `
+    <div class="flex flex-wrap gap-2 mt-2">
+      ${opciones.map((opcion) => `
+        <button onclick="miEspacioToggleSubestado('${idFranquicia}', '${opcion.key}')"
+          class="${CLASE_PILDORA} ${data.subestado === opcion.key ? CLASE_PILDORA_ACTIVA : CLASE_PILDORA_INACTIVA}">${opcion.label}</button>
+      `).join('')}
+    </div>
+  `;
+}
+
+window.miEspacioSubfiltro = (key) => {
+  subfiltro = subfiltro === key ? null : key;
+  render();
+};
+
+// Fila "Todos · Volver a ver (3) · Nueva (1)" encima de la lista. Solo sale si en
+// esta pestaña hay algo con etiqueta, para no estorbar a quien no las usa.
+function renderSubfiltro(itemsDelTab) {
+  const contenedor = document.getElementById('mi-espacio-subfiltro');
+  const opciones = SUBESTADOS[activeTab] || [];
+  const contar = (key) => itemsDelTab.filter((item) => item.data.subestado === key).length;
+  if (subfiltro && !opciones.some((opcion) => opcion.key === subfiltro && contar(opcion.key) > 0)) subfiltro = null;
+
+  const visible = opciones.some((opcion) => contar(opcion.key) > 0);
+  if (!contenedor) return;
+  contenedor.classList.toggle('hidden', !visible);
+  contenedor.innerHTML = visible ? `
+    <div class="flex flex-wrap items-center gap-2">
+      <button onclick="miEspacioSubfiltro(null)"
+        class="${CLASE_PILDORA} ${subfiltro ? CLASE_PILDORA_INACTIVA : CLASE_PILDORA_ACTIVA}">Todos</button>
+      ${opciones.map((opcion) => `
+        <button onclick="miEspacioSubfiltro('${opcion.key}')"
+          class="${CLASE_PILDORA} ${subfiltro === opcion.key ? CLASE_PILDORA_ACTIVA : CLASE_PILDORA_INACTIVA}">${opcion.label} (${contar(opcion.key)})</button>
+      `).join('')}
+    </div>
+  ` : '';
+}
+
 function renderCard(idFranquicia, data, anime) {
   const valoracionHtml = `<div class="mt-3">${notaWidget(idFranquicia, data.valoracion || 0)}</div>`;
   // En Viendo la nota se parte en dos líneas; en el resto de estados es una nota libre.
@@ -326,6 +396,7 @@ function renderCard(idFranquicia, data, anime) {
       <div class="flex-1 min-w-0 pl-4 md:pl-6">
         <h3 class="font-black uppercase tracking-tight text-white text-lg md:text-xl truncate cursor-pointer"
           onclick="abrirModalFranquicia('${idFranquicia}')">${anime.titulo_principal || 'Sin título'}</h3>
+        ${etiquetasSubestado(idFranquicia, data)}
         ${valoracionHtml}
         ${notasHtml}
         <div class="flex items-center gap-4 mt-2">
@@ -548,10 +619,13 @@ function render() {
       .map(([id, data]) => ({ id, data, anime: buscarAnime(id), reciente: data.actualizado || 0 })))
     .filter((item) => item.anime);
 
+  renderSubfiltro(itemsDelTab);
+  const itemsFiltrados = subfiltro ? itemsDelTab.filter((item) => item.data.subestado === subfiltro) : itemsDelTab;
+
   const items = ordenarItems(
     busqueda
-      ? itemsDelTab.filter((item) => (item.anime.titulo_principal || '').toLowerCase().includes(busqueda))
-      : itemsDelTab,
+      ? itemsFiltrados.filter((item) => (item.anime.titulo_principal || '').toLowerCase().includes(busqueda))
+      : itemsFiltrados,
     criterio,
   );
 
@@ -674,6 +748,7 @@ function bindTabs() {
     btn.addEventListener('click', () => {
       activeTab = btn.dataset.tabEspacio;
       sorteadoId = null;
+      subfiltro = null;
       render();
     });
   });

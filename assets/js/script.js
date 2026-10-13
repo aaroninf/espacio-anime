@@ -1,9 +1,9 @@
-import { initLayout } from './modules/layout.js?v=f140fc8f3f';
-import { initModalFranquicia } from './modules/modal-franquicia.js?v=f140fc8f3f';
-import { initCatalogoPage } from './modules/catalogo.js?v=f140fc8f3f';
-import { initAfinidadPage } from './modules/afinidad.js?v=f140fc8f3f';
-import { initEspacioPage } from './modules/mi-espacio.js?v=f140fc8f3f';
-import { initHomeNovedades } from './modules/home.js?v=f140fc8f3f';
+import { initLayout } from './modules/layout.js?v=78fcdf4f77';
+import { initModalFranquicia } from './modules/modal-franquicia.js?v=78fcdf4f77';
+import { initCatalogoPage } from './modules/catalogo.js?v=78fcdf4f77';
+import { initAfinidadPage } from './modules/afinidad.js?v=78fcdf4f77';
+import { initEspacioPage } from './modules/mi-espacio.js?v=78fcdf4f77';
+import { initHomeNovedades } from './modules/home.js?v=78fcdf4f77';
 
 async function initApp() {
   await initLayout();

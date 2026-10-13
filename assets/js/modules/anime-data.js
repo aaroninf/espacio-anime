@@ -1,4 +1,4 @@
-import { resolvePath, VERSION } from './config.js?v=f140fc8f3f';
+import { resolvePath, VERSION } from './config.js?v=78fcdf4f77';
 
 let animesCache = null;
 
