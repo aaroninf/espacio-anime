@@ -1,4 +1,4 @@
-import { getAnimes } from './anime-data.js?v=9711ea3d94';
+import { getAnimes } from './anime-data.js?v=f140fc8f3f';
 
 // Franquicias con una entrada "Próximamente" y año de estreno conocido (año > 0),
 // ordenadas por la más cercana primero y, a igualdad de año, por popularidad. Salen

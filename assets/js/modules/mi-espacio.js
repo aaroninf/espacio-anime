@@ -1,4 +1,5 @@
-import { getAnimes } from './anime-data.js?v=9711ea3d94';
+import { getAnimes } from './anime-data.js?v=f140fc8f3f';
+import { obtenerEntradaPrincipal, platformData, resolverEnlaceVer } from './plataformas.js?v=f140fc8f3f';
 
 const STORAGE_KEY = 'espacio-anime-mi-espacio';
 // Las listas propias van en otra clave: el store de arriba es un mapa id → datos
@@ -250,6 +251,8 @@ window.miEspacioGetEntry = getEntry;
 let allAnimes = [];
 let activeTab = 'quiero_ver';
 let activeLista = null;
+// "Elige por mí": id del pendiente que ha salido en el sorteo (null = recuadro cerrado).
+let sorteadoId = null;
 
 // La nota la escribe el usuario (o llega en un JSON importado de otra persona):
 // se escapa antes de meterla en el HTML para que nunca se interprete como código.
@@ -584,14 +587,93 @@ function render() {
       : renderCard(item.id, item.data, item.anime))).join('');
   }
 
+  renderSorteo();
   actualizarContadores();
   actualizarBotonesTab();
+}
+
+// --- "Elige por mí" (pestaña Pendiente) ---
+// Solo un sorteo entre tus pendientes: no cambia nada de lo guardado.
+function idsPendientes() {
+  return Object.entries(getStore())
+    .filter(([id, data]) => data.estado === 'quiero_ver' && allAnimes.some((anime) => anime.id_franquicia === id))
+    .map(([id]) => id);
+}
+
+window.miEspacioSortear = () => {
+  const candidatos = idsPendientes().filter((id) => id !== sorteadoId);
+  if (!candidatos.length) return;
+  sorteadoId = candidatos[Math.floor(Math.random() * candidatos.length)];
+  renderSorteo();
+};
+
+window.miEspacioCerrarSorteo = () => {
+  sorteadoId = null;
+  renderSorteo();
+};
+
+function renderSorteo() {
+  const contenedor = document.getElementById('mi-espacio-sorteo');
+  if (!contenedor) return;
+
+  const pendientes = idsPendientes();
+  // Si el sorteado ya no está en Pendiente (lo marcaste como Viendo, por ejemplo), se cierra.
+  if (!pendientes.includes(sorteadoId)) sorteadoId = null;
+
+  const visible = activeTab === 'quiero_ver' && pendientes.length >= 2;
+  contenedor.classList.toggle('hidden', !visible);
+  if (!visible) {
+    contenedor.innerHTML = '';
+    return;
+  }
+
+  if (!sorteadoId) {
+    // Frase pequeña, con el mismo estilo que el aviso de exportar / importar copia.
+    contenedor.innerHTML = `
+      <p class="text-[11px] text-gray-500">
+        🎲 Si no te decides qué ver ahora,
+        <button onclick="miEspacioSortear()" class="text-gray-400 hover:text-white underline transition-colors">pulsa aquí</button>
+        y te elegimos uno de tus pendientes al azar.
+      </p>
+    `;
+    return;
+  }
+
+  const anime = allAnimes.find((item) => item.id_franquicia === sorteadoId);
+  const entradaPrincipal = obtenerEntradaPrincipal(anime);
+  const { label, className, sinPlataforma } = platformData(entradaPrincipal?.plataforma || '');
+  const enlace = resolverEnlaceVer(anime, entradaPrincipal) || '#';
+
+  contenedor.innerHTML = `
+    <div class="relative w-full flex flex-row items-center p-3 bg-gray-900 border border-white/60 rounded-xl shadow-[0_0_25px_rgba(255,255,255,0.12)]">
+      <button onclick="miEspacioCerrarSorteo()" title="Cerrar"
+        class="absolute top-2 right-3 text-gray-500 hover:text-white text-lg leading-none transition-colors">✕</button>
+      <div class="relative shrink-0 overflow-hidden bg-gray-950 w-24 md:w-32 aspect-[2/3] rounded-lg shadow-md cursor-pointer"
+        onclick="abrirModalFranquicia('${sorteadoId}')">
+        <img src="${anime.imagen_principal || ''}" alt="${anime.titulo_principal || ''}" class="w-full h-full object-cover">
+      </div>
+      <div class="flex-1 min-w-0 pl-4 md:pl-6 pr-6">
+        <p class="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold">Hoy toca</p>
+        <h3 class="mt-1 font-black uppercase tracking-tight text-white text-lg md:text-xl truncate cursor-pointer"
+          onclick="abrirModalFranquicia('${sorteadoId}')">${anime.titulo_principal || 'Sin título'}</h3>
+        <div class="flex flex-wrap items-center gap-2 mt-3">
+          <a href="${enlace}" target="_blank" rel="noopener noreferrer" ${sinPlataforma ? 'title="Buscar en Google dónde verlo"' : ''}
+            class="px-4 py-2.5 rounded font-black text-white text-center uppercase text-[11px] tracking-wider shadow-lg ${className}">${label}</a>
+          <button onclick="abrirModalFranquicia('${sorteadoId}')"
+            class="px-4 py-2.5 rounded border border-white/10 bg-gray-800 hover:bg-gray-700 font-black text-white uppercase text-[11px] tracking-wider transition-colors">Ficha</button>
+        </div>
+        <button onclick="miEspacioSortear()"
+          class="mt-3 text-[11px] uppercase tracking-widest text-gray-400 hover:text-white underline underline-offset-4 transition-colors">🎲 Otra</button>
+      </div>
+    </div>
+  `;
 }
 
 function bindTabs() {
   document.querySelectorAll('[data-tab-espacio]').forEach((btn) => {
     btn.addEventListener('click', () => {
       activeTab = btn.dataset.tabEspacio;
+      sorteadoId = null;
       render();
     });
   });

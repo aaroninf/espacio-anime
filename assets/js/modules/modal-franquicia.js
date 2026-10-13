@@ -1,7 +1,7 @@
-import { getAnimes } from './anime-data.js?v=9711ea3d94';
-import { platformData, resolverEnlaceVer, obtenerEntradaPrincipal } from './plataformas.js?v=9711ea3d94';
-import { resolvePath } from './config.js?v=9711ea3d94';
-import { escaparHtml } from './mi-espacio.js?v=9711ea3d94';
+import { getAnimes } from './anime-data.js?v=f140fc8f3f';
+import { platformData, resolverEnlaceVer, obtenerEntradaPrincipal } from './plataformas.js?v=f140fc8f3f';
+import { resolvePath } from './config.js?v=f140fc8f3f';
+import { escaparHtml } from './mi-espacio.js?v=f140fc8f3f';
 
 export const NAV_STORAGE_KEY = 'ea_ficha_nav_order';
 // Cuántos saltos de flecha ← → separan la ficha actual de la página de
