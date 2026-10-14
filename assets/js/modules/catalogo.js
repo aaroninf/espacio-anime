@@ -1,5 +1,5 @@
-import { getAnimes } from './anime-data.js?v=a0430ceff7';
-import { obtenerEntradaPrincipal, esPlataformaPrincipal } from './plataformas.js?v=a0430ceff7';
+import { getAnimes } from './anime-data.js?v=bacd16e455';
+import { obtenerEntradaPrincipal, esPlataformaPrincipal } from './plataformas.js?v=bacd16e455';
 
 let allAnimes = [];
 let filteredAnimes = [];

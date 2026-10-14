@@ -1,5 +1,5 @@
-import { getAnimes } from './anime-data.js?v=a0430ceff7';
-import { obtenerEntradaPrincipal, platformData, resolverEnlaceVer } from './plataformas.js?v=a0430ceff7';
+import { getAnimes } from './anime-data.js?v=bacd16e455';
+import { obtenerEntradaPrincipal, platformData, resolverEnlaceVer } from './plataformas.js?v=bacd16e455';
 
 const STORAGE_KEY = 'espacio-anime-mi-espacio';
 // Las listas propias van en otra clave: el store de arriba es un mapa id → datos
@@ -8,9 +8,9 @@ const LISTAS_KEY = 'espacio-anime-mi-espacio-listas';
 const MAX_NOMBRE_LISTA = 40;
 
 const ESTADOS = [
-  { key: 'quiero_ver', label: 'Pendiente' },
-  { key: 'viendo', label: 'Viendo' },
   { key: 'vistos', label: 'Completado' },
+  { key: 'viendo', label: 'Viendo' },
+  { key: 'quiero_ver', label: 'Pendiente' },
 ];
 
 // Etiqueta opcional dentro de cada estado (una como máximo, campo `subestado`). Lista
@@ -271,7 +271,7 @@ window.miEspacioSetProximo = setProximo;
 window.miEspacioGetEntry = getEntry;
 
 let allAnimes = [];
-let activeTab = 'quiero_ver';
+let activeTab = 'vistos';
 let activeLista = null;
 // "Elige por mí": id del pendiente que ha salido en el sorteo (null = recuadro cerrado).
 let sorteadoId = null;

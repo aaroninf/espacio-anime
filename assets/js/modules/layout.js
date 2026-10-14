@@ -1,6 +1,6 @@
-import { BASE_PATH, resolvePath, VERSION } from './config.js?v=a0430ceff7';
-import { FILTERS_STORAGE_KEY } from './catalogo.js?v=a0430ceff7';
-import { NAV_STORAGE_KEY, DEPTH_STORAGE_KEY } from './modal-franquicia.js?v=a0430ceff7';
+import { BASE_PATH, resolvePath, VERSION } from './config.js?v=bacd16e455';
+import { FILTERS_STORAGE_KEY } from './catalogo.js?v=bacd16e455';
+import { NAV_STORAGE_KEY, DEPTH_STORAGE_KEY } from './modal-franquicia.js?v=bacd16e455';
 
 async function loadComponent(targetId, filePath) {
   const target = document.getElementById(targetId);
